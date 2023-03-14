@@ -27,3 +27,11 @@ docker-compose down
 docker rmi plugfinder
 
 docker-compose up
+
+### **ENCENDER BD**
+
+En carpeta plugfinder/src/main/docker ejecutar:
+
+docker-compose up bd
+
+Ejecutar PlugfinderApplication desde Intellij
