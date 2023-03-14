@@ -13,7 +13,8 @@ public class UserModel {
     private String nombre_usuario;
     @Column (nullable = false)
     private String nombre_real;
-    private int telefono;
+    @Column (unique = true)
+    private String telefono;
     @Column (unique = true, nullable = false)
     private String correo;
     @Column (nullable = false)
@@ -45,11 +46,11 @@ public class UserModel {
         this.nombre_real = nombre_real;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

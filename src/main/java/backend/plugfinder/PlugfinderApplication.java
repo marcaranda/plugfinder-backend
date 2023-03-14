@@ -19,14 +19,6 @@ public class PlugfinderApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() {
-		/*UserModel newUser = new UserModel();
-		newUser.setNombre_usuario("arnau");
-		newUser.setNombre_real("ArnauArmen");
-		newUser.setTelefono(645022330);
-		newUser.setCorreo("rarna@gmail.com");
-		newUser.setContrasena("hola");
-		newUser.setFecha_nacimiento("13-12-2002");
-		this.userRepo.save(newUser);*/
 	}
 
 }
