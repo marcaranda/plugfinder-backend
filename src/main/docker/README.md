@@ -32,6 +32,6 @@ docker-compose up
 
 En carpeta plugfinder/src/main/docker ejecutar:
 
-docker-compose up bd
+docker-compose up db
 
 Ejecutar PlugfinderApplication desde Intellij
