@@ -8,15 +8,16 @@ public class CarModel {
     @Id
     @Column(unique = true, nullable = false)
     private String license;
-    /*@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private long id_car;*/
     @Column(nullable = false)
     private String alias;
     @Column(nullable = false)
     private String model_brand;
     @Column(nullable = false)
     private String autonomy;
+    @ManyToOne
+    private UserModel userModel;
+    @ManyToOne
+    private ModelBrandModel modelBrandModel;
 
     public String getLicense() {
         return license;
@@ -48,5 +49,21 @@ public class CarModel {
 
     public void setAutonomy(String autonomy) {
         this.autonomy = autonomy;
+    }
+
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
+    }
+
+    public ModelBrandModel getModelBrandModel() {
+        return modelBrandModel;
+    }
+
+    public void setModelBrandModel(ModelBrandModel modelBrandModel) {
+        this.modelBrandModel = modelBrandModel;
     }
 }
