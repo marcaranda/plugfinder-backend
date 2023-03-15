@@ -22,4 +22,14 @@ public class CarController {
     public CarModel saveCar(@RequestBody CarModel carModel){
         return carService.saveCar(carModel);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public String deleteCar(@PathVariable("id") String license){
+        if (carService.deleteCar(license)){
+            return "Se elimino correctamente el coche con matricula " + license;
+        }
+        else{
+            return "No se ha podido eliminar el coche con matricula " + license;
+        }
+    }
 }

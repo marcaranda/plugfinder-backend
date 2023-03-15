@@ -1,4 +1,4 @@
-package backend.plugfinder.models;
+package backend.plugfinder.helpers;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

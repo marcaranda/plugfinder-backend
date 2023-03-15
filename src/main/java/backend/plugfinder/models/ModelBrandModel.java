@@ -1,8 +1,7 @@
 package backend.plugfinder.models;
 
+import backend.plugfinder.helpers.ModelBrandId;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "ModelBrand")

@@ -19,4 +19,14 @@ public class CarService {
     public CarModel saveCar(CarModel carModel){
         return carRepo.save(carModel);
     }
+
+    public boolean deleteCar(String license){
+        try{
+            carRepo.deleteById(license);
+            return true;
+        }
+        catch (Exception error){
+            return false;
+        }
+    }
 }

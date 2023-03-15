@@ -1,7 +1,7 @@
 package backend.plugfinder.repositories;
 
 import backend.plugfinder.models.ModelBrandModel;
-import backend.plugfinder.models.ModelBrandId;
+import backend.plugfinder.helpers.ModelBrandId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

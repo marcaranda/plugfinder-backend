@@ -1,5 +1,6 @@
 package backend.plugfinder;
 
+import backend.plugfinder.helpers.ModelBrandId;
 import backend.plugfinder.models.*;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
@@ -58,5 +59,4 @@ public class PlugfinderApplication {
 		carModel.setModelBrandModel(modelBrandModel);
 		carRepo.save(carModel);*/
 	}
-
 }
