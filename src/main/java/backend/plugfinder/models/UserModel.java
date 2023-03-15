@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Usuario")
 public class UserModel {
+
+    //region Atributos de un Usuario
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -21,7 +23,9 @@ public class UserModel {
     private String contrasena;
     @Column (nullable = false)
     private String fecha_nacimiento;
+    //endregion
 
+    //region Getters y Setters
     public long getId_usuario() {
         return id_usuario;
     }
@@ -77,4 +81,5 @@ public class UserModel {
     public void setFecha_nacimiento(String fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
+    //endregion
 }

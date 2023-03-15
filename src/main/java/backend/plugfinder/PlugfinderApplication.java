@@ -1,5 +1,6 @@
 package backend.plugfinder;
 
+import backend.plugfinder.controllers.UserController;
 import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
