@@ -1,9 +1,6 @@
 package backend.plugfinder;
 
-import backend.plugfinder.models.BrandModel;
-import backend.plugfinder.models.CarModel;
-import backend.plugfinder.models.ModelBrandModel;
-import backend.plugfinder.models.UserModel;
+import backend.plugfinder.models.*;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
@@ -31,7 +28,7 @@ public class PlugfinderApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() {
-		UserModel userModel = new UserModel();
+		/*UserModel userModel = new UserModel();
 		userModel.setNombre_usuario("robert");
 		userModel.setNombre_real("Roberto Molina");
 		userModel.setTelefono("658941227");
@@ -45,8 +42,10 @@ public class PlugfinderApplication {
 		brandModel.setKnown(true);
 		brandRepo.save(brandModel);
 
+		ModelBrandId modelBrandId = new ModelBrandId("Model X", "Tesla");
+
 		ModelBrandModel modelBrandModel = new ModelBrandModel();
-		modelBrandModel.setName("Model x");
+		modelBrandModel.setId(modelBrandId);
 		modelBrandModel.setKnown(true);
 		modelBrandModel.setBrandModel(brandModel);
 		modelBrandRepo.save(modelBrandModel);
@@ -57,7 +56,7 @@ public class PlugfinderApplication {
 		carModel.setAutonomy("400");
 		carModel.setUserModel(userModel);
 		carModel.setModelBrandModel(modelBrandModel);
-		carRepo.save(carModel);
+		carRepo.save(carModel);*/
 	}
 
 }

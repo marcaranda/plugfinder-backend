@@ -13,12 +13,15 @@ public class CarModel {
     @Column(nullable = false)
     private String autonomy;
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id_usuario")
     private UserModel userModel;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "model", referencedColumnName = "name")
-    //@JoinColumn(name = "brand", referencedColumnName = "brand_model_name")
+    @ManyToOne
+    @JoinColumn(name = "model_name", referencedColumnName = "name")
+    @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
     private ModelBrandModel modelBrandModel;
 
+
+    /*Getter & Setters*/
     public String getLicense() {
         return license;
     }

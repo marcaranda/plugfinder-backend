@@ -9,13 +9,15 @@ import java.util.List;
 @Table(name = "Brand")
 public class BrandModel {
     @Id
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
     @Column(nullable = false)
     private boolean known;
     /*@OneToMany
     private List<ModelBrandModel> models;*/
 
+
+    /*Getter & Setters*/
     public String getName() {
         return name;
     }

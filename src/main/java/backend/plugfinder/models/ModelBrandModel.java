@@ -7,25 +7,39 @@ import java.util.List;
 @Entity
 @Table(name = "ModelBrand")
 public class ModelBrandModel {
-    @Id
+    /*@EmbeddedId
     @Column(unique = true, nullable = false)
-    private String name;
+    private String name;*/
+    @EmbeddedId
+    private ModelBrandId id;
     @Column(nullable = false)
     private boolean known;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "brand", referencedColumnName = "name")
+    @ManyToOne
+    @MapsId("brand_name")
+    @JoinColumn(name = "brand_name")
     private BrandModel brandModel;
     /*@ManyToOne
     private ChargerModel chargerModel;*/
     /*@OneToMany
     private List<CarModel> cars;*/
 
-    public String getName() {
+
+    /*Getter & Setters*/
+
+    /*public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }*/
+
+    public ModelBrandId getId() {
+        return id;
+    }
+
+    public void setId(ModelBrandId id) {
+        this.id = id;
     }
 
     public boolean isKnown() {
