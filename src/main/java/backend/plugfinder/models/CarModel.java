@@ -11,12 +11,12 @@ public class CarModel {
     @Column(nullable = false)
     private String alias;
     @Column(nullable = false)
-    private String model_brand;
-    @Column(nullable = false)
     private String autonomy;
     @ManyToOne
     private UserModel userModel;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "model", referencedColumnName = "name")
+    //@JoinColumn(name = "brand", referencedColumnName = "brand_model_name")
     private ModelBrandModel modelBrandModel;
 
     public String getLicense() {
@@ -33,14 +33,6 @@ public class CarModel {
 
     public void setAlias(String alias) {
         this.alias = alias;
-    }
-
-    public String getModel_brand() {
-        return model_brand;
-    }
-
-    public void setModel_brand(String model_brand) {
-        this.model_brand = model_brand;
     }
 
     public String getAutonomy() {

@@ -1,8 +1,12 @@
 package backend.plugfinder;
 
+import backend.plugfinder.models.BrandModel;
 import backend.plugfinder.models.CarModel;
+import backend.plugfinder.models.ModelBrandModel;
 import backend.plugfinder.models.UserModel;
+import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
+import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +20,10 @@ public class PlugfinderApplication {
 	private UserRepo userRepo;
 	@Autowired
 	private CarRepo carRepo;
+	@Autowired
+	private BrandRepo brandRepo;
+	@Autowired
+	private ModelBrandRepo modelBrandRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);
@@ -23,7 +31,7 @@ public class PlugfinderApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() {
-		/*UserModel userModel = new UserModel();
+		UserModel userModel = new UserModel();
 		userModel.setNombre_usuario("robert");
 		userModel.setNombre_real("Roberto Molina");
 		userModel.setTelefono("658941227");
@@ -32,13 +40,24 @@ public class PlugfinderApplication {
 		userModel.setFecha_nacimiento("07-01-2002");
 		userRepo.save(userModel);
 
+		BrandModel brandModel = new BrandModel();
+		brandModel.setName("Tesla");
+		brandModel.setKnown(true);
+		brandRepo.save(brandModel);
+
+		ModelBrandModel modelBrandModel = new ModelBrandModel();
+		modelBrandModel.setName("Model x");
+		modelBrandModel.setKnown(true);
+		modelBrandModel.setBrandModel(brandModel);
+		modelBrandRepo.save(modelBrandModel);
+
 		CarModel carModel = new CarModel();
 		carModel.setLicense("0790LFB");
 		carModel.setAlias("motomami");
-		carModel.setModel_brand("Tesla");
 		carModel.setAutonomy("400");
 		carModel.setUserModel(userModel);
-		carRepo.save(carModel);*/
+		carModel.setModelBrandModel(modelBrandModel);
+		carRepo.save(carModel);
 	}
 
 }

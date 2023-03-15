@@ -22,4 +22,9 @@ public class ModelBrandController {
     public ModelBrandModel saveModel(@RequestBody ModelBrandModel modelBrandModel){
         return modelBrandService.saveModel(modelBrandModel);
     }
+
+    @GetMapping(path = "/query")
+    public ArrayList<ModelBrandModel> getBrandModelsByKnown(@RequestParam("known") boolean known){
+        return modelBrandService.getBrandModelsByKnown(known);
+    }
 }

@@ -5,19 +5,20 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Brand")
+@Table(name = "ModelBrand")
 public class ModelBrandModel {
     @Id
     @Column(unique = true, nullable = false)
     private String name;
     @Column(nullable = false)
-    private boolean knowed;
-    @ManyToOne
+    private boolean known;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "brand", referencedColumnName = "name")
     private BrandModel brandModel;
     /*@ManyToOne
     private ChargerModel chargerModel;*/
-    @OneToMany
-    private List<CarModel> cars;
+    /*@OneToMany
+    private List<CarModel> cars;*/
 
     public String getName() {
         return name;
@@ -27,12 +28,12 @@ public class ModelBrandModel {
         this.name = name;
     }
 
-    public boolean isKnowed() {
-        return knowed;
+    public boolean isKnown() {
+        return known;
     }
 
-    public void setKnowed(boolean knowed) {
-        this.knowed = knowed;
+    public void setKnown(boolean known) {
+        this.known = known;
     }
 
     public BrandModel getBrandModel() {
@@ -51,11 +52,11 @@ public class ModelBrandModel {
         this.chargerModel = chargerModel;
     }*/
 
-    public List<CarModel> getCars() {
+    /*public List<CarModel> getCars() {
         return cars;
     }
 
     public void setCars(List<CarModel> cars) {
         this.cars = cars;
-    }
+    }*/
 }

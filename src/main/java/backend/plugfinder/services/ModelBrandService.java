@@ -19,4 +19,8 @@ public class ModelBrandService {
     public ModelBrandModel saveModel(ModelBrandModel modelBrandModel){
         return modelBrandRepo.save(modelBrandModel);
     }
+
+    public ArrayList<ModelBrandModel> getBrandModelsByKnown(boolean know){
+        return modelBrandRepo.findBrandModelsByKnown(know);
+    }
 }

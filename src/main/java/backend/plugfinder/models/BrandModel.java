@@ -12,9 +12,9 @@ public class BrandModel {
     @Column(unique = true, nullable = false)
     private String name;
     @Column(nullable = false)
-    private boolean knowed;
-    @OneToMany
-    private List<ModelBrandModel> models;
+    private boolean known;
+    /*@OneToMany
+    private List<ModelBrandModel> models;*/
 
     public String getName() {
         return name;
@@ -24,19 +24,19 @@ public class BrandModel {
         this.name = name;
     }
 
-    public boolean isKnowed() {
-        return knowed;
+    public boolean isKnown() {
+        return known;
     }
 
-    public void setKnowed(boolean knowed) {
-        this.knowed = knowed;
+    public void setKnown(boolean known) {
+        this.known = known;
     }
 
-    public List<ModelBrandModel> getModels() {
+    /*public List<ModelBrandModel> getModels() {
         return models;
     }
 
     public void setModels(List<ModelBrandModel> models) {
         this.models = models;
-    }
+    }*/
 }
