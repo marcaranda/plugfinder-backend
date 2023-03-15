@@ -1,5 +1,7 @@
 package backend.plugfinder.services;
 
+import backend.plugfinder.helpers.ModelBrandId;
+import backend.plugfinder.models.BrandModel;
 import backend.plugfinder.models.ModelBrandModel;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,11 @@ public class ModelBrandService {
         return modelBrandRepo.save(modelBrandModel);
     }
 
-    public ArrayList<ModelBrandModel> getBrandModelsByKnown(boolean know){
-        return modelBrandRepo.findBrandModelsByKnown(know);
+    public ArrayList<ModelBrandModel> getModelBrandModelsByKnown(boolean know){
+        return modelBrandRepo.findModelBrandModelsByKnown(know);
+    }
+
+    public ArrayList<String> getModelBrandModelByBrandAndKnown(String brand, boolean know){
+        return modelBrandRepo.findModelBrandModelsByBrandAndKnown(brand, know);
     }
 }

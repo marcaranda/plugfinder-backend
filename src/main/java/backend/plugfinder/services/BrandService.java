@@ -20,7 +20,7 @@ public class BrandService {
         return brandRepo.save(brandModel);
     }
 
-    public ArrayList<BrandModel> getBrandModelsByKnown(boolean know){
+    public ArrayList<String> getBrandModelsByKnown(boolean know){
         return brandRepo.findBrandModelsByKnown(know);
     }
 }

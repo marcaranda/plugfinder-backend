@@ -1,5 +1,6 @@
 package backend.plugfinder.controllers;
 
+import backend.plugfinder.helpers.ModelBrandId;
 import backend.plugfinder.models.ModelBrandModel;
 import backend.plugfinder.services.ModelBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,13 @@ public class ModelBrandController {
     }
 
     @GetMapping(path = "/query")
-    public ArrayList<ModelBrandModel> getBrandModelsByKnown(@RequestParam("known") boolean known){
-        return modelBrandService.getBrandModelsByKnown(known);
+    public ArrayList<ModelBrandModel> getModelBrandModelsByKnown(@RequestParam("known") boolean known){
+        return modelBrandService.getModelBrandModelsByKnown(known);
+    }
+
+    //http://localhost:8080/models/byBrand?brand='NAME_BRAND'&known=true
+    @GetMapping(path = "/byBrand")
+    public ArrayList<String> getModelBrandModelsByBrandAndKnown(@RequestParam("brand") String brand, @RequestParam("known") boolean known){
+        return modelBrandService.getModelBrandModelByBrandAndKnown(brand, known);
     }
 }

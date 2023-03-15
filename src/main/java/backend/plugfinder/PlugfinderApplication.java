@@ -44,12 +44,19 @@ public class PlugfinderApplication {
 		brandRepo.save(brandModel);
 
 		ModelBrandId modelBrandId = new ModelBrandId("Model X", "Tesla");
+		ModelBrandId modelBrandId_2 = new ModelBrandId("Model S", "Tesla");
 
 		ModelBrandModel modelBrandModel = new ModelBrandModel();
 		modelBrandModel.setId(modelBrandId);
 		modelBrandModel.setKnown(true);
 		modelBrandModel.setBrandModel(brandModel);
 		modelBrandRepo.save(modelBrandModel);
+
+		ModelBrandModel modelBrandModel_2 = new ModelBrandModel();
+		modelBrandModel_2.setId(modelBrandId_2);
+		modelBrandModel_2.setKnown(true);
+		modelBrandModel_2.setBrandModel(brandModel);
+		modelBrandRepo.save(modelBrandModel_2);
 
 		CarModel carModel = new CarModel();
 		carModel.setLicense("0790LFB");

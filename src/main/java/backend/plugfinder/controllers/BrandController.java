@@ -23,8 +23,9 @@ public class BrandController {
         return brandService.saveBrand(brandModel);
     }
 
-    @GetMapping(path = "/query")
-    public ArrayList<BrandModel> getBrandModelsByKnown(@RequestParam("known") boolean known){
+    //http://localhost:8080/brands/known?known=true
+    @GetMapping(path = "/known")
+    public ArrayList<String> getBrandModelsByKnown(@RequestParam("known") boolean known){
         return brandService.getBrandModelsByKnown(known);
     }
 }
