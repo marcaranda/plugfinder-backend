@@ -1,14 +1,11 @@
 package backend.plugfinder.models;
 
-import backend.plugfinder.helpers.ModelBrandId;
+import backend.plugfinder.helpersId.ModelBrandId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ModelBrand")
 public class ModelBrandModel {
-    /*@EmbeddedId
-    @Column(unique = true, nullable = false)
-    private String name;*/
     @EmbeddedId
     private ModelBrandId id;
     @Column(nullable = false)
@@ -18,21 +15,13 @@ public class ModelBrandModel {
     @JoinColumn(name = "brand_name")
     private BrandModel brandModel;
     /*@ManyToOne
+    @MapsId(name = "charger_id")
+    @JoinColumn(name = "charger_id")
     private ChargerModel chargerModel;*/
-    /*@OneToMany
-    private List<CarModel> cars;*/
+
 
 
     /*Getter & Setters*/
-
-    /*public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }*/
-
     public ModelBrandId getId() {
         return id;
     }
@@ -63,13 +52,5 @@ public class ModelBrandModel {
 
     public void setChargerModel(ChargerModel chargerModel) {
         this.chargerModel = chargerModel;
-    }*/
-
-    /*public List<CarModel> getCars() {
-        return cars;
-    }
-
-    public void setCars(List<CarModel> cars) {
-        this.cars = cars;
     }*/
 }

@@ -1,6 +1,5 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.helpers.ModelBrandId;
 import backend.plugfinder.models.ModelBrandModel;
 import backend.plugfinder.services.ModelBrandService;
 import org.springframework.beans.factory.annotation.Autowired;

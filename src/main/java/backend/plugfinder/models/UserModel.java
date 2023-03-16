@@ -8,7 +8,7 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private long id_usuario;
+    private long user_id;
     @Column (unique = true, nullable = false)
     private String nombre_usuario;
     @Column (nullable = false)
@@ -23,11 +23,11 @@ public class UserModel {
     private String fecha_nacimiento;
 
     public long getId_usuario() {
-        return id_usuario;
+        return user_id;
     }
 
-    public void setId_usuario(long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setId_usuario(long user_id) {
+        this.user_id = user_id;
     }
 
     public String getNombre_usuario() {

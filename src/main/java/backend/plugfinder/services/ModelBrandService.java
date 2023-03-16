@@ -1,7 +1,5 @@
 package backend.plugfinder.services;
 
-import backend.plugfinder.helpers.ModelBrandId;
-import backend.plugfinder.models.BrandModel;
 import backend.plugfinder.models.ModelBrandModel;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,19 +1,20 @@
 package backend.plugfinder.models;
 
+import backend.plugfinder.helpersId.CarId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Car")
 public class CarModel {
-    @Id
-    @Column(unique = true, nullable = false)
-    private String license;
+    @EmbeddedId
+    private CarId id;
     @Column(nullable = false)
     private String alias;
     @Column(nullable = false)
     private String autonomy;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id_usuario")
+    @MapsId("user_id")
+    @JoinColumn(name = "user_id")
     private UserModel userModel;
     @ManyToOne
     @JoinColumn(name = "model_name", referencedColumnName = "name")
@@ -22,12 +23,12 @@ public class CarModel {
 
 
     /*Getter & Setters*/
-    public String getLicense() {
-        return license;
+    public CarId getId() {
+        return id;
     }
 
-    public void setLicense(String license) {
-        this.license = license;
+    public void setId(CarId id) {
+        this.id = id;
     }
 
     public String getAlias() {

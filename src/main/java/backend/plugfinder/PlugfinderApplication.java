@@ -1,11 +1,17 @@
 package backend.plugfinder;
 
-import backend.plugfinder.helpers.ModelBrandId;
-import backend.plugfinder.models.*;
+import backend.plugfinder.helpersId.CarId;
+import backend.plugfinder.helpersId.ModelBrandId;
+import backend.plugfinder.models.BrandModel;
+import backend.plugfinder.models.CarModel;
+import backend.plugfinder.models.ModelBrandModel;
+import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,7 +35,7 @@ public class PlugfinderApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() {
-		/*UserModel userModel = new UserModel();
+		UserModel userModel = new UserModel();
 		userModel.setNombre_usuario("robert");
 		userModel.setNombre_real("Roberto Molina");
 		userModel.setTelefono("658941227");
@@ -37,6 +43,15 @@ public class PlugfinderApplication {
 		userModel.setContrasena("hola");
 		userModel.setFecha_nacimiento("07-01-2002");
 		userRepo.save(userModel);
+
+		UserModel userModel_2 = new UserModel();
+		userModel_2.setNombre_usuario("nico");
+		userModel_2.setNombre_real("Nicolas Ramos");
+		userModel_2.setTelefono("658941223");
+		userModel_2.setCorreo("nico@gmail.com");
+		userModel_2.setContrasena("hola");
+		userModel_2.setFecha_nacimiento("07-01-2002");
+		userRepo.save(userModel_2);
 
 		BrandModel brandModel = new BrandModel();
 		brandModel.setName("Tesla");
@@ -58,12 +73,23 @@ public class PlugfinderApplication {
 		modelBrandModel_2.setBrandModel(brandModel);
 		modelBrandRepo.save(modelBrandModel_2);
 
+		CarId carId = new CarId("0790LFB", userModel.getId_usuario());
+		CarId carId_2 = new CarId("0790LFB", userModel_2.getId_usuario());
+
 		CarModel carModel = new CarModel();
-		carModel.setLicense("0790LFB");
-		carModel.setAlias("motomami");
+		carModel.setId(carId);
+		carModel.setAlias("prueba");
 		carModel.setAutonomy("400");
 		carModel.setUserModel(userModel);
 		carModel.setModelBrandModel(modelBrandModel);
-		carRepo.save(carModel);*/
+		carRepo.save(carModel);
+
+		CarModel carModel_2 = new CarModel();
+		carModel_2.setId(carId_2);
+		carModel_2.setAlias("prueba");
+		carModel_2.setAutonomy("400");
+		carModel_2.setUserModel(userModel);
+		carModel_2.setModelBrandModel(modelBrandModel);
+		carRepo.save(carModel_2);
 	}
 }
