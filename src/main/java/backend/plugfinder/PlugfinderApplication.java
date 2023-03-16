@@ -35,7 +35,7 @@ public class PlugfinderApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() {
-		UserModel userModel = new UserModel();
+		/*UserModel userModel = new UserModel();
 		userModel.setNombre_usuario("robert");
 		userModel.setNombre_real("Roberto Molina");
 		userModel.setTelefono("658941227");
@@ -90,6 +90,6 @@ public class PlugfinderApplication {
 		carModel_2.setAutonomy("400");
 		carModel_2.setUserModel(userModel);
 		carModel_2.setModelBrandModel(modelBrandModel);
-		carRepo.save(carModel_2);
+		carRepo.save(carModel_2);*/
 	}
 }

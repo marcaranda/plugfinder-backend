@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Car")
 public class CarModel {
+    //region Atributes
     @EmbeddedId
     private CarId id;
     @Column(nullable = false)
@@ -20,9 +21,9 @@ public class CarModel {
     @JoinColumn(name = "model_name", referencedColumnName = "name")
     @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
     private ModelBrandModel modelBrandModel;
+    //endregion
 
-
-    /*Getter & Setters*/
+    //region Getter & Setters
     public CarId getId() {
         return id;
     }
@@ -62,4 +63,5 @@ public class CarModel {
     public void setModelBrandModel(ModelBrandModel modelBrandModel) {
         this.modelBrandModel = modelBrandModel;
     }
+    //endregion
 }

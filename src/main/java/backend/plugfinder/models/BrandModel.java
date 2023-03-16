@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "Brand")
 public class BrandModel {
+    //region Atributes
     @Id
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -15,9 +16,9 @@ public class BrandModel {
     private boolean known;
     /*@OneToMany
     private List<ModelBrandModel> models;*/
+    //endregion
 
-
-    /*Getter & Setters*/
+    //region Getter & Setters
     public String getName() {
         return name;
     }
@@ -41,4 +42,5 @@ public class BrandModel {
     public void setModels(List<ModelBrandModel> models) {
         this.models = models;
     }*/
+    //endregion
 }

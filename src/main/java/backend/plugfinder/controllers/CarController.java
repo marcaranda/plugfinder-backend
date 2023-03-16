@@ -13,16 +13,27 @@ public class CarController {
     @Autowired
     CarService carService;
 
+    //region Get Methods
     @GetMapping
     public ArrayList<CarModel> getCars(){
         return carService.getCars();
     }
 
+    //http://localhost:8080/cars/byUser?id= 'USER_ID'
+    @GetMapping(path = "/byUser")
+    public ArrayList<CarModel> getCarsByUserId(@RequestParam("id") long id){
+        return carService.getCarsByUserId(id);
+    }
+    //endregion
+
+    //region Post Methods
     @PostMapping
     public CarModel saveCar(@RequestBody CarModel carModel){
         return carService.saveCar(carModel);
     }
+    //endregion
 
+    //region Delete Methods
     @DeleteMapping(path = "/{id}")
     public String deleteCar(@PathVariable("id") String license){
         if (carService.deleteCar(license)){
@@ -32,4 +43,5 @@ public class CarController {
             return "No se ha podido eliminar el coche con matricula " + license;
         }
     }
+    //endregion
 }

@@ -12,6 +12,7 @@ public class CarService {
     @Autowired
     CarRepo carRepo;
 
+    //region Public Methods
     public ArrayList<CarModel> getCars(){
         return (ArrayList<CarModel>) carRepo.findAll();
     }
@@ -29,4 +30,9 @@ public class CarService {
             return false;
         }
     }
+
+    public ArrayList<CarModel> getCarsByUserId(long id){
+        return carRepo.findCarModelsById_Id(id);
+    }
+    //endregion
 }
