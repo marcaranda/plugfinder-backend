@@ -13,14 +13,10 @@ public class BrandController {
     @Autowired
     BrandService brandService;
 
+    //region Get Methods
     @GetMapping
     public ArrayList<BrandModel> getBrands(){
         return brandService.getsBrands();
-    }
-
-    @PostMapping
-    public BrandModel saveModel(@RequestBody BrandModel brandModel){
-        return brandService.saveBrand(brandModel);
     }
 
     //http://localhost:8080/brands/known?known=true
@@ -28,4 +24,12 @@ public class BrandController {
     public ArrayList<String> getBrandModelsByKnown(@RequestParam("known") boolean known){
         return brandService.getBrandModelsByKnown(known);
     }
+    //endregion
+
+    //region Post Methods
+    @PostMapping("/register")
+    public BrandModel saveModel(@RequestBody BrandModel brandModel){
+        return brandService.saveBrand(brandModel);
+    }
+    //endregion
 }

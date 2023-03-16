@@ -7,31 +7,25 @@ import java.io.Serializable;
 
 @Embeddable
 public class ModelBrandId implements Serializable {
+    //region Atributes
     @Column(name = "name")
     private String name;
 
     @Column(name = "brand_name")
     private String brand_name;
+    //endregion
 
-    /*@Column(name = "charger_id")
-    private long charger_id;*/
-
+    //region Constructors
     public ModelBrandId(){}
-
-    /*public ModelBrandId(String name, String brand_name, long charger_id){
-        this.name = name;
-        this.brand_name = brand_name;
-        this.charger_id = charger_id;
-    }*/
 
     public ModelBrandId(String name, String brand_name){
         this.name = name;
         this.brand_name = brand_name;
 
     }
+    //endregion
 
-
-    /*Getter & Setters*/
+    //region Getter & Setters
     public String getName() {
         return name;
     }
@@ -47,12 +41,5 @@ public class ModelBrandId implements Serializable {
     public void setBrand_name(String brand_name) {
         this.brand_name = brand_name;
     }
-
-    /*public long getCharger_id() {
-        return charger_id;
-    }
-
-    public void setCharger_id(long charger_id) {
-        this.charger_id = charger_id;
-    }*/
+    //endregion
 }

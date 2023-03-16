@@ -5,7 +5,10 @@ import backend.plugfinder.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/cars")
@@ -27,8 +30,16 @@ public class CarController {
     //endregion
 
     //region Post Methods
-    @PostMapping
-    public CarModel saveCar(@RequestBody CarModel carModel){
+    @PostMapping("/register")
+    public CarModel saveCar(@RequestBody CarModel carModel) throws SQLException {
+        /* Comprobación validez matrícula */
+        /*if (!validateLicense(carModel.getId().getLicense())){
+            throw new SQLException("La matrícula no es válida");
+        }*/
+        /* Comprobación validez autonomía */
+        /*if (!validateAutonomy(carModel.getAutonomy())){
+            throw new SQLException("La autonomía no es válida");
+        }*/
         return carService.saveCar(carModel);
     }
     //endregion
@@ -42,6 +53,22 @@ public class CarController {
         else{
             return "No se ha podido eliminar el coche con matricula " + license;
         }
+    }
+    //endregion
+
+    //region Private Methods
+    private boolean validateLicense(String license){
+        String patron = "^\\[0-9]{4}[A-Z]{3}$";
+        Pattern pattern = Pattern.compile(patron);
+        Matcher matcher = pattern.matcher(license);
+        return matcher.matches();
+    }
+
+    private boolean validateAutonomy(String autonomy){
+        String patron = "^{2,4}[0-9]$";
+        Pattern pattern = Pattern.compile(patron);
+        Matcher matcher = pattern.matcher(autonomy);
+        return matcher.matches();
     }
     //endregion
 }

@@ -12,6 +12,7 @@ public class BrandService {
     @Autowired
     BrandRepo brandRepo;
 
+    //region Public Methods
     public ArrayList<BrandModel> getsBrands(){
         return (ArrayList<BrandModel>) brandRepo.findAll();
     }
@@ -23,4 +24,5 @@ public class BrandService {
     public ArrayList<String> getBrandModelsByKnown(boolean know){
         return brandRepo.findBrandModelsByKnown(know);
     }
+    //endregion
 }

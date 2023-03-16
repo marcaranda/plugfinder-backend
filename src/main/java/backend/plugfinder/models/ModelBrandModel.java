@@ -16,7 +16,6 @@ public class ModelBrandModel {
     @JoinColumn(name = "brand_name")
     private BrandModel brandModel;
     /*@ManyToOne
-    @MapsId(name = "charger_id")
     @JoinColumn(name = "charger_id")
     private ChargerModel chargerModel;*/
     //endregion
