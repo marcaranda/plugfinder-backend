@@ -3,78 +3,95 @@ package backend.plugfinder.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Usuario")
+@Table(name = "Users")
 public class UserModel {
+
+    //region User Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private long user_id;
     @Column (unique = true, nullable = false)
-    private String nombre_usuario;
+    private String username;
     @Column (nullable = false)
-    private String nombre_real;
+    private String real_name;
     @Column (unique = true)
-    private String telefono;
+    private String phone;
     @Column (unique = true, nullable = false)
-    private String correo;
+    private String email;
     @Column (nullable = false)
-    private String contrasena;
+    private String password;
     @Column (nullable = false)
-    private String fecha_nacimiento;
+    private String birth_date;
+    @Column (nullable = false, columnDefinition = "boolean default false" )
+    private boolean deleted;
+    //endregion
 
-    public long getId_usuario() {
+    //region Getters y Setters
+
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setId_usuario(long user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 
-    public String getNombre_usuario() {
-        return nombre_usuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNombre_usuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getNombre_real() {
-        return nombre_real;
+    public String getReal_name() {
+        return real_name;
     }
 
-    public void setNombre_real(String nombre_real) {
-        this.nombre_real = nombre_real;
+    public void setReal_name(String real_name) {
+        this.real_name = real_name;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public String getBirth_date() {
+        return birth_date;
     }
 
-    public void setFecha_nacimiento(String fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public void setBirth_date(String birth_date) {
+        this.birth_date = birth_date;
     }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    //endregion
 }

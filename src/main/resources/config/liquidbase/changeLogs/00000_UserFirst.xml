@@ -1,26 +1,29 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet author="marc (generated)" id="create table user">
-        <createTable tableName="usuario">
+        <createTable tableName="users">
             <column autoIncrement="true" name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="contrasena" type="VARCHAR(255)">
+            <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="correo" type="VARCHAR(255)">
+            <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="fecha_nacimiento" type="VARCHAR(255)">
+            <column name="birth_date" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="nombre_real" type="VARCHAR(255)">
+            <column name="real_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="nombre_usuario" type="VARCHAR(255)">
+            <column name="username" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="telefono" type="VARCHAR(255)">
+            <column name="phone" type="VARCHAR(255)">
                 <constraints unique="true"/>
+            </column>
+            <column name ="deleted" type="VARCHAR(255)">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -72,7 +75,7 @@
         </createIndex>
     </changeSet>
     <changeSet author="marc (generated)" id="add foreig key 0">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="car" constraintName="FK184kfonvdiotidxeb9e5h820a" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="usuario" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="car" constraintName="FK184kfonvdiotidxeb9e5h820a" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
     </changeSet>
     <changeSet author="marc (generated)" id="add foreig key 1">
         <addForeignKeyConstraint baseColumnNames="brand_name,model_name" baseTableName="car" constraintName="FKgdvc8qvy1cu9xwaetq2qa54cf" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="brand_name,name" referencedTableName="model_brand" validate="true"/>
