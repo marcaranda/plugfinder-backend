@@ -15,18 +15,22 @@ public class UserService {
 
     /**
      * This method registers a user in the DB.
-     * @param usuario - User to be registered.
+     * @param user - User to be registered.
      * @return UserModel - Registered user.
      */
-    public UserModel registrarUsuario(UserModel usuario) {
-        return userRepo.save(usuario);
+    public UserModel userRegister(UserModel user) {
+        return userRepo.save(user);
+    }
+
+    public UserModel findUserByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 
     /**
      * This method returns all the users in the DB.
      * @return ArrayList<UserModel> - List of users.
      */
-    public ArrayList<UserModel> obtenerUsuarios() {
+    public ArrayList<UserModel> getUsers() {
         return (ArrayList<UserModel>) userRepo.findAll();
     }
 
