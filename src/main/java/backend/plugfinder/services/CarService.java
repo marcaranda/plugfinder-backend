@@ -1,11 +1,14 @@
 package backend.plugfinder.services;
 
+import backend.plugfinder.helpersId.CarId;
 import backend.plugfinder.models.CarModel;
 import backend.plugfinder.repositories.CarRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class CarService {
@@ -21,9 +24,10 @@ public class CarService {
         return carRepo.save(carModel);
     }
 
-    public boolean deleteCar(String license){
+    @Transactional
+    public boolean deleteCar(String license, long user_id){
         try{
-            carRepo.deleteById(license);
+            carRepo.deleteCarModelById_LicenseAndId_Id(license, user_id);
             return true;
         }
         catch (Exception error){
@@ -31,8 +35,12 @@ public class CarService {
         }
     }
 
-    public ArrayList<CarModel> getCarsByUserId(long id){
-        return carRepo.findCarModelsById_Id(id);
+    public Optional<CarModel> getCarById(String license, long user_id){
+        return carRepo.findCarModelById_LicenseAndId_Id(license, user_id);
+    }
+
+    public ArrayList<CarModel> getCarsByUserId(long user_id){
+        return carRepo.findCarModelsById_Id(user_id);
     }
     //endregion
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,10 +23,16 @@ public class CarController {
         return carService.getCars();
     }
 
-    //http://localhost:8080/cars/byUser?id= 'USER_ID'
+    //http://localhost:8080/cars/'LICENSE'-'USER_ID'
+    @GetMapping(path = "/{id_1}-{id_2}")
+    public Optional<CarModel> getCarById(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
+        return carService.getCarById(license, user_id);
+    }
+
+    //http://localhost:8080/cars/byUser?id='USER_ID'
     @GetMapping(path = "/byUser")
-    public ArrayList<CarModel> getCarsByUserId(@RequestParam("id") long id){
-        return carService.getCarsByUserId(id);
+    public ArrayList<CarModel> getCarsByUserId(@RequestParam("id") long user_id){
+        return carService.getCarsByUserId(user_id);
     }
     //endregion
 
@@ -45,9 +52,10 @@ public class CarController {
     //endregion
 
     //region Delete Methods
-    @DeleteMapping(path = "/{id}")
-    public String deleteCar(@PathVariable("id") String license){
-        if (carService.deleteCar(license)){
+    //http://localhost:8080/cars/delete/'LICENSE'-'USER_ID'
+    @DeleteMapping(path = "/delete/{id_1}-{id_2}")
+    public String deleteCar(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
+        if (carService.deleteCar(license, user_id)){
             return "Se elimino correctamente el coche con matricula " + license;
         }
         else{
