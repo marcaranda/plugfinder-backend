@@ -1,5 +1,6 @@
 package backend.plugfinder.controllers;
 
+import backend.plugfinder.models.OurException;
 import backend.plugfinder.models.UserModel;
 import backend.plugfinder.services.UserService;
 import org.mindrot.jbcrypt.BCrypt;
@@ -59,6 +60,20 @@ public class UserController {
 
     }
     //endregion
+
+    /**
+     *This method deletes a user from the DB.
+     * @param id - Id of the user to be deleted.
+     */
+    @PostMapping ("/delete")
+    public void deleteUser(@RequestParam Long id) throws OurException {
+        try {
+            UserModel user = userService.findUserById(id);
+            userService.deleteUser(user);
+        }catch (Exception e){
+           throw new OurException("Error al intentar eliminar el usuario");
+        }
+    }
 
     /**
      * This method returns all the users in the DB.
