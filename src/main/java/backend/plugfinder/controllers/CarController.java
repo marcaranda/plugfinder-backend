@@ -15,30 +15,30 @@ import java.util.regex.Pattern;
 @RequestMapping("/cars")
 public class CarController {
     @Autowired
-    CarService carService;
+    CarService car_service;
 
     //region Get Methods
     @GetMapping
-    public ArrayList<CarModel> getCars(){
-        return carService.getCars();
+    public ArrayList<CarModel> get_cars(){
+        return car_service.get_cars();
     }
 
     //http://localhost:8080/cars/'LICENSE'-'USER_ID'
     @GetMapping(path = "/{id_1}-{id_2}")
-    public Optional<CarModel> getCarById(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
-        return carService.getCarById(license, user_id);
+    public Optional<CarModel> get_car_by_id(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
+        return car_service.get_car_by_id(license, user_id);
     }
 
     //http://localhost:8080/cars/byUser?id='USER_ID'
     @GetMapping(path = "/byUser")
-    public ArrayList<CarModel> getCarsByUserId(@RequestParam("id") long user_id){
-        return carService.getCarsByUserId(user_id);
+    public ArrayList<CarModel> get_cars_by_user_id(@RequestParam("id") long user_id){
+        return car_service.get_cars_by_user_id(user_id);
     }
     //endregion
 
     //region Post Methods
     @PostMapping("/register")
-    public CarModel saveCar(@RequestBody CarModel carModel) throws SQLException {
+    public CarModel save_car(@RequestBody CarModel carModel) throws SQLException {
         /* Comprobación validez matrícula */
         /*if (!validateLicense(carModel.getId().getLicense())){
             throw new SQLException("La matrícula no es válida");
@@ -47,15 +47,15 @@ public class CarController {
         /*if (!validateAutonomy(carModel.getAutonomy())){
             throw new SQLException("La autonomía no es válida");
         }*/
-        return carService.saveCar(carModel);
+        return car_service.save_car(carModel);
     }
     //endregion
 
     //region Delete Methods
     //http://localhost:8080/cars/delete/'LICENSE'-'USER_ID'
     @DeleteMapping(path = "/delete/{id_1}-{id_2}")
-    public String deleteCar(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
-        if (carService.deleteCar(license, user_id)){
+    public String delete_car(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
+        if (car_service.delete_car(license, user_id)){
             return "Se elimino correctamente el coche con matricula " + license;
         }
         else{
@@ -65,14 +65,14 @@ public class CarController {
     //endregion
 
     //region Private Methods
-    private boolean validateLicense(String license){
+    private boolean validate_license(String license){
         String patron = "^\\[0-9]{4}[A-Z]{3}$";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(license);
         return matcher.matches();
     }
 
-    private boolean validateAutonomy(String autonomy){
+    private boolean validate_autonomy(String autonomy){
         String patron = "^{2,4}[0-9]$";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(autonomy);

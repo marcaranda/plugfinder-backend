@@ -11,25 +11,25 @@ import java.util.ArrayList;
 @RequestMapping("/brands")
 public class BrandController {
     @Autowired
-    BrandService brandService;
+    BrandService brand_service;
 
     //region Get Methods
     @GetMapping
-    public ArrayList<BrandModel> getBrands(){
-        return brandService.getsBrands();
+    public ArrayList<BrandModel> get_brands(){
+        return brand_service.get_brands();
     }
 
     //http://localhost:8080/brands/known?known=true
     @GetMapping(path = "/known")
-    public ArrayList<String> getBrandModelsByKnown(@RequestParam("known") boolean known){
-        return brandService.getBrandModelsByKnown(known);
+    public ArrayList<String> get_brand_models_by_known(@RequestParam("known") boolean known){
+        return brand_service.get_brand_models_by_known(known);
     }
     //endregion
 
     //region Post Methods
     @PostMapping("/register")
-    public BrandModel saveModel(@RequestBody BrandModel brandModel){
-        return brandService.saveBrand(brandModel);
+    public BrandModel save_brand(@RequestBody BrandModel brandModel){
+        return brand_service.save_brand(brandModel);
     }
     //endregion
 }

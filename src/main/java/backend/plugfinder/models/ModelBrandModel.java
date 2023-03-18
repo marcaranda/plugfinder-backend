@@ -14,7 +14,7 @@ public class ModelBrandModel {
     @ManyToOne
     @MapsId("brand_name")
     @JoinColumn(name = "brand_name")
-    private BrandModel brandModel;
+    private BrandModel brand_model;
     /*@ManyToOne
     @JoinColumn(name = "charger_id")
     private ChargerModel chargerModel;*/
@@ -38,11 +38,11 @@ public class ModelBrandModel {
     }
 
     public BrandModel getBrandModel() {
-        return brandModel;
+        return brand_model;
     }
 
-    public void setBrandModel(BrandModel brandModel) {
-        this.brandModel = brandModel;
+    public void setBrandModel(BrandModel brand_model) {
+        this.brand_model = brand_model;
     }
 
     /*public ChargerModel getChargerModel() {

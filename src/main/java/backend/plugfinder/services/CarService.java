@@ -1,6 +1,5 @@
 package backend.plugfinder.services;
 
-import backend.plugfinder.helpersId.CarId;
 import backend.plugfinder.models.CarModel;
 import backend.plugfinder.repositories.CarRepo;
 import jakarta.transaction.Transactional;
@@ -13,21 +12,21 @@ import java.util.Optional;
 @Service
 public class CarService {
     @Autowired
-    CarRepo carRepo;
+    CarRepo car_repo;
 
     //region Public Methods
-    public ArrayList<CarModel> getCars(){
-        return (ArrayList<CarModel>) carRepo.findAll();
+    public ArrayList<CarModel> get_cars(){
+        return (ArrayList<CarModel>) car_repo.findAll();
     }
 
-    public CarModel saveCar(CarModel carModel){
-        return carRepo.save(carModel);
+    public CarModel save_car(CarModel carModel){
+        return car_repo.save(carModel);
     }
 
     @Transactional
-    public boolean deleteCar(String license, long user_id){
+    public boolean delete_car(String license, long user_id){
         try{
-            carRepo.deleteCarModelById_LicenseAndId_Id(license, user_id);
+            car_repo.deleteCarModelById_LicenseAndId_Id(license, user_id);
             return true;
         }
         catch (Exception error){
@@ -35,12 +34,12 @@ public class CarService {
         }
     }
 
-    public Optional<CarModel> getCarById(String license, long user_id){
-        return carRepo.findCarModelById_LicenseAndId_Id(license, user_id);
+    public Optional<CarModel> get_car_by_id(String license, long user_id){
+        return car_repo.findCarModelById_LicenseAndId_Id(license, user_id);
     }
 
-    public ArrayList<CarModel> getCarsByUserId(long user_id){
-        return carRepo.findCarModelsById_Id(user_id);
+    public ArrayList<CarModel> get_cars_by_user_id(long user_id){
+        return car_repo.findCarModelsById_Id(user_id);
     }
     //endregion
 }

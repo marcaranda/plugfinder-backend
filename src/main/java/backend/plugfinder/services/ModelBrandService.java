@@ -10,23 +10,23 @@ import java.util.ArrayList;
 @Service
 public class ModelBrandService {
     @Autowired
-    ModelBrandRepo modelBrandRepo;
+    ModelBrandRepo model_brand_repo;
 
     //region Public Methods
-    public ArrayList<ModelBrandModel> getModels(){
-        return (ArrayList<ModelBrandModel>) modelBrandRepo.findAll();
+    public ArrayList<ModelBrandModel> get_models(){
+        return (ArrayList<ModelBrandModel>) model_brand_repo.findAll();
     }
 
-    public ModelBrandModel saveModel(ModelBrandModel modelBrandModel){
-        return modelBrandRepo.save(modelBrandModel);
+    public ModelBrandModel save_model(ModelBrandModel modelBrandModel){
+        return model_brand_repo.save(modelBrandModel);
     }
 
-    public ArrayList<ModelBrandModel> getModelBrandModelsByKnown(boolean know){
-        return modelBrandRepo.findModelBrandModelsByKnown(know);
+    public ArrayList<ModelBrandModel> get_model_brand_models_by_known(boolean know){
+        return model_brand_repo.findModelBrandModelsByKnown(know);
     }
 
-    public ArrayList<String> getModelBrandModelByBrandAndKnown(String brand, boolean know){
-        return modelBrandRepo.findModelBrandModelsByBrandAndKnown(brand, know);
+    public ArrayList<String> get_model_brand_model_by_brand_and_known(String brand, boolean know){
+        return model_brand_repo.findModelBrandModelsByBrandAndKnown(brand, know);
     }
     //endregion
 }

@@ -11,30 +11,30 @@ import java.util.ArrayList;
 @RequestMapping("/models")
 public class ModelBrandController {
     @Autowired
-    ModelBrandService modelBrandService;
+    ModelBrandService model_brand_service;
 
     //region Get Methods
     @GetMapping
-    public ArrayList<ModelBrandModel> getModels(){
-        return modelBrandService.getModels();
+    public ArrayList<ModelBrandModel> get_models(){
+        return model_brand_service.get_models();
     }
 
-    @GetMapping(path = "/query")
-    public ArrayList<ModelBrandModel> getModelBrandModelsByKnown(@RequestParam("known") boolean known){
-        return modelBrandService.getModelBrandModelsByKnown(known);
+    @GetMapping(path = "/known")
+    public ArrayList<ModelBrandModel> get_model_brand_models_by_known(@RequestParam("known") boolean known){
+        return model_brand_service.get_model_brand_models_by_known(known);
     }
 
     //http://localhost:8080/models/byBrand?brand='NAME_BRAND'&known=true
     @GetMapping(path = "/byBrand")
-    public ArrayList<String> getModelBrandModelsByBrandAndKnown(@RequestParam("brand") String brand, @RequestParam("known") boolean known){
-        return modelBrandService.getModelBrandModelByBrandAndKnown(brand, known);
+    public ArrayList<String> get_model_brand_model_by_brand_and_known(@RequestParam("brand") String brand, @RequestParam("known") boolean known){
+        return model_brand_service.get_model_brand_model_by_brand_and_known(brand, known);
     }
     //endregion
 
     //region Post Methods
     @PostMapping("/register")
-    public ModelBrandModel saveModel(@RequestBody ModelBrandModel modelBrandModel){
-        return modelBrandService.saveModel(modelBrandModel);
+    public ModelBrandModel save_model(@RequestBody ModelBrandModel modelBrandModel){
+        return model_brand_service.save_model(modelBrandModel);
     }
     //endregion
 }

@@ -16,11 +16,11 @@ public class CarModel {
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    private UserModel userModel;
+    private UserModel user_model;
     @ManyToOne
     @JoinColumn(name = "model_name", referencedColumnName = "name")
     @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
-    private ModelBrandModel modelBrandModel;
+    private ModelBrandModel model_brand_model;
     //endregion
 
     //region Getter & Setters
@@ -49,19 +49,19 @@ public class CarModel {
     }
 
     public UserModel getUserModel() {
-        return userModel;
+        return user_model;
     }
 
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
+    public void setUserModel(UserModel user_model) {
+        this.user_model = user_model;
     }
 
     public ModelBrandModel getModelBrandModel() {
-        return modelBrandModel;
+        return model_brand_model;
     }
 
-    public void setModelBrandModel(ModelBrandModel modelBrandModel) {
-        this.modelBrandModel = modelBrandModel;
+    public void setModelBrandModel(ModelBrandModel model_brand_model) {
+        this.model_brand_model = model_brand_model;
     }
     //endregion
 }
