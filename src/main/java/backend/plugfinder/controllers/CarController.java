@@ -38,16 +38,16 @@ public class CarController {
 
     //region Post Methods
     @PostMapping("/register")
-    public CarModel save_car(@RequestBody CarModel carModel) throws SQLException {
+    public CarModel save_car(@RequestBody CarModel car_Model) throws SQLException {
         /* Comprobación validez matrícula */
-        /*if (!validateLicense(carModel.getId().getLicense())){
+            if (!validate_license(car_Model.getId().getLicense())){
             throw new SQLException("La matrícula no es válida");
-        }*/
+        }
         /* Comprobación validez autonomía */
-        /*if (!validateAutonomy(carModel.getAutonomy())){
+        if (!validate_autonomy(car_Model.getAutonomy())){
             throw new SQLException("La autonomía no es válida");
-        }*/
-        return car_service.save_car(carModel);
+        }
+        return car_service.save_car(car_Model);
     }
     //endregion
 
@@ -66,14 +66,14 @@ public class CarController {
 
     //region Private Methods
     private boolean validate_license(String license){
-        String patron = "^\\[0-9]{4}[A-Z]{3}$";
+        String patron = "^\\d{4}[BCDFGHJKLMNÑPQRSTVWXYZ]{3}$";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(license);
         return matcher.matches();
     }
 
     private boolean validate_autonomy(String autonomy){
-        String patron = "^{2,4}[0-9]$";
+        String patron = "^\\d{2,4}$";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(autonomy);
         return matcher.matches();
