@@ -49,6 +49,15 @@ public class CarController {
         }
         return car_service.save_car(car_Model);
     }
+
+    @PostMapping("/edit")
+    public CarModel edit_car(@RequestBody CarModel car_Model) throws SQLException {
+        /* Comprobación validez autonomía */
+        if (!validate_autonomy(car_Model.getAutonomy())){
+            throw new SQLException("La autonomía no es válida");
+        }
+        return car_service.save_car(car_Model);
+    }
     //endregion
 
     //region Delete Methods
