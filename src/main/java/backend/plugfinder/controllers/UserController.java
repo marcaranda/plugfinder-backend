@@ -64,7 +64,7 @@ public class UserController {
      * This method returns all the users in the DB.
      * @return ArrayList<UserModel> - List of users.
      */
-    @GetMapping
+    @GetMapping("/all")
     public ArrayList<UserModel> getUsers() {
         return userService.getUsers();
     }

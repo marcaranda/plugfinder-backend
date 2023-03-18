@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,8 +23,8 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public UserModel findUserByEmail(String email) {
-        return userRepo.findByEmail(email);
+    Optional<UserModel> findUserByEmail(String email) {
+        return userRepo.findOneByEmail(email);
     }
 
     /**

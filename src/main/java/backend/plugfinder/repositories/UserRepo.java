@@ -4,6 +4,8 @@ import backend.plugfinder.models.UserModel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * UserRepo
  * This class represents the repository for the user model. It extends the CrudRepository class because this class has all the basic operations
@@ -16,5 +18,5 @@ public interface UserRepo extends CrudRepository<UserModel, Long> {
      * @param email - Email of the user.
      * @return UserModel - User found.
      */
-    public abstract UserModel findByEmail(String email);
+    Optional<UserModel> findOneByEmail(String email);
 }
