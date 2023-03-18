@@ -11,6 +11,8 @@ public class ModelBrandModel {
     private ModelBrandId id;
     @Column(nullable = false)
     private boolean known;
+    @Column(nullable = false)
+    private String autonomy;
     @ManyToOne
     @MapsId("brand_name")
     @JoinColumn(name = "brand_name")
@@ -35,6 +37,14 @@ public class ModelBrandModel {
 
     public void setKnown(boolean known) {
         this.known = known;
+    }
+
+    public String getAutonomy() {
+        return autonomy;
+    }
+
+    public void setAutonomy(String autonomy) {
+        this.autonomy = autonomy;
     }
 
     public BrandModel getBrandModel() {

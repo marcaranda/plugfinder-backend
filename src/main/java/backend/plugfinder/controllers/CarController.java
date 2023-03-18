@@ -43,19 +43,19 @@ public class CarController {
             if (!validate_license(car_Model.getId().getLicense())){
             throw new SQLException("La matrícula no es válida");
         }
-        /* Comprobación validez autonomía */
+        /* Comprobación validez autonomía * /
         if (!validate_autonomy(car_Model.getAutonomy())){
             throw new SQLException("La autonomía no es válida");
-        }
+        }*/
         return car_service.save_car(car_Model);
     }
 
     @PostMapping("/edit")
     public CarModel edit_car(@RequestBody CarModel car_Model) throws SQLException {
-        /* Comprobación validez autonomía */
+        /* Comprobación validez autonomía * /
         if (!validate_autonomy(car_Model.getAutonomy())){
             throw new SQLException("La autonomía no es válida");
-        }
+        }*/
         return car_service.save_car(car_Model);
     }
     //endregion

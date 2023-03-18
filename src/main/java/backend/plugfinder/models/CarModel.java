@@ -11,8 +11,6 @@ public class CarModel {
     private CarId id;
     @Column(nullable = false)
     private String alias;
-    @Column(nullable = false)
-    private String autonomy;
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
@@ -38,14 +36,6 @@ public class CarModel {
 
     public void setAlias(String alias) {
         this.alias = alias;
-    }
-
-    public String getAutonomy() {
-        return autonomy;
-    }
-
-    public void setAutonomy(String autonomy) {
-        this.autonomy = autonomy;
     }
 
     public UserModel getUserModel() {
