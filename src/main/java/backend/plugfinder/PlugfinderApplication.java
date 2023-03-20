@@ -2,7 +2,7 @@ package backend.plugfinder;
 
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
-import backend.plugfinder.repositories.KnownModelBrandRepo;
+import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 
 
@@ -21,7 +21,7 @@ public class PlugfinderApplication {
 	@Autowired
 	private BrandRepo brandRepo;
 	@Autowired
-	private KnownModelBrandRepo knownModelBrandRepo;
+	private ModelBrandRepo modelBrandRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);

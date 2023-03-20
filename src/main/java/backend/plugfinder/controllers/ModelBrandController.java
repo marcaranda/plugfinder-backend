@@ -1,7 +1,7 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.models.KnownModelBrandModel;
-import backend.plugfinder.services.KnownModelBrandService;
+import backend.plugfinder.models.ModelBrandModel;
+import backend.plugfinder.services.ModelBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,18 +9,18 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/models")
-public class KnownModelBrandController {
+public class ModelBrandController {
     @Autowired
-    KnownModelBrandService model_brand_service;
+    ModelBrandService model_brand_service;
 
     //region Get Methods
     @GetMapping
-    public ArrayList<KnownModelBrandModel> get_models(){
+    public ArrayList<ModelBrandModel> get_models(){
         return model_brand_service.get_models();
     }
 
     @GetMapping(path = "/known")
-    public ArrayList<KnownModelBrandModel> get_model_brand_models_by_known(){
+    public ArrayList<ModelBrandModel> get_model_brand_models_by_known(){
         return model_brand_service.get_model_brand_models_by_known();
     }
 
@@ -33,8 +33,8 @@ public class KnownModelBrandController {
 
     //region Post Methods
     @PostMapping("/register")
-    public KnownModelBrandModel save_model(@RequestBody KnownModelBrandModel knownModelBrandModel){
-        return model_brand_service.save_model(knownModelBrandModel);
+    public ModelBrandModel save_model(@RequestBody ModelBrandModel modelBrandModel){
+        return model_brand_service.save_model(modelBrandModel);
     }
     //endregion
 }

@@ -50,29 +50,14 @@
             </column>
             <column name="brand_name" type="VARCHAR(255)"/>
             <column name="model_name" type="VARCHAR(255)"/>
+            <column name="user_id_1" type="VARCHAR(255)"/>
             <column name ="deleted" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="marc (generated)" id="create table known_model_brand">
-        <createTable tableName="known_model_brand">
-            <column name="brand_name" type="VARCHAR(255)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="known" type="BIT(1)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="autonomy" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="marc (generated)" id="create table unknown_model_brand">
-        <createTable tableName="unknown_model_brand">
+    <changeSet author="marc (generated)" id="create table model_brand">
+        <createTable tableName="model_brand">
             <column name="brand_name" type="VARCHAR(255)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -94,21 +79,19 @@
         <createIndex indexName="FKgdvc8qvy1cu9xwaetq2qa54cf" tableName="car">
             <column name="brand_name"/>
             <column name="model_name"/>
+            <column name="user_id"/>
         </createIndex>
     </changeSet>
     <changeSet author="marc (generated)" id="add foreig key 0">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="car" constraintName="FK184kfonvdiotidxeb9e5h820a" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
     </changeSet>
     <changeSet author="marc (generated)" id="add foreig key 1">
-        <addForeignKeyConstraint baseColumnNames="brand_name,model_name" baseTableName="car" constraintName="FKgdvc8qvy1cu9xwaetq2qa54cf" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="brand_name,name" referencedTableName="known_model_brand" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="brand_name,model_name,user_id" baseTableName="car" constraintName="FKgdvc8qvy1cu9xwaetq2qa54cf" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="brand_name,name,user_id" referencedTableName="model_brand" validate="true"/>
     </changeSet>
     <changeSet author="marc (generated)" id="add foreig key 2">
-        <addForeignKeyConstraint baseColumnNames="brand_name" baseTableName="known_model_brand" constraintName="FKjltjde1gxh28xu0o9ra8vcu58" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="name" referencedTableName="brand" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="brand_name" baseTableName="model_brand" constraintName="FKjltjde1gxh28xu0o9ra8vcu58" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="name" referencedTableName="brand" validate="true"/>
     </changeSet>
     <changeSet author="marc (generated)" id="add foreig key 3">
-        <addForeignKeyConstraint baseColumnNames="brand_name" baseTableName="unknown_model_brand" constraintName="FKjltjde1gxh28xu0o9ra8vcu589" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="name" referencedTableName="brand" validate="true"/>
-    </changeSet>
-    <changeSet author="marc (generated)" id="add foreig key 4">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="unknown_model_brand" constraintName="FK184kfonvdiotidxeb9e5h820a9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="model_brand" constraintName="FK184kfonvdiotidxeb9e5h820a97" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
     </changeSet>
 </databaseChangeLog>

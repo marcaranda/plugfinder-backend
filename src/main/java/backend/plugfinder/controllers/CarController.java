@@ -1,7 +1,6 @@
 package backend.plugfinder.controllers;
 
 import backend.plugfinder.models.CarModel;
-import backend.plugfinder.models.KnownModelBrandModel;
 import backend.plugfinder.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

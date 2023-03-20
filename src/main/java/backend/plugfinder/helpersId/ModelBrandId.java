@@ -6,20 +6,23 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class KnownModelBrandId implements Serializable {
+public class ModelBrandId implements Serializable {
     //region Atributes
     @Column(name = "name")
     private String name;
 
     @Column(name = "brand_name")
     private String brand_name;
+
+    @Column(name = "user_id")
+    private long user_id;
     //endregion
 
     //region Constructors
-    public KnownModelBrandId() {
+    public ModelBrandId() {
     }
 
-    public KnownModelBrandId(String name, String brand_name) {
+    public ModelBrandId(String name, String brand_name) {
         this.name = name;
         this.brand_name = brand_name;
 
@@ -42,5 +45,14 @@ public class KnownModelBrandId implements Serializable {
     public void setBrand_name(String brand_name) {
         this.brand_name = brand_name;
     }
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
     //endregion
 }
