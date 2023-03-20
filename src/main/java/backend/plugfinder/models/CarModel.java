@@ -1,6 +1,6 @@
 package backend.plugfinder.models;
 
-import backend.plugfinder.helpersId.CarId;
+import backend.plugfinder.helpers.CarId;
 import jakarta.persistence.*;
 
 @Entity
