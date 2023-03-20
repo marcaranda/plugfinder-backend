@@ -4,7 +4,7 @@ import backend.plugfinder.helpersId.KnownModelBrandId;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ModelBrand")
+@Table(name = "known_model_brand")
 public class KnownModelBrandModel {
     //region Atributes
     @EmbeddedId
@@ -47,11 +47,11 @@ public class KnownModelBrandModel {
         this.autonomy = autonomy;
     }
 
-    public BrandModel getBrandModel() {
+    public BrandModel getBrand_model() {
         return brand_model;
     }
 
-    public void setBrandModel(BrandModel brand_model) {
+    public void setBrand_model(BrandModel brand_model) {
         this.brand_model = brand_model;
     }
 

@@ -21,8 +21,8 @@ public class BrandController {
 
     //http://localhost:8080/brands/known?known=true
     @GetMapping(path = "/known")
-    public ArrayList<String> get_brand_models_by_known(@RequestParam("known") boolean known){
-        return brand_service.get_brand_models_by_known(known);
+    public ArrayList<String> get_brand_models_by_known(){
+        return brand_service.get_brand_models_by_known();
     }
     //endregion
 

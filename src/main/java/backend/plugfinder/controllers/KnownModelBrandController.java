@@ -20,14 +20,14 @@ public class KnownModelBrandController {
     }
 
     @GetMapping(path = "/known")
-    public ArrayList<KnownModelBrandModel> get_model_brand_models_by_known(@RequestParam("known") boolean known){
-        return model_brand_service.get_model_brand_models_by_known(known);
+    public ArrayList<KnownModelBrandModel> get_model_brand_models_by_known(){
+        return model_brand_service.get_model_brand_models_by_known();
     }
 
     //http://localhost:8080/models/byBrand?brand='NAME_BRAND'&known=true
     @GetMapping(path = "/byBrand")
-    public ArrayList<String> get_model_brand_model_by_brand_and_known(@RequestParam("brand") String brand, @RequestParam("known") boolean known){
-        return model_brand_service.get_model_brand_model_by_brand_and_known(brand, known);
+    public ArrayList<String> get_model_brand_model_by_brand_and_known(@RequestParam("brand") String brand){
+        return model_brand_service.get_model_brand_model_by_brand_and_known(brand);
     }
     //endregion
 

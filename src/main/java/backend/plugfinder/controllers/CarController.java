@@ -1,6 +1,7 @@
 package backend.plugfinder.controllers;
 
 import backend.plugfinder.models.CarModel;
+import backend.plugfinder.models.KnownModelBrandModel;
 import backend.plugfinder.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -64,12 +65,22 @@ public class CarController {
     //http://localhost:8080/cars/delete/'LICENSE'-'USER_ID'
     @DeleteMapping(path = "/delete/{id_1}-{id_2}")
     public String delete_car(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
-        if (car_service.delete_car(license, user_id)){
+        Optional<CarModel> car_model = car_service.get_car_by_id(license, user_id);
+        if (car_model.isPresent()){
+            CarModel car = car_model.get();
+            car.setDeleted(true);
+            car_service.save_car(car);
+            return "Se elimino correctamente el coche con matricula " + license;
+        }
+        else {
+            return "No se ha podido eliminar el coche con matricula " + license;
+        }
+        /*if (car_service.delete_car(license, user_id)){
             return "Se elimino correctamente el coche con matricula " + license;
         }
         else{
             return "No se ha podido eliminar el coche con matricula " + license;
-        }
+        }*/
     }
     //endregion
 

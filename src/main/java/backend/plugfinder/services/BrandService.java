@@ -21,8 +21,8 @@ public class BrandService {
         return brand_repo.save(brandModel);
     }
 
-    public ArrayList<String> get_brand_models_by_known(boolean know){
-        return brand_repo.findBrandModelsByKnown(know);
+    public ArrayList<String> get_brand_models_by_known(){
+        return brand_repo.findBrandModelsByKnown();
     }
     //endregion
 }

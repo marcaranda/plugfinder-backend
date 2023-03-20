@@ -11,6 +11,8 @@ public class CarModel {
     private CarId id;
     @Column(nullable = false)
     private String alias;
+    @Column(nullable = false)
+    private boolean deleted;
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
@@ -38,20 +40,29 @@ public class CarModel {
         this.alias = alias;
     }
 
-    public UserModel getUserModel() {
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public UserModel getUser_model() {
         return user_model;
     }
 
-    public void setUserModel(UserModel user_model) {
+    public void setUser_model(UserModel user_model) {
         this.user_model = user_model;
     }
 
-    public KnownModelBrandModel getModelBrandModel() {
+    public KnownModelBrandModel getModel_brand_model() {
         return model_brand_model;
     }
 
-    public void setModelBrandModel(KnownModelBrandModel model_brand_model) {
+    public void setModel_brand_model(KnownModelBrandModel model_brand_model) {
         this.model_brand_model = model_brand_model;
     }
+
     //endregion
 }
