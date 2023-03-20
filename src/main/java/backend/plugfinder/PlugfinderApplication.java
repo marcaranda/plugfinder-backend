@@ -1,14 +1,8 @@
 package backend.plugfinder;
 
-import backend.plugfinder.helpersId.CarId;
-import backend.plugfinder.helpersId.ModelBrandId;
-import backend.plugfinder.models.BrandModel;
-import backend.plugfinder.models.CarModel;
-import backend.plugfinder.models.ModelBrandModel;
-import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
-import backend.plugfinder.repositories.ModelBrandRepo;
+import backend.plugfinder.repositories.KnownModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 
 
@@ -17,8 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-
-import java.util.ArrayList;
 
 @SpringBootApplication
 public class PlugfinderApplication {
@@ -29,7 +21,7 @@ public class PlugfinderApplication {
 	@Autowired
 	private BrandRepo brandRepo;
 	@Autowired
-	private ModelBrandRepo modelBrandRepo;
+	private KnownModelBrandRepo knownModelBrandRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);

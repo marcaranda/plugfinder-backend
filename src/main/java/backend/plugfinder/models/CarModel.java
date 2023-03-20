@@ -18,7 +18,7 @@ public class CarModel {
     @ManyToOne
     @JoinColumn(name = "model_name", referencedColumnName = "name")
     @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
-    private ModelBrandModel model_brand_model;
+    private KnownModelBrandModel model_brand_model;
     //endregion
 
     //region Getter & Setters
@@ -46,11 +46,11 @@ public class CarModel {
         this.user_model = user_model;
     }
 
-    public ModelBrandModel getModelBrandModel() {
+    public KnownModelBrandModel getModelBrandModel() {
         return model_brand_model;
     }
 
-    public void setModelBrandModel(ModelBrandModel model_brand_model) {
+    public void setModelBrandModel(KnownModelBrandModel model_brand_model) {
         this.model_brand_model = model_brand_model;
     }
     //endregion

@@ -6,7 +6,7 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class ModelBrandId implements Serializable {
+public class KnownModelBrandId implements Serializable {
     //region Atributes
     @Column(name = "name")
     private String name;
@@ -16,9 +16,10 @@ public class ModelBrandId implements Serializable {
     //endregion
 
     //region Constructors
-    public ModelBrandId(){}
+    public KnownModelBrandId() {
+    }
 
-    public ModelBrandId(String name, String brand_name){
+    public KnownModelBrandId(String name, String brand_name) {
         this.name = name;
         this.brand_name = brand_name;
 

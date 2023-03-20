@@ -1,14 +1,14 @@
 package backend.plugfinder.models;
 
-import backend.plugfinder.helpersId.ModelBrandId;
+import backend.plugfinder.helpersId.KnownModelBrandId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ModelBrand")
-public class ModelBrandModel {
+public class KnownModelBrandModel {
     //region Atributes
     @EmbeddedId
-    private ModelBrandId id;
+    private KnownModelBrandId id;
     @Column(nullable = false)
     private boolean known;
     @Column(nullable = false)
@@ -23,11 +23,11 @@ public class ModelBrandModel {
     //endregion
 
     //region Getter & Setters
-    public ModelBrandId getId() {
+    public KnownModelBrandId getId() {
         return id;
     }
 
-    public void setId(ModelBrandId id) {
+    public void setId(KnownModelBrandId id) {
         this.id = id;
     }
 
