@@ -16,6 +16,9 @@ public class ModelBrandId implements Serializable {
 
     @Column(name = "user_id")
     private long user_id;
+
+    @Column(name = "autonomy")
+    private String autonomy;
     //endregion
 
     //region Constructors
@@ -52,6 +55,14 @@ public class ModelBrandId implements Serializable {
 
     public void setUser_id(long user_id) {
         this.user_id = user_id;
+    }
+
+    public String getAutonomy() {
+        return autonomy;
+    }
+
+    public void setAutonomy(String autonomy) {
+        this.autonomy = autonomy;
     }
 
     //endregion

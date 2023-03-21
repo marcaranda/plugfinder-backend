@@ -6,12 +6,9 @@ import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
-import backend.plugfinder.services.BrandService;
-import backend.plugfinder.services.ModelBrandService;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -44,10 +41,17 @@ public class ExcelController {
         // Get the first sheet from the workbook
         Sheet sheet = workbook.getSheetAt(0);
 
+        boolean end = false;
         // Iterate through each row in the sheet
         Iterator<Row> row_iterator = sheet.iterator();
-        while (row_iterator.hasNext()) {
+        while (row_iterator.hasNext() && !end) {
             Row row = row_iterator.next();
+
+            if (row.getCell(0).getCellType() == CellType.BLANK){
+                end = true;
+                break;
+            }
+
             BrandModel brand = new BrandModel();
             brand.setName(row.getCell(0).getStringCellValue());
             brand.setKnown(true);
@@ -55,7 +59,6 @@ public class ExcelController {
 
             brands.add(brand);
         }
-
         // Close the input stream and return the list of people
         input_stream.close();
         return brands;
@@ -74,10 +77,16 @@ public class ExcelController {
         // Get the first sheet from the workbook
         Sheet sheet = workbook.getSheetAt(0);
 
+        boolean end = false;
         // Iterate through each row in the sheet
         Iterator<Row> row_iterator = sheet.iterator();
-        while (row_iterator.hasNext()) {
+        while (row_iterator.hasNext() && !end) {
             Row row = row_iterator.next();
+
+            if (row.getCell(0).getCellType() == CellType.BLANK){
+                end = true;
+                break;
+            }
 
             Optional<BrandModel> brand_model = brand_repo.findById(row.getCell(0).getStringCellValue());
             BrandModel brand = null;
@@ -93,11 +102,11 @@ public class ExcelController {
                     id.setName(row.getCell(1).getStringCellValue());
                     id.setBrand_name(brand.getName());
                     id.setUser_id(1L);
+                    id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
 
                     ModelBrandModel model = new ModelBrandModel();
                     model.setId(id);
                     model.setKnown(true);
-                    model.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
                     model.setBrand_model(brand);
                     model.setUser_model(user);
                     model_brand_repo.save(model);
