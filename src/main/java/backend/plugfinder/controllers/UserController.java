@@ -70,6 +70,7 @@ public class UserController {
         try {
             UserModel user = userService.findUserById(id);
             userService.deleteUser(user);
+            System.out.println(user.isDeleted());
         }catch (Exception e){
            throw new OurException("Error al intentar eliminar el usuario");
         }
