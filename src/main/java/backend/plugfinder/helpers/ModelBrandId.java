@@ -1,4 +1,4 @@
-package backend.plugfinder.helpersId;
+package backend.plugfinder.helpers;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -7,31 +7,32 @@ import java.io.Serializable;
 
 @Embeddable
 public class ModelBrandId implements Serializable {
+    //region Atributes
     @Column(name = "name")
     private String name;
 
     @Column(name = "brand_name")
     private String brand_name;
 
-    /*@Column(name = "charger_id")
-    private long charger_id;*/
+    @Column(name = "user_id")
+    private long user_id;
 
-    public ModelBrandId(){}
+    @Column(name = "autonomy")
+    private String autonomy;
+    //endregion
 
-    /*public ModelBrandId(String name, String brand_name, long charger_id){
-        this.name = name;
-        this.brand_name = brand_name;
-        this.charger_id = charger_id;
-    }*/
+    //region Constructors
+    public ModelBrandId() {
+    }
 
-    public ModelBrandId(String name, String brand_name){
+    public ModelBrandId(String name, String brand_name) {
         this.name = name;
         this.brand_name = brand_name;
 
     }
+    //endregion
 
-
-    /*Getter & Setters*/
+    //region Getter & Setters
     public String getName() {
         return name;
     }
@@ -48,11 +49,21 @@ public class ModelBrandId implements Serializable {
         this.brand_name = brand_name;
     }
 
-    /*public long getCharger_id() {
-        return charger_id;
+    public long getUser_id() {
+        return user_id;
     }
 
-    public void setCharger_id(long charger_id) {
-        this.charger_id = charger_id;
-    }*/
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getAutonomy() {
+        return autonomy;
+    }
+
+    public void setAutonomy(String autonomy) {
+        this.autonomy = autonomy;
+    }
+
+    //endregion
 }
