@@ -31,19 +31,19 @@ public class UserController {
      * @return UserModel - Registered user.
      */
     @PostMapping("/register")
-    public ResponseEntity<UserModel> userRegister(@RequestBody UserModel user) throws SQLException {
+    public ResponseEntity<UserModel> userRegister(@RequestBody UserModel user) throws SQLException, OurException {
         /* Comprobación validez correo electrónico */
         if(!validateEmail(user.getEmail())) {
-            throw new SQLException("El correo electrónico no es válido.");
+            throw new OurException("El correo electrónico no es válido.");
         }
         /* Comprobación validez número de teléfono */
         String tlf = user.getPhone();
         if(tlf != null && !validatePhoneNumber(tlf)) {
-            throw new SQLException("El número de teléfono no es válido.");
+            throw new OurException("El número de teléfono no es válido.");
         }
         /* Comprobación validez fecha de nacimiento */
         if(!validateBirthDate(user.getBirth_date())) {
-            throw new SQLException("La fecha de nacimiento no es válida.");
+            throw new OurException("La fecha de nacimiento no es válida.");
         }
 
         /* Encriptado de contraseña -- IMPORTANTE: Al hacer log-in, tenemos que comparar la contraseña introducida con la encriptada en la BD. Para ello,
@@ -70,7 +70,7 @@ public class UserController {
         try {
             UserModel user = userService.findUserById(id);
             userService.deleteUser(user);
-            System.out.println(user.isDeleted());
+            //System.out.println(user.isDeleted());
         }catch (Exception e){
            throw new OurException("Error al intentar eliminar el usuario");
         }

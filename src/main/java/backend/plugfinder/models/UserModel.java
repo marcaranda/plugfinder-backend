@@ -23,8 +23,16 @@ public class UserModel {
     private String password;
     @Column (nullable = false)
     private String birth_date;
+    @Column (nullable = false, columnDefinition = "integer default 0")
+    int rank;
+    @Column (nullable = false, columnDefinition = "integer default 0")
+    int points;
+    @Column (nullable = false, columnDefinition = "float default 0")
+    double co2;
     @Column (nullable = false, columnDefinition = "boolean default false" )
     private boolean deleted;
+    @Column (nullable = false, columnDefinition = "boolean default false")
+    private boolean admin;
     //endregion
 
     //region Getters y Setters
@@ -93,5 +101,36 @@ public class UserModel {
         this.deleted = deleted;
     }
 
-    //endregion
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public double getCo2() {
+        return co2;
+    }
+
+    public void setCo2(float co2) {
+        this.co2 = co2;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+//endregion
 }
