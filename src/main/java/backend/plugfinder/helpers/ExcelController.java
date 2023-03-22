@@ -78,6 +78,23 @@ public class ExcelController {
         Sheet sheet = workbook.getSheetAt(0);
 
         boolean end = false;
+
+        Optional<UserModel> user_model = user_repo.findById(1L);
+        UserModel user = new UserModel();
+        if (user_model.isPresent()) {
+            user = user_model.get();
+        }
+        else {
+            user.setUsername("admin");
+            user.setReal_name("Admin");
+            user.setPhone("+34649063779");
+            user.setEmail("admin@gmail.com");
+            user.setPassword("admin");
+            user.setBirth_date("07/01/2002");
+            user.setAdmin(true);
+            user_repo.save(user);
+        }
+
         // Iterate through each row in the sheet
         Iterator<Row> row_iterator = sheet.iterator();
         while (row_iterator.hasNext() && !end) {
@@ -89,32 +106,31 @@ public class ExcelController {
             }
 
             Optional<BrandModel> brand_model = brand_repo.findById(row.getCell(0).getStringCellValue());
-            BrandModel brand = null;
+            BrandModel brand = new BrandModel();
             if (brand_model.isPresent()) {
                 brand = brand_model.get();
-
-                Optional<UserModel> user_model = user_repo.findById(1L);
-                UserModel user = null;
-                if (user_model.isPresent()) {
-                    user = user_model.get();
-
-                    ModelBrandId id = new ModelBrandId();
-                    id.setName(row.getCell(1).getStringCellValue());
-                    id.setBrand_name(brand.getName());
-                    id.setUser_id(1L);
-                    id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
-
-                    ModelBrandModel model = new ModelBrandModel();
-                    model.setId(id);
-                    model.setKnown(true);
-                    model.setBrand_model(brand);
-                    model.setUser_model(user);
-                    model_brand_repo.save(model);
-
-                    models.add(model);
-                }
             }
-        }
+            else {
+                brand.setName(row.getCell(0).getStringCellValue());
+                brand.setKnown(true);
+                brand_repo.save(brand);
+            }
+
+                ModelBrandId id = new ModelBrandId();
+                id.setName(row.getCell(1).getStringCellValue());
+                id.setBrand_name(brand.getName());
+                id.setUser_id(1L);
+                id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
+
+                ModelBrandModel model = new ModelBrandModel();
+                model.setId(id);
+                model.setKnown(true);
+                model.setBrand_model(brand);
+                model.setUser_model(user);
+                model_brand_repo.save(model);
+
+                models.add(model);
+            }
 
         // Close the input stream and return the list of people
         input_stream.close();

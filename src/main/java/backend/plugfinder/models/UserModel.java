@@ -24,9 +24,9 @@ public class UserModel {
     @Column (nullable = false)
     private String birth_date;
     @Column (nullable = false, columnDefinition = "integer default 0")
-    int rank;
+    long rank;
     @Column (nullable = false, columnDefinition = "integer default 0")
-    int points;
+    long points;
     @Column (nullable = false, columnDefinition = "float default 0")
     double co2;
     @Column (nullable = false, columnDefinition = "boolean default false" )
@@ -101,19 +101,19 @@ public class UserModel {
         this.deleted = deleted;
     }
 
-    public int getRank() {
+    public long getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(long rank) {
         this.rank = rank;
     }
 
-    public int getPoints() {
+    public long getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(long points) {
         this.points = points;
     }
 
@@ -121,7 +121,7 @@ public class UserModel {
         return co2;
     }
 
-    public void setCo2(float co2) {
+    public void setCo2(double co2) {
         this.co2 = co2;
     }
 
