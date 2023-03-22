@@ -25,7 +25,7 @@
             <column defaultValue="0" name ="deleted" type="BIT(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="0" name="rank" type="BIGINT">
+            <column defaultValue="0" name="rank_position" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column defaultValue="0" name="points" type="BIGINT">

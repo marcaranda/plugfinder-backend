@@ -24,7 +24,7 @@ public class UserModel {
     @Column (nullable = false)
     private String birth_date;
     @Column (nullable = false, columnDefinition = "integer default 0")
-    long rank;
+    long rank_position;
     @Column (nullable = false, columnDefinition = "integer default 0")
     long points;
     @Column (nullable = false, columnDefinition = "float default 0")
@@ -101,12 +101,12 @@ public class UserModel {
         this.deleted = deleted;
     }
 
-    public long getRank() {
-        return rank;
+    public long getRank_position() {
+        return rank_position;
     }
 
-    public void setRank(long rank) {
-        this.rank = rank;
+    public void setRank_position(long rank_position) {
+        this.rank_position = rank_position;
     }
 
     public long getPoints() {
