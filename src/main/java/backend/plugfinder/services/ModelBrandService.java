@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class ModelBrandService {
@@ -25,8 +26,12 @@ public class ModelBrandService {
         return model_brand_repo.findModelBrandModelsByKnown(true);
     }
 
-    public ArrayList<String> get_model_brand_model_by_brand_and_known(String brand){
+    public ArrayList<ModelBrandModel> get_model_brand_model_by_brand_and_known(String brand){
         return model_brand_repo.findModelBrandModelsByBrandAndKnown(brand);
+    }
+
+    public Optional<ModelBrandModel> get_model_by_id(String brand, String model, String autonomy){
+        return model_brand_repo.find_model_by_id(brand, model, autonomy);
     }
     //endregion
 }

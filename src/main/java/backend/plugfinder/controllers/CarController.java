@@ -24,7 +24,7 @@ public class CarController {
     }
 
     //http://localhost:8080/cars/'LICENSE'-'USER_ID'
-    @GetMapping(path = "/{id_1}-{id_2}")
+    @GetMapping(path = "/{id_1}/{id_2}")
     public Optional<CarModel> get_car_by_id(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
         return car_service.get_car_by_id(license, user_id);
     }
@@ -43,26 +43,25 @@ public class CarController {
             if (!validate_license(car_Model.getId().getLicense())){
             throw new SQLException("La matrícula no es válida");
         }
-        /* Comprobación validez autonomía * /
-        if (!validate_autonomy(car_Model.getAutonomy())){
-            throw new SQLException("La autonomía no es válida");
-        }*/
+        /* Comprobación validez usuario */
+        if (!car_Model.getModel_brand_model().isKnown()){
+            if (car_Model.getModel_brand_model().getId().getUser_id() != car_Model.getUser_model().getUser_id()){
+                throw new SQLException("El coche no es válido");
+            }
+        }
+
         return car_service.save_car(car_Model);
     }
 
     @PostMapping("/edit")
     public CarModel edit_car(@RequestBody CarModel car_Model) throws SQLException {
-        /* Comprobación validez autonomía * /
-        if (!validate_autonomy(car_Model.getAutonomy())){
-            throw new SQLException("La autonomía no es válida");
-        }*/
         return car_service.save_car(car_Model);
     }
     //endregion
 
     //region Delete Methods
     //http://localhost:8080/cars/delete/'LICENSE'-'USER_ID'
-    @DeleteMapping(path = "/delete/{id_1}-{id_2}")
+    @DeleteMapping(path = "/delete/{id_1}/{id_2}")
     public String delete_car(@PathVariable("id_1") String license, @PathVariable("id_2") long user_id){
         Optional<CarModel> car_model = car_service.get_car_by_id(license, user_id);
         if (car_model.isPresent()){
@@ -88,13 +87,6 @@ public class CarController {
         String patron = "^\\d{4}[BCDFGHJKLMNÑPQRSTVWXYZ]{3}$";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(license);
-        return matcher.matches();
-    }
-
-    private boolean validate_autonomy(String autonomy){
-        String patron = "^\\d{2,4}$";
-        Pattern pattern = Pattern.compile(patron);
-        Matcher matcher = pattern.matcher(autonomy);
         return matcher.matches();
     }
     //endregion

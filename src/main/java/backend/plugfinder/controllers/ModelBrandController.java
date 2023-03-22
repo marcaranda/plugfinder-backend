@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/models")
@@ -26,8 +27,13 @@ public class ModelBrandController {
 
     //http://localhost:8080/models/byBrand?brand='NAME_BRAND'&known=true
     @GetMapping(path = "/byBrand")
-    public ArrayList<String> get_model_brand_model_by_brand_and_known(@RequestParam("brand") String brand){
+    public ArrayList<ModelBrandModel> get_model_brand_model_by_brand_and_known(@RequestParam("brand") String brand){
         return model_brand_service.get_model_brand_model_by_brand_and_known(brand);
+    }
+
+    @GetMapping(path = "/{id_1}/{id_2}/{id_3}")
+    public Optional<ModelBrandModel> get_model_by_id(@PathVariable("id_1") String brand, @PathVariable("id_2") String model, @PathVariable("id_3") String autonomy){
+        return model_brand_service.get_model_by_id(brand, model, autonomy);
     }
     //endregion
 
