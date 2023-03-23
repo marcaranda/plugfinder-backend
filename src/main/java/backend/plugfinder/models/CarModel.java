@@ -20,7 +20,7 @@ public class CarModel {
     @ManyToOne
     @JoinColumn(name = "model_name", referencedColumnName = "name")
     @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
-    @JoinColumn(name = "user_id_1", referencedColumnName = "user_id")
+    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
     @JoinColumn(name = "autonomy", referencedColumnName = "autonomy")
     private ModelBrandModel model_brand_model;
     //endregion
