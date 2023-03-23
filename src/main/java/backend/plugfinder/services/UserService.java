@@ -3,6 +3,7 @@ package backend.plugfinder.services;
 import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +61,23 @@ public class UserService {
         if(user != null) {
             user.setPremium(true);
             user.setPremium_registration_date(LocalDate.now().toString());
+            user.setPremium_drop_date(null);
+            userRepo.save(user);
+        }
+        else {
+            throw new NullPointerException("El usuario no existe.");
+        }
+    }
+
+    /**
+     * This method unsubscribe a user of the premium version
+     * @param userId: userId of the user that is being unsubscribed of the premium version
+     */
+    public void unsubscribePremium(Long userId) {
+        UserModel user = userRepo.findById(userId).orElse(null);
+        if(user != null) {
+            user.setPremium(false);
+            user.setPremium_drop_date(LocalDate.now().toString());
             userRepo.save(user);
         }
         else {
