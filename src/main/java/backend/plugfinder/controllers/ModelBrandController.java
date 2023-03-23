@@ -16,19 +16,8 @@ public class ModelBrandController {
 
     //region Get Methods
     @GetMapping
-    public ArrayList<ModelBrandModel> get_models(){
-        return model_brand_service.get_models();
-    }
-
-    @GetMapping(path = "/known")
-    public ArrayList<ModelBrandModel> get_model_brand_models_by_known(){
-        return model_brand_service.get_model_brand_models_by_known();
-    }
-
-    //http://localhost:8080/models/byBrand?brand='NAME_BRAND'&known=true
-    @GetMapping(path = "/byBrand")
-    public ArrayList<ModelBrandModel> get_model_brand_model_by_brand_and_known(@RequestParam("brand") String brand){
-        return model_brand_service.get_model_brand_model_by_brand_and_known(brand);
+    public ArrayList<ModelBrandModel> get_models(@RequestParam(required = false, value = "brand") String brand, @RequestParam(required = false, value = "known") String known){
+        return model_brand_service.get_models(brand, known);
     }
 
     @GetMapping(path = "/{id_1}/{id_2}/{id_3}")
