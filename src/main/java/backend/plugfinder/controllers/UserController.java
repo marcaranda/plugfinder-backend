@@ -84,8 +84,17 @@ public class UserController {
      * @param user_id: userId of the user that is getting the premium version
      */
     @PostMapping("/{user_id}/premium")
-    public void getPremium(@RequestParam Long user_id) {
+    public void getPremium(@PathVariable("user_id") Long user_id) {
         userService.getPremium(user_id);
+    }
+
+    /**
+     * This method unsubscribes a user of the premium version t
+     * @param user_id: userId of the user that is being unsubscribed of the premium version
+     */
+    @PostMapping("/{user_id}/unsubscribePremium")
+    public void stopPremium(@PathVariable("user_id") Long user_id) {
+        userService.unsubscribePremium(user_id);
     }
 
     /**
