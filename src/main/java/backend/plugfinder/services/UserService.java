@@ -34,4 +34,19 @@ public class UserService {
         return (ArrayList<UserModel>) userRepo.findAll();
     }
 
+    /**
+     * This method deletes a user from the DB.
+     * @param user - User to be deleted.
+     */
+    public void deleteUser(UserModel user) {
+        userRepo.delete(user);
+    }
+
+    /**
+     * This method finds a user by its ID.
+     * @param id - ID of the user.
+     */
+    public UserModel findUserById(Long id) {
+        return userRepo.findById(id).orElse(null);
+    }
 }

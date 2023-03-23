@@ -14,8 +14,6 @@ public class BrandModel {
     private String name;
     @Column(nullable = false)
     private boolean known;
-    /*@OneToMany
-    private List<ModelBrandModel> models;*/
     //endregion
 
     //region Getter & Setters
@@ -34,13 +32,5 @@ public class BrandModel {
     public void setKnown(boolean known) {
         this.known = known;
     }
-
-    /*public List<ModelBrandModel> getModels() {
-        return models;
-    }
-
-    public void setModels(List<ModelBrandModel> models) {
-        this.models = models;
-    }*/
     //endregion
 }

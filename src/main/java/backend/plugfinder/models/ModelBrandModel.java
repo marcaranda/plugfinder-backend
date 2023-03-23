@@ -1,10 +1,10 @@
 package backend.plugfinder.models;
 
-import backend.plugfinder.helpersId.ModelBrandId;
+import backend.plugfinder.helpers.ModelBrandId;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ModelBrand")
+@Table(name = "model_brand")
 public class ModelBrandModel {
     //region Atributes
     @EmbeddedId
@@ -14,9 +14,13 @@ public class ModelBrandModel {
     @ManyToOne
     @MapsId("brand_name")
     @JoinColumn(name = "brand_name")
-    private BrandModel brandModel;
+    private BrandModel brand_model;
+    @ManyToOne
+    @MapsId("user_id")
+    @JoinColumn(name = "user_id")
+    private UserModel user_model;
+
     /*@ManyToOne
-    @MapsId(name = "charger_id")
     @JoinColumn(name = "charger_id")
     private ChargerModel chargerModel;*/
     //endregion
@@ -38,12 +42,20 @@ public class ModelBrandModel {
         this.known = known;
     }
 
-    public BrandModel getBrandModel() {
-        return brandModel;
+    public BrandModel getBrand_model() {
+        return brand_model;
     }
 
-    public void setBrandModel(BrandModel brandModel) {
-        this.brandModel = brandModel;
+    public void setBrand_model(BrandModel brand_model) {
+        this.brand_model = brand_model;
+    }
+
+    public UserModel getUser_model() {
+        return user_model;
+    }
+
+    public void setUser_model(UserModel user_model) {
+        this.user_model = user_model;
     }
 
     /*public ChargerModel getChargerModel() {
