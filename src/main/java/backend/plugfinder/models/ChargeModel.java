@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 @Entity
+@Table(name = "charge")
 public class ChargeModel {
 
     @Id
