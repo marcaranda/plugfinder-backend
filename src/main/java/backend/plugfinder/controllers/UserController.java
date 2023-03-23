@@ -69,11 +69,23 @@ public class UserController {
     public void deleteUser(@RequestParam Long id) throws OurException {
         try {
             UserModel user = userService.findUserById(id);
+            if(user == null) {
+                throw new OurException("El usuario no existe.");
+            }
             userService.deleteUser(user);
             //System.out.println(user.isDeleted());
         }catch (Exception e){
            throw new OurException("Error al intentar eliminar el usuario");
         }
+    }
+
+    /**
+     * This method sets the premium to a User
+     * @param user_id: userId of the user that is getting the premium version
+     */
+    @PostMapping("/{user_id}/premium")
+    public void getPremium(@RequestParam Long user_id) {
+        userService.getPremium(user_id);
     }
 
     /**

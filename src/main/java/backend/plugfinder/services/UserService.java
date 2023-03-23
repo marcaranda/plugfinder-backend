@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Service
@@ -48,5 +49,21 @@ public class UserService {
      */
     public UserModel findUserById(Long id) {
         return userRepo.findById(id).orElse(null);
+    }
+
+    /**
+     * This method sets the premium to a User
+     * @param user_id: userId of the user that is getting the premium version
+     */
+    public void getPremium(Long user_id) {
+        UserModel user = userRepo.findById(user_id).orElse(null);
+        if(user != null) {
+            user.setPremium(true);
+            user.setPremium_registration_date(LocalDate.now().toString());
+            userRepo.save(user);
+        }
+        else {
+            throw new NullPointerException("El usuario no existe.");
+        }
     }
 }
