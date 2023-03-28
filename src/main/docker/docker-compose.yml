@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  app:
+    image: 'plugfinder-backend:latest'
+    build:
+      context: .
+    ports:
+      - '8080:8080'
+    container_name: plugfinderApp
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://rds-plugfinder.cib71mvpjt4e.eu-west-1.rds.amazonaws.com:3306/DBplugfinder
+      - SPRING_DATASOURCE_USERNAME=plugfinder
+      - SPRING_DATASOURCE_PASSWORD=plugfinder
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: 'mysql:8.0'
+    container_name: db
+    environment:
+      - MYSQL_DATABASE=DBplugfinder
+      - MYSQL_USER=plugfinder
+      - MYSQL_PASSWORD=plugfinder
+      - MYSQL_ROOT_PASSWORD=plugfinder
+    ports:
+      - '3306:3306'
+    volumes:
+      - db:/var/lib/mysql
+volumes:
+  db:
+    driver: local

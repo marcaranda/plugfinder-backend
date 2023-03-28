@@ -11,4 +11,14 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepo extends CrudRepository<UserModel, Long> {
+    /**
+     * This method finds a user by its email.
+     * @param email - Email of the user.
+     * @return UserModel - User found.
+     */
+    public abstract UserModel findByEmail(String email);
+
+    public default void delete(UserModel user) {
+        user.setDeleted(true);
+    }
 }
