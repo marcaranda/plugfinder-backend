@@ -26,7 +26,7 @@ jobs:
           sleep 10
       - name: Deploy on AWS EC2
         env:
-          PRIVATE_KEY: PRIVATEKEYDEPLOY
+          PRIVATE_KEY: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoHoe2Jy9HUukVpAqEyEnuS3dA38oC1uXJOVBtgtQ6IcvTwppGAi9TZ4RCDNyVyVMcVNpRHw77uyTYAN9N5TxcbWrb6sSjXHE5QwlRnUZ8MrwhNrLmgoEoO8F0hnNGK5p9ehtf45jfYlWQvH1wFlWaGeahCgxWxpcQwj35dvtnMDwZyOkxWpv9crRi+3iEBpqgoHVfwoNh8kVPtiEvFBgGVcDRqz+4lAV7TLeaK9omo46E/8Bogx0QhsE8UixqAp8ko6D9uhKl449FjmYRfINvqrOQckdqgiLcaJ/SAlDtl5hBeDsInewwc3Kjg3S8KCsH/byRxl5dZFPa9vBidMPj
           HOSTNAME: 3.249.82.0
           USER_NAME: ubuntu
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
