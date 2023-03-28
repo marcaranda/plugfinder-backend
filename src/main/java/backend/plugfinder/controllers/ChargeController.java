@@ -17,7 +17,7 @@ public class ChargeController {
 
 
     @GetMapping
-    public ArrayList<ChargeModel> getCharger(){
+    public ArrayList<ChargeModel> getCharge(){
         return chargeService.getCharges();
     }
 

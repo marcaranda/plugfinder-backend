@@ -20,7 +20,7 @@ public class ChargerController {
 
 
     //region Post Methods
-    @PostMapping
+    @PostMapping("/new")
     public ChargerModel saveCharger(@RequestBody ChargerModel chargerModel){
         return chargerService.saveCharger(chargerModel);
     }
@@ -28,7 +28,7 @@ public class ChargerController {
 
     //region Delete Methods
     @DeleteMapping(path = "/{id}")
-    public String deleteCharger(@PathVariable("id") String id){
+    public String deleteCharger(@PathVariable("id") int id){
         if (chargerService.deleteCharger(id)){
             return "Se elimino correctamente el cargador con id " + id;
         }
