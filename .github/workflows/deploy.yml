@@ -26,7 +26,7 @@ jobs:
           sleep 10
       - name: Deploy on AWS EC2
         env:
-          PRIVATE_KEY: key-0196b76b03d44d100
+          PRIVATE_KEY: PRIVATEKEYDEPLOY
           HOSTNAME: 3.249.82.0
           USER_NAME: ubuntu
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
