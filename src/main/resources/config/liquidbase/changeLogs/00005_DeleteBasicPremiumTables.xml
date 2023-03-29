@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet  author="arnau"  id="dropTable-basic_user">
+        <dropTable  cascadeConstraints="true"
+                    tableName="basic_user"/>
+    </changeSet>
+    <changeSet  author="arnau"  id="dropTable-premium_user">
+        <dropTable  cascadeConstraints="true"
+                    tableName="premium_user"/>
+    </changeSet>
+    <changeSet author="arnau" id="addColumn-premiumToUser">
+        <addColumn tableName="users" >
+            <column defaultValue="0" name="premium" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="arnau" id="addColumn-user">
+        <addColumn tableName="users" >
+            <column name="premium_registration_date" type="varchar(255)">
+            </column>
+            <column name="premium_drop_date" type="varchar(255)">
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -19,4 +19,8 @@ public interface UserRepo extends CrudRepository<UserModel, Long> {
      * @return UserModel - User found.
      */
     Optional<UserModel> findOneByEmail(String email);
+
+    public default void delete(UserModel user) {
+        user.setDeleted(true);
+    }
 }

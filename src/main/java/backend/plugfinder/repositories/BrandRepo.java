@@ -10,6 +10,6 @@ import java.util.ArrayList;
 
 @Repository
 public interface BrandRepo extends CrudRepository<BrandModel, String> {
-    @Query("SELECT b.name FROM BrandModel b WHERE b.known = :know")
-    public abstract ArrayList<String> findBrandModelsByKnown(@Param("know") boolean know);
+    @Query("SELECT b.name FROM BrandModel b WHERE b.known = true")
+    public abstract ArrayList<String> findBrandModelsByKnown();
 }
