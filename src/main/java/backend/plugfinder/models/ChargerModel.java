@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.sql.Time;
 
 @Entity
-@Table(name = "charger")
+@Table(name = "Charger")
 public class ChargerModel {
 
     @Id
@@ -65,5 +65,8 @@ public class ChargerModel {
 
     public void setMax_time_charging(Time max_time_charging) {
         this.max_time_charging = max_time_charging;
+    }
+
+    public void setDeleted(boolean b) {
     }
 }
