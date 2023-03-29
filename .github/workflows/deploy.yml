@@ -26,7 +26,12 @@ jobs:
           sleep 10
       - name: Deploy on AWS EC2
         env:
-          PRIVATE_KEY: "-----BEGIN RSA PRIVATE KEY-----
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          HOSTNAME: 52.18.221.35
+          USER_NAME: root
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          echo "-----BEGIN RSA PRIVATE KEY-----
   MIIEowIBAAKCAQEAqB6HticvR1LpFaQKhMhJ7kt3QN/KAtblyTlQbYLUOiHL08Ka
   RgIvU2eEQgzclclTHFTaUR8O+7sk2ADfTeU8XG1q2+rEo1xxOUMJUZ1GfDK8ITay
   5oKBKDvBdIZzRiuafXobX+OY32JVkLx9cBZVmhnmoQoMVsaXEMI9+Xb7ZzA8Gcjp
@@ -52,12 +57,7 @@ jobs:
   /xhhAoGBALEfIUxuj3C0lo892/46hgETnT1VWXocE1NfOHhtwMAxKHOpQRLPNI3I
   f8loOuitwmdUdb00d4XYInbs0YzgDNroAvT1JyaxcW7011yMC4PiztiM+wPWSjMA
   wxYXa+DG+vpKEiXMMO6UKJ7MgJrf1duJz9iSxp6iu7dOnOC0qDmn
-  -----END RSA PRIVATE KEY-----"
-          HOSTNAME: 52.18.221.35
-          USER_NAME: root
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: |
-          echo "$PRIVATE_KEY" > private_key.pem && chmod 400 private_key.pem
+  -----END RSA PRIVATE KEY-----" > private_key.pem && chmod 400 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem root@52.18.221.35 '
             rm -rf /home/ubuntu/plugfinder-backend
             git clone https://github.com/marcaranda/plugfinder-backend.git
