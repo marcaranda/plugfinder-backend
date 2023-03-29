@@ -31,7 +31,7 @@ jobs:
           USER_NAME: root
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+          echo "$PRIVATE_KEY" > private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/plugfinder-backend
             git clone https://github.com/marcaranda/plugfinder-backend.git
