@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class TokenUtils {
 
-    private final static String ACCES_TOKEN_SECRET = "pLuGfInDeRs3cUr17yC0d3"; //Secret key to sign the token
+    private final static String ACCES_TOKEN_SECRET = "pLuGfInDeRs3cUr17yC0d3f0rSiGnThE70k3nS"; //Secret key to sign the token
     private final static Long ACCESS_TOKEN_EXPIRATION_TIME = 2_592_000L; // 30 days in seconds, change it in production to a less time
 
 

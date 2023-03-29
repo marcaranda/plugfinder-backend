@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.format.DateTimeFormatter;
@@ -61,6 +62,15 @@ public class UserController {
     }
     //endregion
 
+    /*@PostMapping ("/login")
+    public String login(@RequestParam String email, @RequestParam String password) {
+        Optional<UserModel> user = userService.findUserByEmail(email);
+        if(user.isPresent()) {
+            if(BCrypt.checkpw(encryptPassowrd(password), user.get().getPassword()))
+
+        }
+    }*/
+
     /**
      *This method deletes a user from the DB.
      * @param id - Id of the user to be deleted.
@@ -101,7 +111,7 @@ public class UserController {
      * This method returns all the users in the DB.
      * @return ArrayList<UserModel> - List of users.
      */
-    @GetMapping("/all")
+    @GetMapping
     public ArrayList<UserModel> getUsers() {
         return userService.getUsers();
     }

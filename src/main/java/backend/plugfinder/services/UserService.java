@@ -25,7 +25,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    Optional<UserModel> findUserByEmail(String email) {
+    public Optional<UserModel> findUserByEmail(String email) {
         return userRepo.findOneByEmail(email);
     }
 
