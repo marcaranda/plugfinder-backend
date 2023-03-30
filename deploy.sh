@@ -13,7 +13,7 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 apt-cache policy docker-ce
 yes | sudo apt install docker-ce
 
-# make sure demo docker is not running
+# make sure plugfinder-backend docker is not running
 sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=plugfinder-backend:latest --format="{{.ID}}"))
 sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=mysql:8.0:latest --format="{{.ID}}"))
 
@@ -26,12 +26,12 @@ sudo systemctl restart nginx
 cd src/main/docker
 # build dockerfile
 sudo docker build -f Dockerfile -t plugfinder-backend:latest .
-sudo docker build -f Dockerfile -t mysql:8.0:latest .
 
 
 # run in detached mode
 sudo docker run -p 8080:8080 -d plugfinder-backend:latest
-sudo docker-compose up db
+
+sudo docker compose up
 
 sleep 15
 
