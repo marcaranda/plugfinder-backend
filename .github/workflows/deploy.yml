@@ -36,8 +36,8 @@ jobs:
             rm -rf /home/ubuntu/plugfinder-backend
             git clone git@github.com:marcaranda/plugfinder-backend.git
             cd plugfinder-backend
-            git checkout main
-            git pull origin main
+            git checkout T-51
+            git pull origin T-51
             sudo chmod +x ./deploy.sh
             ./deploy.sh
           '

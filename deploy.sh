@@ -14,18 +14,24 @@ apt-cache policy docker-ce
 yes | sudo apt install docker-ce
 
 # make sure demo docker is not running
-sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=demo:latest --format="{{.ID}}"))
+sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=plugfinder-backend:latest --format="{{.ID}}"))
+sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=mysql:8.0:latest --format="{{.ID}}"))
+
 
 # copy nginx conf to default
 sudo cp nginx.conf /etc/nginx/conf.d/default.conf
 
 sudo systemctl restart nginx
 
+cd src/main/docker
 # build dockerfile
-sudo docker build -f Dockerfile -t demo:latest .
+sudo docker build -f Dockerfile -t plugfinder-backend:latest .
+sudo docker build -f Dockerfile -t mysql:8.0:latest .
+
 
 # run in detached mode
-sudo docker run -p 8080:8080 -d demo:latest
+sudo docker run -p 8080:8080 -d plugfinder-backend:latest
+sudo docker-compose up db
 
 sleep 15
 
