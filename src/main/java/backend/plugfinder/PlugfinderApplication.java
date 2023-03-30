@@ -1,5 +1,8 @@
 package backend.plugfinder;
 
+import backend.plugfinder.helpers.ExcelController;
+import backend.plugfinder.models.BrandModel;
+import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.CarRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
@@ -12,37 +15,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import java.io.IOException;
+import java.util.Optional;
+
 @SpringBootApplication
 public class PlugfinderApplication {
 	@Autowired
-	private UserRepo userRepo;
+	private ExcelController excel_controller;
 	@Autowired
-	private CarRepo carRepo;
-	@Autowired
-	private BrandRepo brandRepo;
-	@Autowired
-	private ModelBrandRepo modelBrandRepo;
+	private UserRepo user_repo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
-	public void runAfterStartup() {
-		/*ArrayList<UserModel> users = (ArrayList<UserModel>) userRepo.findAll();
-		UserModel userModel = users.get(0);
-
-		ArrayList<ModelBrandModel> models = (ArrayList<ModelBrandModel>) modelBrandRepo.findAll();
-		ModelBrandModel modelBrandModel = models.get(0);
-
-		CarId carId = new CarId("0790LFB", userModel.getUser_id());
-
-		CarModel carModel = new CarModel();
-		carModel.setId(carId);
-		carModel.setAlias("prueba");
-		carModel.setAutonomy("400");
-		carModel.setUserModel(userModel);
-		carModel.setModelBrandModel(modelBrandModel);
-		carRepo.save(carModel);*/
+	public void runAfterStartup() throws IOException {
+		Optional<UserModel> user_model = user_repo.findById(1L);
+		if (!user_model.isPresent()) {
+			excel_controller.read_models();
+		}
 	}
 }

@@ -8,7 +8,6 @@ import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -28,48 +27,11 @@ public class ExcelController {
     @Autowired
     private UserRepo user_repo;
 
-    @GetMapping(path = "/read_brands")
-    public List<BrandModel> read_brands() throws IOException {
-        List<BrandModel> brands = new ArrayList<>();
-
-        // Load the Excel file
-        FileInputStream input_stream = new FileInputStream(new File("/home/marc/Downloads/marcas.xlsx"));
-
-        // Get the workbook instance for XLSX file
-        Workbook workbook = WorkbookFactory.create(input_stream);
-
-        // Get the first sheet from the workbook
-        Sheet sheet = workbook.getSheetAt(0);
-
-        boolean end = false;
-        // Iterate through each row in the sheet
-        Iterator<Row> row_iterator = sheet.iterator();
-        while (row_iterator.hasNext() && !end) {
-            Row row = row_iterator.next();
-
-            if (row.getCell(0).getCellType() == CellType.BLANK){
-                end = true;
-                break;
-            }
-
-            BrandModel brand = new BrandModel();
-            brand.setName(row.getCell(0).getStringCellValue());
-            brand.setKnown(true);
-            brand_repo.save(brand);
-
-            brands.add(brand);
-        }
-        // Close the input stream and return the list of people
-        input_stream.close();
-        return brands;
-    }
-
-    @GetMapping(path = "/read_models")
     public List<ModelBrandModel> read_models() throws IOException {
         List<ModelBrandModel> models = new ArrayList<>();
 
         // Load the Excel file
-        FileInputStream input_stream = new FileInputStream(new File("/home/marc/Downloads/modelos.xlsx"));
+        FileInputStream input_stream = new FileInputStream(new File("modelos.xlsx"));
 
         // Get the workbook instance for XLSX file
         Workbook workbook = WorkbookFactory.create(input_stream);
@@ -117,7 +79,10 @@ public class ExcelController {
             }
 
                 ModelBrandId id = new ModelBrandId();
-                id.setName(row.getCell(1).getStringCellValue());
+                switch (row.getCell(1).getCellType()){
+                    case STRING -> id.setName(row.getCell(1).getStringCellValue());
+                    case NUMERIC -> id.setName(Double.toString(row.getCell(1).getNumericCellValue()));
+                }
                 id.setBrand_name(brand.getName());
                 id.setUser_id(1L);
                 id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));

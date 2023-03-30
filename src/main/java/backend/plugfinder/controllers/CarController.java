@@ -67,18 +67,13 @@ public class CarController {
         if (car_model.isPresent()){
             CarModel car = car_model.get();
             car.setDeleted(true);
+            car.setUser_model(null);
             car_service.save_car(car);
             return "Se elimino correctamente el coche con matricula " + license;
         }
         else {
             return "No se ha podido eliminar el coche con matricula " + license;
         }
-        /*if (car_service.delete_car(license, user_id)){
-            return "Se elimino correctamente el coche con matricula " + license;
-        }
-        else{
-            return "No se ha podido eliminar el coche con matricula " + license;
-        }*/
     }
     //endregion
 
