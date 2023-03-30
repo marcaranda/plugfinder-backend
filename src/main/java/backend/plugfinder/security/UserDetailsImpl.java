@@ -50,4 +50,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getAccountUsername() {
         return user.getUsername();
     }
+
+    public long getId() {return user.getUser_id();}
 }

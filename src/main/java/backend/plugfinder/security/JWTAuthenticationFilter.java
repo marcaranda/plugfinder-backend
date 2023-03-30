@@ -35,7 +35,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
-        String token = TokenUtils.generateAccessToken(userDetails.getAccountUsername(), userDetails.getUsername()); //Get username returns the email
+        String token = TokenUtils.generateAccessToken(userDetails.getId(), userDetails.getUsername()); //Get username returns the email
 
         PrintWriter w = response.getWriter();
         w.println(token);

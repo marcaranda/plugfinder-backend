@@ -1,11 +1,14 @@
 package backend.plugfinder.controllers;
 
+import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.models.OurException;
 import backend.plugfinder.models.UserModel;
 import backend.plugfinder.services.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -73,20 +76,25 @@ public class UserController {
 
     /**
      *This method deletes a user from the DB.
-     * @param id - Id of the user to be deleted.
+     * @param user_id - Id of the user to be deleted.
      */
-    @PostMapping ("/delete")
-    public void deleteUser(@RequestParam Long id) throws OurException {
-        try {
-            UserModel user = userService.findUserById(id);
-            if(user == null) {
-                throw new OurException("El usuario no existe.");
+    @PostMapping ("/delete/{user_id}")
+    public void deleteUser(@PathVariable Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            try {
+                UserModel user = userService.findUserById(user_id);
+                if(user == null || user.isDeleted()) {
+                    throw new OurException("El usuario no existe.");
+                }
+                userService.deleteUser(user);
+            }catch (Exception e){
+                throw new OurException("Error al intentar eliminar el usuario. " + e.getMessage());
             }
-            userService.deleteUser(user);
-            //System.out.println(user.isDeleted());
-        }catch (Exception e){
-           throw new OurException("Error al intentar eliminar el usuario");
         }
+        else {
+            throw new OurException("El id especificado es diferente al recibido en el token");
+        }
+
     }
 
     /**
@@ -94,8 +102,18 @@ public class UserController {
      * @param user_id: userId of the user that is getting the premium version
      */
     @PostMapping("/{user_id}/premium")
-    public void getPremium(@PathVariable("user_id") Long user_id) {
-        userService.getPremium(user_id);
+    public void getPremium(@PathVariable("user_id") Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            if(!userService.findUserById(user_id).isPremium()) {
+                userService.getPremium(user_id);
+            }
+            else {
+                throw new OurException("El usuario ya es premium");
+            }
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
     }
 
     /**
@@ -103,8 +121,18 @@ public class UserController {
      * @param user_id: userId of the user that is being unsubscribed of the premium version
      */
     @PostMapping("/{user_id}/unsubscribePremium")
-    public void stopPremium(@PathVariable("user_id") Long user_id) {
-        userService.unsubscribePremium(user_id);
+    public void stopPremium(@PathVariable("user_id") Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            if(userService.findUserById(user_id).isPremium()) {
+                userService.unsubscribePremium(user_id);
+            }
+            else {
+                throw new OurException("El usuario no es premium");
+            }
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
     }
 
     /**
