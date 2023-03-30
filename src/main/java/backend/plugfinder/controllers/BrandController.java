@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/brands")
@@ -29,6 +30,10 @@ public class BrandController {
     //region Post Methods
     @PostMapping("/register")
     public BrandModel save_brand(@RequestBody BrandModel brandModel){
+        Optional<BrandModel> brand_model = brand_service.get_by_id(brandModel.getName());
+        if (brand_model.isPresent()) {
+            return brand_model.get();
+        }
         return brand_service.save_brand(brandModel);
     }
     //endregion
