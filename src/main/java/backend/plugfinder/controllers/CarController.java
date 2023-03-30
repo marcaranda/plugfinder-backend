@@ -74,12 +74,6 @@ public class CarController {
         else {
             return "No se ha podido eliminar el coche con matricula " + license;
         }
-        /*if (car_service.delete_car(license, user_id)){
-            return "Se elimino correctamente el coche con matricula " + license;
-        }
-        else{
-            return "No se ha podido eliminar el coche con matricula " + license;
-        }*/
     }
     //endregion
 
