@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,7 +26,7 @@ public class UserService {
     }
 
     public UserModel findUserByEmail(String email) {
-        return userRepo.findByEmail(email);
+        return userRepo.findOneByEmail(email);
     }
 
     /**
