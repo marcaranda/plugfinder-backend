@@ -31,34 +31,8 @@ jobs:
           USER_NAME: root
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "-----BEGIN RSA PRIVATE KEY-----
-  MIIEowIBAAKCAQEAqB6HticvR1LpFaQKhMhJ7kt3QN/KAtblyTlQbYLUOiHL08Ka
-  RgIvU2eEQgzclclTHFTaUR8O+7sk2ADfTeU8XG1q2+rEo1xxOUMJUZ1GfDK8ITay
-  5oKBKDvBdIZzRiuafXobX+OY32JVkLx9cBZVmhnmoQoMVsaXEMI9+Xb7ZzA8Gcjp
-  MVqb/XK0Yvt4hAaaoKB1X8KDYfJFT7YhLxQYBlXA0as/uJQFe0y3mivaJqOOhP/A
-  aIMdEIbBPFIsagKfJKOg/boSpeOPRY5mEXyDb6qzkHJHaoIi3Gif0gJQ7ZeYQXg7
-  CJ3sMHNyo4N0vCgrB/28kcZeXWRT2vbwYnTD4wIDAQABAoIBADk5yzAxvmIk0rpP
-  EFWKZ7/5aCppArZct/L602mzctIm1t7KCwFxlPJq9hYVkrBZyzSFnZqnW85MMYpl
-  IZ2+PgGoLQuWqkCBIvk+3Fkvk+KK0obru5HDMnuje4JSkcJ87SVw/whwzISdUEro
-  HjqdH55I2rxOU0zmZF2MANR9r627q1DlEE/4z9Y2H5b9ahDK3ChdhTX9Sh5myho+
-  ID/LQCOyvMuBzsailTHo0au64l985HASLvoj/LRRXON4kr31fPolbAyqpTAP85bl
-  qDIQKe0DECEwIVS+9PZcIOr5Lqzfkgg5XV2IqFrLzbc8gJLs7aPbZGDR7iFSjaIm
-  v+rSiUECgYEA6Jg6E5genD72Ip5OYrfVIoHZjB91afi+QiKyaSj0M1D5TKtwQPWs
-  3jF5zQPd4eGz1EPpd47rKpdPEbUUZM3M9aMPTwK6+X+QACg1ZUbbBgO8hNlZpFOC
-  olB5llQkXCjQ3hr5TXL2poyYHPSDeV/Ar6DWJZkjPAaO3JldO62imEsCgYEAuQlh
-  SPDCFVRh+JPqcfH17CAig9uECy9DbhJXpYDIW4RZjmFHCplkJhbZQXmQIzUEPzlA
-  5K+yN4IB0+tuLoqIzelKzfxjd2csi69laEJ6nEE6vDsQWHzaZJ9iTq1xsshgd957
-  MRMJY/zzy4byfRbAnmrz5oS0xdqFbF6DyVg088kCgYAc/Rv/5S2re41hsylB1HeT
-  3Wsns6QGmSHdTEXAJYKKAsWPcK6E6hmpd7EehCTbSi4Hfo9Sf1V/8WvBYTgxeBTb
-  aH838bcr8WIZIunEvZf+n+iXBh/OAzp80FrXCZWehtfBVstLg9CJ4Wvz7+WS8wQo
-  33rRJMznZknX5KViErn5EQKBgEt5lAEYk1H39W5bh0mrFFCYWvvF0nptcOe4+586
-  hH8v4Qe+jie4oa0XrM6UM0LpIS5YwCuHrv4NPYmfgnXhdCPpgOW8iSXvI7Bmfsqk
-  MzcBNGALB4PQiZR5nrPQ84ulSBQc38sIpM/wIdFm3go/+Zmkro/cmZAKrlmhw8eg
-  /xhhAoGBALEfIUxuj3C0lo892/46hgETnT1VWXocE1NfOHhtwMAxKHOpQRLPNI3I
-  f8loOuitwmdUdb00d4XYInbs0YzgDNroAvT1JyaxcW7011yMC4PiztiM+wPWSjMA
-  wxYXa+DG+vpKEiXMMO6UKJ7MgJrf1duJz9iSxp6iu7dOnOC0qDmn
-  -----END RSA PRIVATE KEY-----" > private_key.pem && chmod 400 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem root@52.18.221.35 '
+          echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/plugfinder-backend
             git clone https://github.com/marcaranda/plugfinder-backend.git
             cd plugfinder-backend
