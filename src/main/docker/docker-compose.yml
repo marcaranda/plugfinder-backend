@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://plugfinder-rds.ci7eqhd0eu6m.eu-west-1.rds.amazonaws.com:3306/DBplugfinder
+      - SPRING_DATASOURCE_URL=jdbc:mysql://rds-plugfinder.cib71mvpjt4e.eu-west-1.rds.amazonaws.com:3306/DBplugfinder
       - SPRING_DATASOURCE_USERNAME=plugfinder
       - SPRING_DATASOURCE_PASSWORD=plugfinder
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
