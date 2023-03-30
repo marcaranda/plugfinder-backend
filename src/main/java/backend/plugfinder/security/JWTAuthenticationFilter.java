@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -36,8 +37,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
         String token = TokenUtils.generateAccessToken(userDetails.getAccountUsername(), userDetails.getUsername()); //Get username returns the email
 
-        response.addHeader("Authorization", "Bearer " + token);
-        response.getWriter().flush();
+        PrintWriter w = response.getWriter();
+        w.println(token);
+        w.flush();
 
         super.successfulAuthentication(request, response, chain, authResult);
     }

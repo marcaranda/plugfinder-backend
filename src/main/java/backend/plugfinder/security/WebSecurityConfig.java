@@ -21,6 +21,8 @@ public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JWTAuthorizationFilter jwtAuthorizationFilter; //Authorization filter
 
+    /* Representa la cadena de filtros de seguridad que debe pasar cada solicitud web.
+    Define también que solicitudes web estan excluidas de los filtros y que dirección es la que activa la función*/
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
         JWTAuthenticationFilter filter = new JWTAuthenticationFilter(); //Authentication filter
