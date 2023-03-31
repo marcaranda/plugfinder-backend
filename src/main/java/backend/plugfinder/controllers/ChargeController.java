@@ -7,6 +7,8 @@ import backend.plugfinder.services.ChargeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,6 +38,8 @@ public class ChargeController {
 
     @PostMapping(path = "/new")
     public ChargeModel saveCharge(@RequestBody ChargeModel chargeModel){
+        chargeModel.setDate(new Date(123,4,31));
+        chargeModel.setCharge_time(new Time(16,34,40));
         return chargeService.saveCharge(chargeModel);
     }
 }

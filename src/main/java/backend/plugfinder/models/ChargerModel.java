@@ -4,43 +4,34 @@ import jakarta.persistence.*;
 import java.sql.Time;
 
 @Entity
-@Table(name = "Charger")
+@Table(name = "charger")
 public class ChargerModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private long id_charger;
 
+    @Column(nullable = false)
     private String alias_charger;
 
+    @Column(nullable = false)
     private String state;
 
+    @Column(nullable = false)
     private int price_x_kw;
 
+    @Column(nullable = false)
     private Time max_time_charging;
 
-    // Constructores, getters y setters
-
-    public ChargerModel() {}
-
-    public ChargerModel(int id_charger, String alias_charger, String state, int price_x_kw, Time max_time_charging) {
-        this.id_charger = id_charger;
-        this.alias_charger = alias_charger;
-        this.state = state;
-        this.price_x_kw = price_x_kw;
-        this.max_time_charging = max_time_charging;
-    }
+    //region Constructores, getters y setters
 
     public long getId_charger() {
         return id_charger;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setId_charger(long id_charger) {
+        this.id_charger = id_charger;
     }
 
     public String getAlias_charger() {
@@ -49,6 +40,14 @@ public class ChargerModel {
 
     public void setAlias_charger(String alias_charger) {
         this.alias_charger = alias_charger;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public int getPrice_x_kw() {
@@ -67,6 +66,5 @@ public class ChargerModel {
         this.max_time_charging = max_time_charging;
     }
 
-    public void setDeleted(boolean b) {
-    }
+    //endregion
 }
