@@ -3,7 +3,9 @@ package backend.plugfinder.controllers;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.models.CarModel;
 import backend.plugfinder.models.OurException;
+import backend.plugfinder.models.UserModel;
 import backend.plugfinder.services.CarService;
+import backend.plugfinder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import java.util.regex.Pattern;
 public class CarController {
     @Autowired
     CarService car_service;
+    @Autowired
+    UserService user_service;
 
     //region Get Methods
     @GetMapping
@@ -62,6 +66,8 @@ public class CarController {
             }
         }
 
+        UserModel user_model = user_service.findUserById(car_Model.getId().getId());
+        car_Model.setUser_model(user_model);
         return car_service.save_car(car_Model);
     }
 
