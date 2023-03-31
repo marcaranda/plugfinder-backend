@@ -9,6 +9,7 @@ import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 
 
+import backend.plugfinder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +24,7 @@ public class PlugfinderApplication {
 	@Autowired
 	private ExcelController excel_controller;
 	@Autowired
-	private UserRepo user_repo;
+	private UserService user_service;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);
@@ -31,8 +32,8 @@ public class PlugfinderApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runAfterStartup() throws IOException {
-		Optional<UserModel> user_model = user_repo.findById(1L);
-		if (!user_model.isPresent()) {
+		UserModel user_model = user_service.findUserById(1L);
+		if (user_model == null) {
 			excel_controller.read_models();
 		}
 	}
