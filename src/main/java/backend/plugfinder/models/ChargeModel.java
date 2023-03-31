@@ -21,7 +21,7 @@ public class ChargeModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JoinColumn(name = "licence")
+    @JoinColumn(name = "license")
     private CarModel car;
 
     @Column(nullable = false)
