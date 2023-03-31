@@ -1,7 +1,6 @@
 package backend.plugfinder.controllers;
 
 import backend.plugfinder.models.ChargeModel;
-import backend.plugfinder.models.ChargerModel;
 import backend.plugfinder.services.ChargeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class ChargeController {
         return chargeService.getCharges();
     }
 
-    @PostMapping
+    @PostMapping(path = "/new")
     public ChargeModel saveCharge(@RequestBody ChargeModel chargeModel){
         return chargeService.saveCharge(chargeModel);
     }

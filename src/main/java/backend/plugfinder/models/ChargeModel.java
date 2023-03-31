@@ -12,7 +12,7 @@ public class ChargeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id_charge;
+    private long id_charge;
 
     @ManyToOne
     @JoinColumn(name = "id_charger")
@@ -61,7 +61,7 @@ public class ChargeModel {
         this.car = car;
     }
 
-    public int getId_charge() {
+    public long getId_charge() {
         return id_charge;
     }
 

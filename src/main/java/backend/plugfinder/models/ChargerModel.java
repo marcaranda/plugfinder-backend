@@ -9,7 +9,7 @@ public class ChargerModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id_charger;
+    private long id_charger;
 
     private String alias_charger;
 
@@ -31,7 +31,7 @@ public class ChargerModel {
         this.max_time_charging = max_time_charging;
     }
 
-    public int getId_charger() {
+    public long getId_charger() {
         return id_charger;
     }
 

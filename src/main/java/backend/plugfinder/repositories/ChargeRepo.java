@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ChargeRepo extends CrudRepository<ChargeModel, String>  {
+public interface ChargeRepo extends CrudRepository<ChargeModel, Long>  {
 
 }
