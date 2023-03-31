@@ -20,7 +20,7 @@ public class ChargerService {
 
     }
 
-    public boolean deleteCharger(int id) {
+    public boolean deleteCharger(long id) {
         try{
             chargerRepo.deleteById(id);
             return true;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ChargerRepo extends CrudRepository<ChargerModel, Integer> {
+public interface ChargerRepo extends CrudRepository<ChargerModel, Long> {
 
 
 }
