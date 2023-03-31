@@ -59,12 +59,6 @@ public class CarController {
             if (!validate_license(car_Model.getId().getLicense())){
             throw new SQLException("La matrícula no es válida");
         }
-        /* Comprobación validez usuario */
-        if (!car_Model.getModel_brand_model().isKnown()){
-            if (car_Model.getModel_brand_model().getId().getUser_id() != car_Model.getUser_model().getUser_id()){
-                throw new SQLException("El coche no es válido");
-            }
-        }
 
         UserModel user_model = user_service.findUserById(car_Model.getId().getId());
         car_Model.setUser_model(user_model);
