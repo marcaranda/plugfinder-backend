@@ -1,0 +1,33 @@
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet  author="liquibase-docs"  id="dropForeignKeyConstraint-idchargeroncharge">
+        <dropForeignKeyConstraint  baseTableName="charge"
+                                   baseTableSchemaName="DBplugfinder"
+                                   constraintName="foreignkeyidchargeroncharge"/>
+    </changeSet>
+
+
+    <changeSet  author="Juan CLusellas"  id="idChargerisBIGINT">
+        <modifyDataType  columnName="id_charge"
+                         newDataType="BIGINT"
+                         schemaName="DBplugfinder"
+                         tableName="charge"/>
+    </changeSet>
+    <changeSet  author="lJuan CLusellas"  id="idChargerisBIGINTinCharge">
+        <modifyDataType  columnName="id_charger"
+                         newDataType="BIGINT"
+                         schemaName="DBplugfinder"
+                         tableName="charge"/>
+    </changeSet>
+    <changeSet  author="Juan CLusellas"  id="idChargeisBIGINT">
+        <modifyDataType  columnName="id_charger"
+                         newDataType="BIGINT"
+                         schemaName="DBplugfinder"
+                         tableName="charger"/>
+    </changeSet>
+
+    <changeSet author="clusellas" id="add foreig key 3">
+        <addForeignKeyConstraint baseColumnNames="id_charger" baseTableName="charge" constraintName="foreignkeyidchargeroncharge2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id_charger" referencedTableName="charger" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>
