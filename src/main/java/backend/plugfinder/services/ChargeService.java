@@ -20,4 +20,8 @@ public class ChargeService {
     public ChargeModel saveCharge(ChargeModel chargeModel) {
         return chargeRepo.save(chargeModel);
     }
+
+    public ArrayList<ChargeModel> get_charges_by_user_id(long user_id) {
+        return chargeRepo.get_charges_by_user_id(user_id);
+    }
 }
