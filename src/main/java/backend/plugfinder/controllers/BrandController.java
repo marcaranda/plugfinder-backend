@@ -1,12 +1,14 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.models.BrandModel;
+import backend.plugfinder.controllers.dto.BrandDto;
 import backend.plugfinder.services.BrandService;
+import backend.plugfinder.services.models.BrandModel;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/brands")
@@ -16,8 +18,13 @@ public class BrandController {
 
     //region Get Methods
     @GetMapping
-    public ArrayList<BrandModel> get_brands(){
-        return brand_service.get_brands();
+    public ArrayList<BrandDto> get_brands(){
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<BrandDto> brands = (ArrayList<BrandDto>) brand_service.get_brands().stream()
+                .map(elementB -> model_mapper.map(elementB, BrandDto.class))
+                .collect(Collectors.toList());
+
+        return brands;
     }
 
     //http://localhost:8080/brands/known?known=true
@@ -29,12 +36,17 @@ public class BrandController {
 
     //region Post Methods
     @PostMapping("/register")
-    public BrandModel save_brand(@RequestBody BrandModel brandModel){
-        Optional<BrandModel> brand_model = brand_service.get_by_id(brandModel.getName());
-        if (brand_model.isPresent()) {
-            return brand_model.get();
+    public BrandDto save_brand(@RequestBody BrandDto brandModel){
+        ModelMapper model_mapper = new ModelMapper();
+        BrandDto brand;
+
+        if (brand_service.get_by_id(brandModel.getName()) != null) {
+                brand = model_mapper.map(brand_service.get_by_id(brandModel.getName()), BrandDto.class);
         }
-        return brand_service.save_brand(brandModel);
+        else {
+            brand = model_mapper.map(brand_service.save_brand(model_mapper.map(brandModel, BrandModel.class)), BrandDto.class);
+        }
+        return brand;
     }
     //endregion
 }

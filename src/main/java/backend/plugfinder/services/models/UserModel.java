@@ -1,46 +1,27 @@
-package backend.plugfinder.models;
+package backend.plugfinder.services.models;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Users")
 public class UserModel {
 
     //region User Attributes
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private long user_id;
-    @Column (unique = true, nullable = false)
     private String username;
-    @Column (nullable = false)
     private String real_name;
-    @Column (unique = true)
     private String phone;
-    @Column (unique = true, nullable = false)
     private String email;
-    @Column (nullable = false)
     private String password;
-    @Column (nullable = false)
     private String birth_date;
-    @Column (nullable = false, columnDefinition = "integer default 0")
     long rank_position;
-    @Column (nullable = false, columnDefinition = "integer default 0")
     long points;
-    @Column (nullable = false, columnDefinition = "float default 0")
     double co2;
-    @Column (nullable = false, columnDefinition = "boolean default false" )
     private boolean deleted;
-    @Column (nullable = false, columnDefinition = "boolean default false")
     private boolean admin;
 
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
-    @Column(nullable = false, columnDefinition = "boolean default false")
     boolean premium;
-    @Column (columnDefinition = "VARCHAR(255) CHECK (premium = true)")
     String premium_registration_date;
-    @Column (columnDefinition = "VARCHAR(255) CHECK (premium = true)")
     String premium_drop_date;
     //endregion
 

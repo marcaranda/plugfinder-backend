@@ -1,4 +1,4 @@
-package backend.plugfinder.models;
+package backend.plugfinder.services.models;
 
 
 import jakarta.persistence.*;
@@ -6,34 +6,20 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
-@Entity
-@Table(name = "charge")
 public class ChargeModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private long id_charge;
 
-    @ManyToOne
-    @JoinColumn(name = "id_charger")
     private ChargerModel charger;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JoinColumn(name = "license")
     private CarModel car;
 
-    @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
     private Time charge_time;
 
-    @Column(nullable = false)
     private int charged_kw;
 
-    @Column(nullable = false)
     private int co2;
 
 

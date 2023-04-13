@@ -1,4 +1,4 @@
-package backend.plugfinder.models;
+package backend.plugfinder.helpers;
 
 public class OurException extends Exception {
     public OurException(String message) {

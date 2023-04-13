@@ -1,27 +1,14 @@
-package backend.plugfinder.models;
+package backend.plugfinder.services.models;
 
 import backend.plugfinder.helpers.CarId;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Car")
 public class CarModel {
     //region Atributes
-    @EmbeddedId
     private CarId id;
-    @Column(nullable = false)
     private String alias;
-    @Column(nullable = false)
     private boolean deleted;
-    @ManyToOne
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id")
     private UserModel user_model;
-    @ManyToOne
-    @JoinColumn(name = "model_name", referencedColumnName = "name")
-    @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
-    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
-    @JoinColumn(name = "autonomy", referencedColumnName = "autonomy")
     private ModelBrandModel model_brand_model;
     //endregion
 

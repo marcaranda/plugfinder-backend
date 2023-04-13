@@ -1,11 +1,11 @@
 package backend.plugfinder.helpers;
 
-import backend.plugfinder.models.BrandModel;
-import backend.plugfinder.models.ModelBrandModel;
-import backend.plugfinder.models.UserModel;
 import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
+import backend.plugfinder.repositories.entity.BrandEntity;
+import backend.plugfinder.repositories.entity.ModelBrandEntity;
+import backend.plugfinder.repositories.entity.UserEntity;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +27,8 @@ public class ExcelController {
     @Autowired
     private UserRepo user_repo;
 
-    public List<ModelBrandModel> read_models() throws IOException {
-        List<ModelBrandModel> models = new ArrayList<>();
+    public List<ModelBrandEntity> read_models() throws IOException {
+        List<ModelBrandEntity> models = new ArrayList<>();
 
         // Load the Excel file
         FileInputStream input_stream = new FileInputStream(new File("modelos.xlsx"));
@@ -41,8 +41,8 @@ public class ExcelController {
 
         boolean end = false;
 
-        Optional<UserModel> user_model = user_repo.findById(1L);
-        UserModel user = new UserModel();
+        Optional<UserEntity> user_model = user_repo.findById(1L);
+        UserEntity user = new UserEntity();
         if (user_model.isPresent()) {
             user = user_model.get();
         }
@@ -67,8 +67,8 @@ public class ExcelController {
                 break;
             }
 
-            Optional<BrandModel> brand_model = brand_repo.findById(row.getCell(0).getStringCellValue());
-            BrandModel brand = new BrandModel();
+            Optional<BrandEntity> brand_model = brand_repo.findById(row.getCell(0).getStringCellValue());
+            BrandEntity brand = new BrandEntity();
             if (brand_model.isPresent()) {
                 brand = brand_model.get();
             }
@@ -87,7 +87,7 @@ public class ExcelController {
                 id.setUser_id(1L);
                 id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
 
-                ModelBrandModel model = new ModelBrandModel();
+                ModelBrandEntity model = new ModelBrandEntity();
                 model.setId(id);
                 model.setKnown(true);
                 model.setBrand_model(brand);

@@ -1,35 +1,45 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.models.CarModel;
-import backend.plugfinder.models.ChargerModel;
+import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.services.ChargerService;
+import backend.plugfinder.services.models.ChargerModel;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/chargers")
 public class ChargerController {
     @Autowired
-    ChargerService chargerService;
+    ChargerService charger_service;
 
     @GetMapping
-    public ArrayList<ChargerModel> getChargers(){
-        return chargerService.getChargers();
+    public ArrayList<ChargerDto> get_chargers(){
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_chargers().stream()
+                .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
+                .collect(Collectors.toList());
+
+        return chargers;
     }
 
 
     //region Post Methods
     @PostMapping("/new")
-    public ChargerModel saveCharger(@RequestBody ChargerModel chargerModel){
-        return chargerService.saveCharger(chargerModel);
+    public ChargerDto save_charger(@RequestBody ChargerDto chargerModel){
+        ModelMapper model_mapper = new ModelMapper();
+
+        return model_mapper.map(charger_service.save_charger(model_mapper.map(chargerModel, ChargerModel.class)), ChargerDto.class);
     }
     //endregion
 
     //region Delete Methods
     @DeleteMapping(path = "/{id}")
-    public String deleteCharger(@PathVariable("id") int id){
-        if (chargerService.deleteCharger(id)){
+    public String delete_charger(@PathVariable("id") int id){
+        if (charger_service.delete_charger(id)){
             return "Se elimino correctamente el cargador con id " + id;
         }
         else{

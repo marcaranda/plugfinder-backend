@@ -1,6 +1,8 @@
 package backend.plugfinder.services;
-import backend.plugfinder.models.ChargerModel;
+import backend.plugfinder.repositories.entity.ChargerEntity;
+import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,20 +11,24 @@ import java.util.ArrayList;
 @Service
 public class ChargerService {
     @Autowired
-    ChargerRepo chargerRepo;
+    ChargerRepo charger_repo;
 
-    public ArrayList<ChargerModel> getChargers(){
-        return (ArrayList<ChargerModel>) chargerRepo.findAll();
+    public ArrayList<ChargerModel> get_chargers(){
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargerModel> chargers = new ArrayList<>();
+        charger_repo.findAll().forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
+        return chargers;
     }
 
-    public ChargerModel saveCharger(ChargerModel chargerModel) {
-        return chargerRepo.save(chargerModel);
+    public ChargerModel save_charger(ChargerModel chargerModel) {
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
 
     }
 
-    public boolean deleteCharger(long id) {
+    public boolean delete_charger(long id) {
         try{
-            chargerRepo.deleteById(id);
+            charger_repo.deleteById(id);
             return true;
         }
         catch (Exception error){

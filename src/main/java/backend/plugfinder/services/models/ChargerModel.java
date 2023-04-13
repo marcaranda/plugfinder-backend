@@ -1,27 +1,18 @@
-package backend.plugfinder.models;
+package backend.plugfinder.services.models;
 
-import jakarta.persistence.*;
+
 import java.sql.Time;
 
-@Entity
-@Table(name = "charger")
 public class ChargerModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private long id_charger;
 
-    @Column(nullable = false)
     private String alias_charger;
 
-    @Column(nullable = false)
     private String state;
 
-    @Column(nullable = false)
     private int price_x_kw;
 
-    @Column(nullable = false)
     private Time max_time_charging;
 
     //region Constructores, getters y setters

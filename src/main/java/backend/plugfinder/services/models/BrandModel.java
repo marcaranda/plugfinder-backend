@@ -1,18 +1,8 @@
-package backend.plugfinder.models;
+package backend.plugfinder.services.models;
 
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
-@Table(name = "Brand")
 public class BrandModel {
     //region Atributes
-    @Id
-    @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @Column(nullable = false)
     private boolean known;
     //endregion
 
