@@ -3,21 +3,11 @@ package backend.plugfinder.services.models;
 import backend.plugfinder.helpers.ModelBrandId;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "model_brand")
 public class ModelBrandModel {
     //region Atributes
-    @EmbeddedId
     private ModelBrandId id;
-    @Column(nullable = false)
     private boolean known;
-    @ManyToOne
-    @MapsId("brand_name")
-    @JoinColumn(name = "brand_name")
     private BrandModel brand_model;
-    @ManyToOne
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id")
     private UserModel user_model;
 
     /*@ManyToOne

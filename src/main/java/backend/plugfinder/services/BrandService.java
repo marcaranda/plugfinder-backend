@@ -1,6 +1,7 @@
 package backend.plugfinder.services;
 
 import backend.plugfinder.controllers.dto.BrandDto;
+import backend.plugfinder.repositories.entity.BrandEntity;
 import backend.plugfinder.services.models.BrandModel;
 import backend.plugfinder.repositories.BrandRepo;
 import org.modelmapper.ModelMapper;
@@ -26,8 +27,7 @@ public class BrandService {
 
     public BrandModel save_brand(BrandModel brandModel){
         ModelMapper modelMapper = new ModelMapper();
-        BrandModel brand = modelMapper.map(brand_repo.save(brandModel), BrandModel.class);
-        return brand;
+        return modelMapper.map(brand_repo.save(modelMapper.map(brandModel, BrandEntity.class)), BrandModel.class);
     }
 
     public ArrayList<String> get_brand_models_by_known(){
@@ -36,8 +36,7 @@ public class BrandService {
 
     public BrandModel get_by_id(String name) {
         ModelMapper modelMapper = new ModelMapper();
-        BrandModel brand = modelMapper.map(brand_repo.findById(name).get(), BrandModel.class);
-        return brand;
+        return modelMapper.map(brand_repo.findById(name).get(), BrandModel.class);
     }
     //endregion
 }

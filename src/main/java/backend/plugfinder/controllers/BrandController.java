@@ -24,6 +24,7 @@ public class BrandController {
         ArrayList<BrandDto> brands = (ArrayList<BrandDto>) brand_service.get_brands().stream()
                 .map(elementB -> modelMapper.map(elementB, BrandDto.class))
                 .collect(Collectors.toList());
+
         return brands;
     }
 
