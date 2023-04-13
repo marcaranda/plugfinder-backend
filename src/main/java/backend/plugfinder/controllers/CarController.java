@@ -2,7 +2,7 @@ package backend.plugfinder.controllers;
 
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.models.CarModel;
-import backend.plugfinder.models.OurException;
+import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.models.UserModel;
 import backend.plugfinder.services.CarService;
 import backend.plugfinder.services.UserService;
@@ -66,7 +66,7 @@ public class CarController {
     }
 
     @PostMapping("/edit")
-    public CarModel edit_car(@RequestBody CarModel car_Model) throws SQLException {
+    public CarModel edit_car(@RequestBody CarModel car_Model) {
         return car_service.save_car(car_Model);
     }
     //endregion

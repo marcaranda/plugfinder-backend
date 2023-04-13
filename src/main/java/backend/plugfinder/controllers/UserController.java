@@ -1,21 +1,18 @@
 package backend.plugfinder.controllers;
 
 import backend.plugfinder.helpers.TokenValidator;
-import backend.plugfinder.models.OurException;
+import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.models.UserModel;
 import backend.plugfinder.services.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.format.DateTimeFormatter;

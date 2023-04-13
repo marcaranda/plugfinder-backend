@@ -1,4 +1,4 @@
-package backend.plugfinder.models;
+package backend.plugfinder.services.models;
 
 import backend.plugfinder.helpers.CarId;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package backend.plugfinder.repositories;
 
-import backend.plugfinder.models.BrandModel;
+import backend.plugfinder.services.models.BrandModel;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +10,6 @@ import java.util.ArrayList;
 
 @Repository
 public interface BrandRepo extends CrudRepository<BrandModel, String> {
-    @Query("SELECT b.name FROM BrandModel b WHERE b.known = true")
+    @Query("SELECT b.name FROM BrandEntity b WHERE b.known = true")
     public abstract ArrayList<String> findBrandModelsByKnown();
 }

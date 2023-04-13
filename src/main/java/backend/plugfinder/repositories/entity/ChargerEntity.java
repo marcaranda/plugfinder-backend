@@ -1,11 +1,12 @@
-package backend.plugfinder.models;
+package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
+
 import java.sql.Time;
 
 @Entity
 @Table(name = "Charger")
-public class ChargerModel {
+public class ChargerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +22,9 @@ public class ChargerModel {
 
     // Constructores, getters y setters
 
-    public ChargerModel() {}
+    public ChargerEntity() {}
 
-    public ChargerModel(int id_charger, String alias_charger, String state, int price_x_kw, Time max_time_charging) {
+    public ChargerEntity(int id_charger, String alias_charger, String state, int price_x_kw, Time max_time_charging) {
         this.id_charger = id_charger;
         this.alias_charger = alias_charger;
         this.state = state;

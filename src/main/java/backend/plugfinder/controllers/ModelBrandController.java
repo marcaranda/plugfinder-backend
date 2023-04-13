@@ -21,8 +21,8 @@ public class ModelBrandController {
     }
 
     @GetMapping(path = "/{id_1}/{id_2}/{id_3}")
-    public Optional<ModelBrandModel> get_model_by_id(@PathVariable("id_1") String brand, @PathVariable("id_2") String model, @PathVariable("id_3") String autonomy){
-        return model_brand_service.get_model_by_id(brand, model, autonomy);
+    public ModelBrandModel get_model_by_id(@PathVariable("id_1") String brand, @PathVariable("id_2") String model, @PathVariable("id_3") String autonomy){
+        return model_brand_service.get_model_by_id(brand, model, autonomy).get();
     }
     //endregion
 

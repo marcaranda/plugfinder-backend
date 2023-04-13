@@ -1,10 +1,10 @@
-package backend.plugfinder.models;
+package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Users")
-public class UserModel {
+public class UserEntity {
 
     //region User Attributes
     @Id

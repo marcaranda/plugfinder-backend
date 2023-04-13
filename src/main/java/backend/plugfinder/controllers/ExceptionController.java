@@ -1,7 +1,6 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.models.OurException;
-import org.springframework.dao.DataAccessException;
+import backend.plugfinder.helpers.OurException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

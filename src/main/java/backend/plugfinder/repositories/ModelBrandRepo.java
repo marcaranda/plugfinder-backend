@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface ModelBrandRepo extends CrudRepository<ModelBrandModel, ModelBrandId> {
     public abstract ArrayList<ModelBrandModel> findModelBrandModelsByKnown(boolean know);
 
-    @Query("SELECT mb FROM ModelBrandModel mb WHERE mb.id.brand_name = :brand AND mb.known = true")
+    @Query("SELECT mb FROM ModelBrandDto mb WHERE mb.id.brand_name = :brand AND mb.known = true")
     public abstract ArrayList<ModelBrandModel> findModelBrandModelsByBrandAndKnown(@Param("brand") String brand);
 
-    @Query("SELECT mb FROM ModelBrandModel mb WHERE mb.id.brand_name = :brand AND mb.id.name = :model AND mb.id.autonomy = :autonomy")
+    @Query("SELECT mb FROM ModelBrandDto mb WHERE mb.id.brand_name = :brand AND mb.id.name = :model AND mb.id.autonomy = :autonomy")
     public abstract Optional<ModelBrandModel> find_model_by_id(@Param("brand") String brand, @Param("model") String model, @Param("autonomy") String autonomy);
 }
