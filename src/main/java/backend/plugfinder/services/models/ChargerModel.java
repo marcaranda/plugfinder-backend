@@ -1,16 +1,11 @@
 package backend.plugfinder.services.models;
 
-import jakarta.persistence.*;
 
 import java.sql.Time;
 
-@Entity
-@Table(name = "Charger")
 public class ChargerModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id_charger;
+    private long id_charger;
 
     private String alias_charger;
 
@@ -20,28 +15,14 @@ public class ChargerModel {
 
     private Time max_time_charging;
 
-    // Constructores, getters y setters
+    //region Constructores, getters y setters
 
-    public ChargerModel() {}
-
-    public ChargerModel(int id_charger, String alias_charger, String state, int price_x_kw, Time max_time_charging) {
-        this.id_charger = id_charger;
-        this.alias_charger = alias_charger;
-        this.state = state;
-        this.price_x_kw = price_x_kw;
-        this.max_time_charging = max_time_charging;
-    }
-
-    public int getId_charger() {
+    public long getId_charger() {
         return id_charger;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setId_charger(long id_charger) {
+        this.id_charger = id_charger;
     }
 
     public String getAlias_charger() {
@@ -50,6 +31,14 @@ public class ChargerModel {
 
     public void setAlias_charger(String alias_charger) {
         this.alias_charger = alias_charger;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public int getPrice_x_kw() {
@@ -68,6 +57,5 @@ public class ChargerModel {
         this.max_time_charging = max_time_charging;
     }
 
-    public void setDeleted(boolean b) {
-    }
+    //endregion
 }

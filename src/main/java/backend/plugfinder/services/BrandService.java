@@ -1,6 +1,5 @@
 package backend.plugfinder.services;
 
-import backend.plugfinder.controllers.dto.BrandDto;
 import backend.plugfinder.repositories.entity.BrandEntity;
 import backend.plugfinder.services.models.BrandModel;
 import backend.plugfinder.repositories.BrandRepo;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BrandService {

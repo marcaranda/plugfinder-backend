@@ -6,43 +6,29 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
-@Entity
-@Table(name = "charge")
 public class ChargeModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id_charge;
+    private long id_charge;
 
-    @ManyToOne
-    @JoinColumn(name = "id_charger")
     private ChargerModel charger;
 
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JoinColumn(name = "licence")
     private CarModel car;
 
     private Date date;
 
-    private Time charged_time;
+    private Time charge_time;
 
     private int charged_kw;
 
     private int co2;
 
-    public ChargeModel() {
 
+    public long getId_charge() {
+        return id_charge;
     }
 
-    public ChargeModel(ChargerModel charger, CarModel car, Date date, Time charged_time, int charged_kw, int co2) {
-        this.charger = charger;
-        this.car = car;
-        this.date = date;
-        this.charged_time = charged_time;
-        this.charged_kw = charged_kw;
-        this.co2 = co2;
+    public void setId_charge(long id_charge) {
+        this.id_charge = id_charge;
     }
 
     public ChargerModel getCharger() {
@@ -61,10 +47,6 @@ public class ChargeModel {
         this.car = car;
     }
 
-    public int getId_charge() {
-        return id_charge;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -73,12 +55,12 @@ public class ChargeModel {
         this.date = date;
     }
 
-    public Time getCharged_time() {
-        return charged_time;
+    public Time getCharge_time() {
+        return charge_time;
     }
 
-    public void setCharged_time(Time charged_time) {
-        this.charged_time = charged_time;
+    public void setCharge_time(Time charge_time) {
+        this.charge_time = charge_time;
     }
 
     public int getCharged_kw() {

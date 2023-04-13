@@ -5,19 +5,13 @@ import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
-import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,7 +29,7 @@ public class UserController {
      * @return UserModel - Registered user.
      */
     @PostMapping("/register")
-    public ResponseEntity<UserDto> user_register(@RequestBody UserDto user) throws SQLException, OurException, backend.plugfinder.services.models.OurException {
+    public ResponseEntity<UserDto> user_register(@RequestBody UserDto user) throws SQLException{
         ModelMapper model_mapper = new ModelMapper();
 
         UserDto newUser = model_mapper.map(user_service.user_register(model_mapper.map(user, UserModel.class)), UserDto.class);

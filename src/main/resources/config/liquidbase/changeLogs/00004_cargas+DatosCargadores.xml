@@ -1,5 +1,6 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet author="Juan Clusellas" id="create table charger">
+        <validCheckSum> 8:33b0ac2ce2f33677bc9ce1c60e7aa4f9</validCheckSum>
         <createTable tableName="charger">
             <column name="id_charger" type="int">
                 <constraints primaryKey="true" nullable="false"/>
@@ -20,6 +21,7 @@
     </changeSet>
 
     <changeSet author="Clusellas" id="createTable-carga">
+        <validCheckSum> 8:b3c3bc9dd55205bd913dd9497eaf6f2d</validCheckSum>
         <createTable tableName="charge">
             <column name="id_charge" type="int">
                 <constraints primaryKey="true" nullable="false"/>

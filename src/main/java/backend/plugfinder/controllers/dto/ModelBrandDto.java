@@ -1,7 +1,7 @@
 package backend.plugfinder.controllers.dto;
 
 import backend.plugfinder.helpers.ModelBrandId;
-import jakarta.persistence.*;
+
 
 public class ModelBrandDto {
     //region Atributes
