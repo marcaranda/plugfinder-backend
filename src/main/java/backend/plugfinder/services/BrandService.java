@@ -19,15 +19,15 @@ public class BrandService {
 
     //region Public Methods
     public ArrayList<BrandModel> get_brands(){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
         ArrayList<BrandModel> brands = new ArrayList<>();
-        brand_repo.findAll().forEach(b -> brands.add(modelMapper.map(b, BrandModel.class)));
+        brand_repo.findAll().forEach(elementB -> brands.add(model_mapper.map(elementB, BrandModel.class)));
         return brands;
     }
 
     public BrandModel save_brand(BrandModel brandModel){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(brand_repo.save(modelMapper.map(brandModel, BrandEntity.class)), BrandModel.class);
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(brand_repo.save(model_mapper.map(brandModel, BrandEntity.class)), BrandModel.class);
     }
 
     public ArrayList<String> get_brand_models_by_known(){
@@ -35,8 +35,8 @@ public class BrandService {
     }
 
     public BrandModel get_by_id(String name) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(brand_repo.findById(name).get(), BrandModel.class);
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(brand_repo.findById(name).get(), BrandModel.class);
     }
     //endregion
 }

@@ -20,9 +20,9 @@ public class BrandController {
     //region Get Methods
     @GetMapping
     public ArrayList<BrandDto> get_brands(){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
         ArrayList<BrandDto> brands = (ArrayList<BrandDto>) brand_service.get_brands().stream()
-                .map(elementB -> modelMapper.map(elementB, BrandDto.class))
+                .map(elementB -> model_mapper.map(elementB, BrandDto.class))
                 .collect(Collectors.toList());
 
         return brands;
@@ -38,14 +38,14 @@ public class BrandController {
     //region Post Methods
     @PostMapping("/register")
     public BrandDto save_brand(@RequestBody BrandDto brandModel){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
         BrandDto brand;
 
         if (brand_service.get_by_id(brandModel.getName()) != null) {
-                brand = modelMapper.map(brand_service.get_by_id(brandModel.getName()), BrandDto.class);
+                brand = model_mapper.map(brand_service.get_by_id(brandModel.getName()), BrandDto.class);
         }
         else {
-            brand = modelMapper.map(brand_service.save_brand(modelMapper.map(brandModel, BrandModel.class)), BrandDto.class);
+            brand = model_mapper.map(brand_service.save_brand(model_mapper.map(brandModel, BrandModel.class)), BrandDto.class);
         }
         return brand;
     }

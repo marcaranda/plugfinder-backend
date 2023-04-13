@@ -1,6 +1,6 @@
 package backend.plugfinder.repositories;
 
-import backend.plugfinder.models.UserModel;
+import backend.plugfinder.repositories.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,15 +12,5 @@ import java.util.Optional;
  * related with the DB.
  */
 @Repository
-public interface UserRepo extends CrudRepository<UserModel, Long> {
-    /**
-     * This method finds a user by its email.
-     * @param email - Email of the user.
-     * @return UserModel - User found.
-     */
-    UserModel findOneByEmail(String email);
-
-    public default void delete(UserModel user) {
-        user.setDeleted(true);
-    }
+public interface UserRepo extends CrudRepository<UserEntity, Long> {
 }

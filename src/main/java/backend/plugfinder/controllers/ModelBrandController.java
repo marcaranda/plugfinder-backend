@@ -21,9 +21,9 @@ public class ModelBrandController {
     //region Get Methods
     @GetMapping
     public ArrayList<ModelBrandDto> get_models(@RequestParam(required = false, value = "brand") String brand, @RequestParam(required = false, value = "known") String known){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
         ArrayList<ModelBrandDto> models = (ArrayList<ModelBrandDto>) model_brand_service.get_models(brand, known).stream()
-                .map(elementB -> modelMapper.map(elementB, ModelBrandDto.class))
+                .map(elementB -> model_mapper.map(elementB, ModelBrandDto.class))
                 .collect(Collectors.toList());
 
         return models;
@@ -31,18 +31,18 @@ public class ModelBrandController {
 
     @GetMapping(path = "/{id_1}/{id_2}/{id_3}")
     public ModelBrandDto get_model_by_id(@PathVariable("id_1") String brand, @PathVariable("id_2") String model, @PathVariable("id_3") String autonomy){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
 
-        return modelMapper.map(model_brand_service.get_model_by_id(brand, model, autonomy), ModelBrandDto.class);
+        return model_mapper.map(model_brand_service.get_model_by_id(brand, model, autonomy), ModelBrandDto.class);
     }
     //endregion
 
     //region Post Methods
     @PostMapping("/register")
     public ModelBrandDto save_model(@RequestBody ModelBrandDto modelBrandDto){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
 
-        return modelMapper.map(model_brand_service.save_model(modelMapper.map(modelBrandDto, ModelBrandModel.class)), ModelBrandDto.class);
+        return model_mapper.map(model_brand_service.save_model(model_mapper.map(modelBrandDto, ModelBrandModel.class)), ModelBrandDto.class);
     }
     //endregion
 }

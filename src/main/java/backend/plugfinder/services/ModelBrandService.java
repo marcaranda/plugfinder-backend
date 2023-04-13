@@ -17,36 +17,36 @@ public class ModelBrandService {
 
     //region Public Methods
     public ArrayList<ModelBrandModel> get_models(String brand, String known){
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
         ArrayList<ModelBrandModel> models = new ArrayList<>();
 
         if (brand == null && known == null) {
-            model_brand_repo.findAll().forEach(mb -> models.add(modelMapper.map(mb, ModelBrandModel.class)));
+            model_brand_repo.findAll().forEach(elementB -> models.add(model_mapper.map(elementB, ModelBrandModel.class)));
             return models;
         }
         else if (known == null){
-            model_brand_repo.findModelBrandModelsByBrandAndKnown(brand).forEach(mb -> models.add(modelMapper.map(mb, ModelBrandModel.class)));
+            model_brand_repo.findModelBrandModelsByBrandAndKnown(brand).forEach(mb -> models.add(model_mapper.map(mb, ModelBrandModel.class)));
             return models;
         }
         else {
             if (known.equals("false")) {
-                model_brand_repo.findModelBrandModelsByKnown(false).forEach(mb -> models.add(modelMapper.map(mb, ModelBrandModel.class)));
+                model_brand_repo.findModelBrandModelsByKnown(false).forEach(mb -> models.add(model_mapper.map(mb, ModelBrandModel.class)));
             }
             else {
-                model_brand_repo.findModelBrandModelsByKnown(true).forEach(mb -> models.add(modelMapper.map(mb, ModelBrandModel.class)));
+                model_brand_repo.findModelBrandModelsByKnown(true).forEach(mb -> models.add(model_mapper.map(mb, ModelBrandModel.class)));
             }
             return models;
         }
     }
 
     public ModelBrandModel save_model(ModelBrandModel modelBrandModel){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(model_brand_repo.save(modelMapper.map(modelBrandModel, ModelBrandEntity.class)), ModelBrandModel.class);
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(model_brand_repo.save(model_mapper.map(modelBrandModel, ModelBrandEntity.class)), ModelBrandModel.class);
     }
 
     public ModelBrandModel get_model_by_id(String brand, String model, String autonomy){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(model_brand_repo.find_model_by_id(brand, model, autonomy).get(), ModelBrandModel.class);
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(model_brand_repo.find_model_by_id(brand, model, autonomy).get(), ModelBrandModel.class);
     }
     //endregion
 }
