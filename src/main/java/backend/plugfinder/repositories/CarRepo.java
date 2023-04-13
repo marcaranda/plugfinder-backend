@@ -1,6 +1,5 @@
 package backend.plugfinder.repositories;
 
-import backend.plugfinder.models.CarModel;
 import backend.plugfinder.repositories.entity.CarEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

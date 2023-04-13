@@ -1,7 +1,5 @@
 package backend.plugfinder.repositories.entity;
 
-
-import backend.plugfinder.services.models.CarModel;
 import jakarta.persistence.*;
 
 import java.sql.Date;

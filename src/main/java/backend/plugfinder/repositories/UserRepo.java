@@ -13,4 +13,5 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepo extends CrudRepository<UserEntity, Long> {
+    UserEntity findOneByEmail(String email);
 }

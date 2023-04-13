@@ -1,6 +1,6 @@
 package backend.plugfinder.security;
 
-import backend.plugfinder.models.UserModel;
+import backend.plugfinder.services.models.UserModel;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

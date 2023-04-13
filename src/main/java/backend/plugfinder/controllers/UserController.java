@@ -29,7 +29,7 @@ public class UserController {
      * @return UserModel - Registered user.
      */
     @PostMapping("/register")
-    public ResponseEntity<UserDto> user_register(@RequestBody UserDto user) throws SQLException{
+    public ResponseEntity<UserDto> user_register(@RequestBody UserDto user) throws SQLException, OurException {
         ModelMapper model_mapper = new ModelMapper();
 
         UserDto newUser = model_mapper.map(user_service.user_register(model_mapper.map(user, UserModel.class)), UserDto.class);
