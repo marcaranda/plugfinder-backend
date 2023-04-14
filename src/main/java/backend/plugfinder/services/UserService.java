@@ -1,6 +1,7 @@
 package backend.plugfinder.services;
 
 import backend.plugfinder.helpers.OurException;
+import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
@@ -27,7 +28,7 @@ public class UserService {
      * @param user - User to be registered.
      * @return UserModel - Registered user.
      */
-    public UserModel user_register(UserModel user) throws SQLException, OurException {
+    public UserModel user_register(UserModel user) throws OurException {
         ModelMapper modelMapper = new ModelMapper();
 
         /* Comprobación validez correo electrónico */
@@ -67,14 +68,19 @@ public class UserService {
      * @param user - User to be deleted.
      */
     public void delete_user(Long user_id) throws OurException {
-        ModelMapper model_mapper = new ModelMapper();
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
 
-        UserModel user = find_user_by_id(user_id);
-        if(user == null || user.isDeleted()) {
-            throw new OurException("El usuario no existe.");
+            UserModel user = find_user_by_id(user_id);
+            if(user == null || user.isDeleted()) {
+                throw new OurException("Error al intentar eliminar el usuario. El usuario no existe.");
+            }
+            user.setDeleted(true);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
         }
-        user.setDeleted(true);
-        user_repo.save(model_mapper.map(user, UserEntity.class));
+        else {
+            throw new OurException("El id especificado es diferente al recibido en el token");
+        }
     }
 
     /**
@@ -91,18 +97,23 @@ public class UserService {
      * This method sets the premium to a User
      * @param user_id: userId of the user that is getting the premium version
      */
-    public void get_premium(Long user_id) {
-        ModelMapper model_mapper = new ModelMapper();
+    public void get_premium(Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            UserModel user = find_user_by_id(user_id);
+            if(!user.isPremium()) {
+                ModelMapper model_mapper = new ModelMapper();
 
-        UserModel user = find_user_by_id(user_id);
-        if(user != null) {
-            user.setPremium(true);
-            user.setPremium_registration_date(LocalDate.now().toString());
-            user.setPremium_drop_date(null);
-            user_repo.save(model_mapper.map(user, UserEntity.class));
+                user.setPremium(true);
+                user.setPremium_registration_date(LocalDate.now().toString());
+                user.setPremium_drop_date(null);
+                user_repo.save(model_mapper.map(user, UserEntity.class));
+            }
+            else {
+                throw new OurException("El usuario ya es premium");
+            }
         }
         else {
-            throw new NullPointerException("El usuario no existe.");
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
         }
     }
 
@@ -110,17 +121,18 @@ public class UserService {
      * This method unsubscribe a user of the premium version
      * @param userId: userId of the user that is being unsubscribed of the premium version
      */
-    public void unsubscribe_premium(Long userId) {
-        ModelMapper model_mapper = new ModelMapper();
+    public void unsubscribe_premium(Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
 
-        UserModel user = find_user_by_id(userId);
-        if(user != null) {
+            UserModel user = find_user_by_id(user_id);
+
             user.setPremium(false);
             user.setPremium_drop_date(LocalDate.now().toString());
             user_repo.save(model_mapper.map(user, UserEntity.class));
         }
         else {
-            throw new NullPointerException("El usuario no existe.");
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
         }
     }
 

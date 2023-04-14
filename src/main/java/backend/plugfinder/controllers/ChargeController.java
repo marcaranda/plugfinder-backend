@@ -21,24 +21,19 @@ public class ChargeController {
 
     //region Get Methods
     @GetMapping
-    public ArrayList<ChargeDto> get_charge(@RequestParam("id") long user_id) throws OurException {
-        if (new TokenValidator().validate_id_with_token(user_id)) {
-            ModelMapper model_mapper = new ModelMapper();
-            ArrayList<ChargeDto> charges = (ArrayList<ChargeDto>) charge_service.get_charges_by_user_id(user_id).stream()
-                    .map(elementB -> model_mapper.map(elementB, ChargeDto.class))
-                    .collect(Collectors.toList());
+    public ArrayList<ChargeDto> get_charge(@RequestParam(required = false, value = "id") Long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargeDto> charges = (ArrayList<ChargeDto>) charge_service.get_charges(user_id).stream()
+                .map(elementB -> model_mapper.map(elementB, ChargeDto.class))
+                .collect(Collectors.toList());
 
-            return charges;
-        } else {
-            throw new OurException("El user_id enviado es diferente al especificado en el token");
-        }
+        return charges;
     }
+    //endregion
 
     @PostMapping(path = "/new")
     public ChargeDto save_charge(@RequestBody ChargeDto charge){
         ModelMapper model_mapper = new ModelMapper();
         return model_mapper.map(charge_service.save_charge(model_mapper.map(charge, ChargeModel.class)), ChargeDto.class);
     }
-
-
 }

@@ -15,20 +15,33 @@ public class BrandService {
     BrandRepo brand_repo;
 
     //region Public Methods
-    public ArrayList<BrandModel> get_brands(){
+    public ArrayList<BrandModel> get_brands(String known){
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<BrandModel> brands = new ArrayList<>();
-        brand_repo.findAll().forEach(elementB -> brands.add(model_mapper.map(elementB, BrandModel.class)));
+
+        if (known != null){
+            boolean know;
+            if (known.equals("false")) know = false;
+            else know = true;
+
+            brand_repo.findBrandModelsByKnown(know).forEach(elementB -> brands.add(model_mapper.map(elementB, BrandModel.class)));
+        }
+        else brand_repo.findAll().forEach(elementB -> brands.add(model_mapper.map(elementB, BrandModel.class)));
         return brands;
     }
 
-    public BrandModel save_brand(BrandModel brandModel){
+    public BrandModel save_brand(BrandModel brand_model){
         ModelMapper model_mapper = new ModelMapper();
-        return model_mapper.map(brand_repo.save(model_mapper.map(brandModel, BrandEntity.class)), BrandModel.class);
-    }
+        BrandModel brand;
+        if (brand_repo.findById(brand_model.getName()).isPresent()) brand = model_mapper.map(brand_repo.findById(brand_model.getName()).get(), BrandModel.class);
+        else brand = null;
 
-    public ArrayList<String> get_brand_models_by_known(){
-        return brand_repo.findBrandModelsByKnown();
+        if (brand != null) {
+            return brand;
+        }
+        else {
+           return model_mapper.map(brand_repo.save(model_mapper.map(brand_model, BrandEntity.class)), BrandModel.class);
+        }
     }
 
     public BrandModel get_by_id(String name) {
