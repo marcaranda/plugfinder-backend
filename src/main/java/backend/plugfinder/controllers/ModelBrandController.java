@@ -1,6 +1,5 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.controllers.dto.BrandDto;
 import backend.plugfinder.controllers.dto.ModelBrandDto;
 import backend.plugfinder.services.ModelBrandService;
 import backend.plugfinder.services.models.ModelBrandModel;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,8 +27,8 @@ public class ModelBrandController {
         return models;
     }
 
-    @GetMapping(path = "/{id_1}/{id_2}/{id_3}")
-    public ModelBrandDto get_model_by_id(@PathVariable("id_1") String brand, @PathVariable("id_2") String model, @PathVariable("id_3") String autonomy){
+    @GetMapping(path = "/brand/{brand}/model/{model}/autonomy/{autonomy}")
+    public ModelBrandDto get_model_by_id(@PathVariable("brand") String brand, @PathVariable("model") String model, @PathVariable("autonomy") String autonomy){
         ModelMapper model_mapper = new ModelMapper();
 
         return model_mapper.map(model_brand_service.get_model_by_id(brand, model, autonomy), ModelBrandDto.class);
@@ -38,7 +36,7 @@ public class ModelBrandController {
     //endregion
 
     //region Post Methods
-    @PostMapping("/register")
+    @PostMapping
     public ModelBrandDto save_model(@RequestBody ModelBrandDto modelBrandDto){
         ModelMapper model_mapper = new ModelMapper();
 

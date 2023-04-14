@@ -29,7 +29,7 @@ public class UserController {
      * @return UserModel - Registered user.
      */
     @PostMapping("/register")
-    public ResponseEntity<UserDto> user_register(@RequestBody UserDto user) throws SQLException, OurException {
+    public ResponseEntity<UserDto> user_register(@RequestBody UserDto user) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 
         UserDto newUser = model_mapper.map(user_service.user_register(model_mapper.map(user, UserModel.class)), UserDto.class);
@@ -37,7 +37,7 @@ public class UserController {
             return ResponseEntity.ok(newUser);
         }
         else {
-            throw new SQLException("Error al intentar crear el usuario: ");
+            throw new OurException("Error al intentar crear el usuario: ");
         }
     }
     //endregion
@@ -57,17 +57,7 @@ public class UserController {
      */
     @PostMapping ("/delete/{user_id}")
     public void delete_user(@PathVariable Long user_id) throws OurException {
-        if(new TokenValidator().validate_id_with_token(user_id)) {
-            try {
-                user_service.delete_user(user_id);
-            }catch (Exception e){
-                throw new OurException("Error al intentar eliminar el usuario. " + e.getMessage());
-            }
-        }
-        else {
-            throw new OurException("El id especificado es diferente al recibido en el token");
-        }
-
+            user_service.delete_user(user_id);
     }
 
     /**
@@ -76,17 +66,7 @@ public class UserController {
      */
     @PostMapping("/{user_id}/premium")
     public void get_premium(@PathVariable("user_id") Long user_id) throws OurException {
-        if(new TokenValidator().validate_id_with_token(user_id)) {
-            if(!user_service.find_user_by_id(user_id).isPremium()) {
-                user_service.get_premium(user_id);
-            }
-            else {
-                throw new OurException("El usuario ya es premium");
-            }
-        }
-        else {
-            throw new OurException("El user_id enviado es diferente al especificado en el token");
-        }
+        user_service.get_premium(user_id);
     }
 
     /**
@@ -95,17 +75,7 @@ public class UserController {
      */
     @PostMapping("/{user_id}/unsubscribePremium")
     public void stop_premium(@PathVariable("user_id") Long user_id) throws OurException {
-        if(new TokenValidator().validate_id_with_token(user_id)) {
-            if(user_service.find_user_by_id(user_id).isPremium()) {
-                user_service.unsubscribe_premium(user_id);
-            }
-            else {
-                throw new OurException("El usuario no es premium");
-            }
-        }
-        else {
-            throw new OurException("El user_id enviado es diferente al especificado en el token");
-        }
+        user_service.unsubscribe_premium(user_id);
     }
 
     /**

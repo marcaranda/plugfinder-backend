@@ -18,35 +18,21 @@ public class BrandController {
 
     //region Get Methods
     @GetMapping
-    public ArrayList<BrandDto> get_brands(){
+    public ArrayList<BrandDto> get_brands(@RequestParam(required = false, value = "known") String known){
         ModelMapper model_mapper = new ModelMapper();
-        ArrayList<BrandDto> brands = (ArrayList<BrandDto>) brand_service.get_brands().stream()
+        ArrayList<BrandDto> brands = (ArrayList<BrandDto>) brand_service.get_brands(known).stream()
                 .map(elementB -> model_mapper.map(elementB, BrandDto.class))
                 .collect(Collectors.toList());
 
         return brands;
     }
-
-    //http://localhost:8080/brands/known?known=true
-    @GetMapping(path = "/known")
-    public ArrayList<String> get_brand_models_by_known(){
-        return brand_service.get_brand_models_by_known();
-    }
     //endregion
 
     //region Post Methods
-    @PostMapping("/register")
+    @PostMapping
     public BrandDto save_brand(@RequestBody BrandDto brandModel){
         ModelMapper model_mapper = new ModelMapper();
-        BrandDto brand;
-
-        if (brand_service.get_by_id(brandModel.getName()) != null) {
-                brand = model_mapper.map(brand_service.get_by_id(brandModel.getName()), BrandDto.class);
-        }
-        else {
-            brand = model_mapper.map(brand_service.save_brand(model_mapper.map(brandModel, BrandModel.class)), BrandDto.class);
-        }
-        return brand;
+        return model_mapper.map(brand_service.save_brand(model_mapper.map(brandModel, BrandModel.class)), BrandDto.class);
     }
     //endregion
 }
