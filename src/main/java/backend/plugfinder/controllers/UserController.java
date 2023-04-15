@@ -55,7 +55,7 @@ public class UserController {
      *This method deletes a user from the DB.
      * @param user_id - Id of the user to be deleted.
      */
-    @PostMapping ("/delete/{user_id}")
+    @PutMapping ("/delete/{user_id}")
     public void delete_user(@PathVariable Long user_id) throws OurException {
             user_service.delete_user(user_id);
     }
@@ -64,7 +64,7 @@ public class UserController {
      * This method sets the premium to a User
      * @param user_id: userId of the user that is getting the premium version
      */
-    @PostMapping("/{user_id}/premium")
+    @PutMapping("/{user_id}/premium")
     public void get_premium(@PathVariable("user_id") Long user_id) throws OurException {
         user_service.get_premium(user_id);
     }
@@ -73,7 +73,7 @@ public class UserController {
      * This method unsubscribes a user of the premium version t
      * @param user_id: userId of the user that is being unsubscribed of the premium version
      */
-    @PostMapping("/{user_id}/unsubscribePremium")
+    @PutMapping("/{user_id}/unsubscribePremium")
     public void stop_premium(@PathVariable("user_id") Long user_id) throws OurException {
         user_service.unsubscribe_premium(user_id);
     }

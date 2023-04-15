@@ -62,9 +62,6 @@
         <addForeignKeyConstraint baseColumnNames="owner_user" baseTableName="charger" constraintName="FK_charger_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
     </changeSet>
     <changeSet author="marc" id="add foreign key to charger 2">
-        <addForeignKeyConstraint baseColumnNames="latitude" baseTableName="charger" constraintName="FK_charger_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="latitude" referencedTableName="location" validate="true"/>
-    </changeSet>
-    <changeSet author="marc" id="add foreign key to charger 3">
-        <addForeignKeyConstraint baseColumnNames="longitude" baseTableName="charger" constraintName="FK_charger_3" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="longitude" referencedTableName="location" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="latitude, longitude" baseTableName="charger" constraintName="FK_charger_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="latitude, longitude" referencedTableName="location" validate="true"/>
     </changeSet>
 </databaseChangeLog>
