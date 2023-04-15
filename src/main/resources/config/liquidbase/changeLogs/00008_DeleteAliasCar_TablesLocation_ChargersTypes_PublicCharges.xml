@@ -1,0 +1,70 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="marc" id="deleteColumn-alias">
+        <dropColumn tableName="car" >
+            <column name="alias"/>
+        </dropColumn>
+    </changeSet>
+    <changeSet author="marc" id="create table location">
+        <createTable tableName="location">
+            <column defaultValue="0.0" name="latitude" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValue="0.0" name="longitude" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="marc" id="create table charger_type">
+        <createTable tableName="charger_type">
+            <column autoIncrement="true" name="type_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="electric_current" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="marc" id="addColumns-chargers?">
+        <addColumn tableName="charger">
+            <column defaultValue="1" name="is_public" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company" type="VARCHAR(255)"/>
+            <column name="owner_user" type="BIGINT"/>
+            <column defaultValue="0.0" name="latitude" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="0.0" name="longitude" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="marc" id="relation-charger/charge">
+        <createTable tableName="types_of_chargers">
+            <column name="type_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="charger_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to typesOfChargers 1">
+        <addForeignKeyConstraint baseColumnNames="type_id" baseTableName="types_of_chargers" constraintName="FK_types_of_chargers_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="type_id" referencedTableName="charger_type" validate="true"/>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to typesOfChargers 2">
+        <addForeignKeyConstraint baseColumnNames="charger_id" baseTableName="types_of_chargers" constraintName="FK_types_of_chargers_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id_charger" referencedTableName="charger" validate="true"/>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to charger 1">
+        <addForeignKeyConstraint baseColumnNames="owner_user" baseTableName="charger" constraintName="FK_charger_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to charger 2">
+        <addForeignKeyConstraint baseColumnNames="latitude" baseTableName="charger" constraintName="FK_charger_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="latitude" referencedTableName="location" validate="true"/>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to charger 3">
+        <addForeignKeyConstraint baseColumnNames="longitude" baseTableName="charger" constraintName="FK_charger_3" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="longitude" referencedTableName="location" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

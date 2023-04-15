@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 public class CarModel {
     //region Atributes
     private CarId id;
-    private String alias;
     private boolean deleted;
     private UserModel user_model;
     private ModelBrandModel model_brand_model;
@@ -19,14 +18,6 @@ public class CarModel {
 
     public void setId(CarId id) {
         this.id = id;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     public boolean isDeleted() {
