@@ -10,8 +10,6 @@ public class CarEntity {
     @EmbeddedId
     private CarId id;
     @Column(nullable = false)
-    private String alias;
-    @Column(nullable = false)
     private boolean deleted;
     @ManyToOne
     @MapsId("user_id")
@@ -32,14 +30,6 @@ public class CarEntity {
 
     public void setId(CarId id) {
         this.id = id;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     public boolean isDeleted() {

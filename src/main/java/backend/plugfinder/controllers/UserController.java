@@ -5,6 +5,7 @@ import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class UserController {
      *This method deletes a user from the DB.
      * @param user_id - Id of the user to be deleted.
      */
-    @PostMapping ("/delete/{user_id}")
+    @PutMapping ("/delete/{user_id}")
     public void delete_user(@PathVariable Long user_id) throws OurException {
             user_service.delete_user(user_id);
     }
@@ -64,7 +65,7 @@ public class UserController {
      * This method sets the premium to a User
      * @param user_id: userId of the user that is getting the premium version
      */
-    @PostMapping("/{user_id}/premium")
+    @PutMapping("/{user_id}/premium")
     public void get_premium(@PathVariable("user_id") Long user_id) throws OurException {
         user_service.get_premium(user_id);
     }
@@ -73,10 +74,48 @@ public class UserController {
      * This method unsubscribes a user of the premium version t
      * @param user_id: userId of the user that is being unsubscribed of the premium version
      */
-    @PostMapping("/{user_id}/unsubscribePremium")
+    @PutMapping("/{user_id}/unsubscribePremium")
     public void stop_premium(@PathVariable("user_id") Long user_id) throws OurException {
         user_service.unsubscribe_premium(user_id);
     }
+
+    //region Perfil del usuario
+    /**
+     * This method returns the profile of a user.
+     * @param user_id - Id of the user.
+     * @return UserDto - User profile.
+     */
+    @GetMapping("/{user_id}/profile")
+    public UserDto view_profile(@PathVariable("user_id") Long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        UserDto user = model_mapper.map(user_service.view_profile(user_id), UserDto.class);
+        if(user == null) throw new OurException("El usuario no exsite");
+        return user;
+    }
+
+    /**
+     * This method updates the profile of a user.
+     * @param user_id - Id of the user.
+     * @param username - New username.
+     * @param real_name - New real name.
+     * @param phone - New phone number.
+     * @param email - New email.
+     * @param password - New password.
+     * @return UserDto - Updated user profile.
+     */
+    @PutMapping("/{user_id}/profile/edit")
+    public UserDto update_profile(@PathVariable("user_id") Long user_id, @RequestParam(required = false, value = "username") String username,
+                                  @RequestParam(required = false, value = "real_name") String real_name, @RequestParam(required = false, value = "phone") String phone,
+                                  @RequestParam(required = false, value = "email") String email, @RequestParam(required = false, value = "password") String password) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        // Configurar ModelMapper para ignorar valores nulos
+        model_mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        UserDto updated_user = model_mapper.map(user_service.update_user(user_id, username, real_name, phone, email, password), UserDto.class);
+        if(updated_user == null) throw new OurException("El usuario no exsite");
+        return updated_user;
+    }
+
+    //endregion
 
     /**
      * This method returns all the users in the DB.

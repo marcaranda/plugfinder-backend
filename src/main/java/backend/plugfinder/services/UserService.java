@@ -6,6 +6,7 @@ import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class UserService {
     @Autowired // This annotation allows the dependency injection
     UserRepo user_repo;
 
+
+    //region Registrar usuario
     /**
      * This method registers a user in the DB.
      * @param user - User to be registered.
@@ -51,6 +54,7 @@ public class UserService {
 
         return modelMapper.map(user_repo.save(modelMapper.map(user, UserEntity.class)), UserModel.class);
     }
+    //endregion
 
     /**
      * This method returns all the users in the DB.
@@ -63,9 +67,10 @@ public class UserService {
         return users;
     }
 
+    //region Eliminar usuario
     /**
      * This method deletes a user from the DB.
-     * @param user - User to be deleted.
+     * @param user_id - Id of the user to be deleted.
      */
     public void delete_user(Long user_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
@@ -82,6 +87,59 @@ public class UserService {
             throw new OurException("El id especificado es diferente al recibido en el token");
         }
     }
+    //endregion
+
+    //region Perfil del ususario
+    /**
+     * This method returns the profile of a user.
+     * @param user_id - Id of the user.
+     * @return UserModel - Profile of the user.
+     */
+    public UserModel view_profile(Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            //Si la validació del token ha tingut éxit, vol dir que vull veure el meu propi perfil, per tant, retorno tota la info
+            return find_user_by_id(user_id);
+        }
+        else {
+            //Si es fals, vol dir que vull veure el perfil d'un altre usuari, per tant retorno només les dades no sensibles.
+            UserModel user = find_user_by_id(user_id);
+            if(user == null || user.isDeleted()) {
+                throw new OurException("Error al intentar ver el perfil del usuario. El usuario no existe.");
+            }
+            UserModel user_without_delicated_data = new UserModel();
+            user_without_delicated_data.setUsername(user.getUsername());
+            user_without_delicated_data.setReal_name(user.getReal_name());
+            user_without_delicated_data.setBirth_date(user.getBirth_date());
+            return user_without_delicated_data;
+        }
+    }
+    /**
+     * This method returns the profile of a user.
+     * @param user_id - Id of the user.
+     * @return UserModel - Profile of the user.
+     */
+    public UserModel update_user(Long user_id, String username, String real_name, String phone, String email, String password) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+
+            UserModel user_to_update = find_user_by_id(user_id);
+            if(user_to_update == null || user_to_update.isDeleted()) {
+                throw new OurException("Error al intentar actualizar el usuario. El usuario no existe.");
+            }
+            if(username != null) user_to_update.setUsername(username);
+            if(real_name != null) user_to_update.setReal_name(real_name);
+            if(phone != null) user_to_update.setPhone(phone);
+            if(email != null) user_to_update.setEmail(email);
+            if(password != null) user_to_update.setPassword(encryptPassowrd(password));
+            user_repo.save(model_mapper.map(user_to_update, UserEntity.class));
+            return user_to_update;
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+
+    }
+    //endregion
 
     /**
      * This method finds a user by its ID.
@@ -90,7 +148,12 @@ public class UserService {
     public UserModel find_user_by_id(Long id) {
         ModelMapper model_mapper = new ModelMapper();
 
-        return model_mapper.map(user_repo.findById(id).orElse(null), UserModel.class);
+       try {
+           return model_mapper.map(user_repo.findById(id), UserModel.class);
+       }
+       catch (MappingException e) {
+            return null;
+       }
     }
 
     /**
@@ -119,17 +182,21 @@ public class UserService {
 
     /**
      * This method unsubscribe a user of the premium version
-     * @param userId: userId of the user that is being unsubscribed of the premium version
+     * @param user_id: userId of the user that is being unsubscribed of the premium version
      */
     public void unsubscribe_premium(Long user_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
-            ModelMapper model_mapper = new ModelMapper();
-
             UserModel user = find_user_by_id(user_id);
+            if(user.isPremium()) {
+                ModelMapper model_mapper = new ModelMapper();
 
-            user.setPremium(false);
-            user.setPremium_drop_date(LocalDate.now().toString());
-            user_repo.save(model_mapper.map(user, UserEntity.class));
+                user.setPremium(false);
+                user.setPremium_drop_date(LocalDate.now().toString());
+                user_repo.save(model_mapper.map(user, UserEntity.class));
+            }
+            else {
+                throw new OurException("El usuario no es premium");
+            }
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");

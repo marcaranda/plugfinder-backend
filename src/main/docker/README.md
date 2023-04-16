@@ -24,7 +24,7 @@ cd src/main/docker
 
 docker-compose down
 
-docker rmi plugfinder
+docker rmi plugfinder-backend
 
 docker-compose up
 

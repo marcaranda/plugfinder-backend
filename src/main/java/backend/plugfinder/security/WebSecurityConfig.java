@@ -33,6 +33,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/users/register").permitAll()
+                .requestMatchers("/chargers").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
