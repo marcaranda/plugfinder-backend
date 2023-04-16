@@ -2,8 +2,8 @@ package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.sql.Time;
+import org.hibernate.annotations.CreationTimestamp;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "charge")
@@ -23,11 +23,10 @@ public class ChargeEntity {
     @JoinColumn(name = "license")
     private CarEntity car;
 
-    @Column(nullable = false)
-    private Date date;
 
-    @Column(nullable = false)
-    private Time charge_time;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private Timestamp created_at;
 
     @Column(nullable = false)
     private int charged_kw;
@@ -60,20 +59,8 @@ public class ChargeEntity {
         this.car = car;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getCharge_time() {
-        return charge_time;
-    }
-
-    public void setCharge_time(Time charge_time) {
-        this.charge_time = charge_time;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
     public int getCharged_kw() {

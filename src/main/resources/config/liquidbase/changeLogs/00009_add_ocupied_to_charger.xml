@@ -10,4 +10,23 @@
     </changeSet>
 
 
+
+    <changeSet author="clusellas" id="remove-column-charge_time">
+        <dropColumn columnName="charge_time" tableName="charge"/>
+        <dropColumn columnName="date" tableName="charge"/>
+    </changeSet>
+
+    <changeSet author="clusellas" id="add_timestamp_created_to_charge">
+        <addColumn schemaName= "DBplugfinder"
+                   tableName="charge">
+            <column name="created"
+                    defaultValueComputed="now()"
+                    type="TIMESTAMP"
+            />
+        </addColumn>
+    </changeSet>
+
+
+
+
 </databaseChangeLog>

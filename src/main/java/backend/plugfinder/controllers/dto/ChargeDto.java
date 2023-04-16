@@ -5,6 +5,7 @@ import backend.plugfinder.services.models.CarModel;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 public class ChargeDto {
 
@@ -14,9 +15,7 @@ public class ChargeDto {
 
     private CarDto car;
 
-    private Date date;
-
-    private Time charge_time;
+    private Timestamp created_at;
 
     private int charged_kw;
 
@@ -47,20 +46,8 @@ public class ChargeDto {
         this.car = car;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getCharge_time() {
-        return charge_time;
-    }
-
-    public void setCharge_time(Time charge_time) {
-        this.charge_time = charge_time;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
     public int getCharged_kw() {

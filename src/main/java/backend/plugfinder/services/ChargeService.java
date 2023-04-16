@@ -39,8 +39,6 @@ public class ChargeService {
 
     public ChargeModel save_charge(ChargeModel charge_model) {
         ModelMapper model_mapper = new ModelMapper();
-        charge_model.setDate(new Date(123,4,31));
-        charge_model.setCharge_time(new Time(16,34,40));
         return model_mapper.map(charge_repo.save(model_mapper.map(charge_model, ChargeEntity.class)), ChargeModel.class);
     }
 }
