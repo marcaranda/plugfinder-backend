@@ -1,6 +1,12 @@
 package backend.plugfinder.services.models;
 
 
+import backend.plugfinder.repositories.entity.LocationEntity;
+import backend.plugfinder.repositories.entity.UserEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 import java.sql.Time;
 
 public class ChargerModel {
@@ -14,6 +20,14 @@ public class ChargerModel {
     private int price_x_kw;
 
     private Time max_time_charging;
+
+    private boolean is_public;
+
+    private String company;
+
+    private UserEntity owner_user;
+
+    private LocationEntity location;
 
     //region Constructores, getters y setters
 
@@ -55,6 +69,38 @@ public class ChargerModel {
 
     public void setMax_time_charging(Time max_time_charging) {
         this.max_time_charging = max_time_charging;
+    }
+
+    public boolean isIs_public() {
+        return is_public;
+    }
+
+    public void setIs_public(boolean is_public) {
+        this.is_public = is_public;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public UserEntity getOwner_user() {
+        return owner_user;
+    }
+
+    public void setOwner_user(UserEntity owner_user) {
+        this.owner_user = owner_user;
+    }
+
+    public LocationEntity getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEntity location) {
+        this.location = location;
     }
 
     //endregion
