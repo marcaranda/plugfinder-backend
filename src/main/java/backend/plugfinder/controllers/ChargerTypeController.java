@@ -28,7 +28,7 @@ public class ChargerTypeController {
         return chargers_types;
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping(path = "id/{id}")
     public ChargerTypeDto get_charger_type(@PathVariable("id") long id){
         ModelMapper model_mapper = new ModelMapper();
 
