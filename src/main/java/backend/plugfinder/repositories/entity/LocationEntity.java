@@ -21,5 +21,13 @@ public class LocationEntity {
     public void setId(LocationId id) {
         this.id = id;
     }
+
+    public double getLatitude() {
+        return id.getLatitude();
+    }
+
+    public double getLongitude() {
+        return id.getLongitude();
+    }
     //endregion
 }

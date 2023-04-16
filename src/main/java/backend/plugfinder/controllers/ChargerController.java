@@ -43,6 +43,20 @@ public class ChargerController {
         return chargers;
     }
 
+    /**
+     * This method returns all the chargers that are public
+     * @return ArrayList<ChargerDto> - List of public chargers
+     */
+    @GetMapping("/location")
+    public ArrayList<ChargerDto> get_chargers_by_location(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude){
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_chargers_by_location(latitude, longitude).stream()
+                .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
+                .collect(Collectors.toList());
+
+        return chargers;
+    }
+
 
     //region Post Methods
     @PostMapping("/new")
