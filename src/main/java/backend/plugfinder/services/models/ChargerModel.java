@@ -15,6 +15,8 @@ public class ChargerModel {
 
     private Time max_time_charging;
 
+    private boolean occupied;
+
     //region Constructores, getters y setters
 
     public long getId_charger() {
@@ -55,6 +57,14 @@ public class ChargerModel {
 
     public void setMax_time_charging(Time max_time_charging) {
         this.max_time_charging = max_time_charging;
+    }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
     }
 
     //endregion

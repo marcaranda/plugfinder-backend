@@ -90,7 +90,13 @@ public class UserService {
     public UserModel find_user_by_id(Long id) {
         ModelMapper model_mapper = new ModelMapper();
 
-        return model_mapper.map(user_repo.findById(id).orElse(null), UserModel.class);
+
+        if (user_repo.findById(id).orElse(null) != null) {
+            return model_mapper.map(user_repo.findById(id).orElse(null), UserModel.class);
+        } else {
+            // manejar el caso en que el usuario no existe
+            return null;
+        }
     }
 
     /**

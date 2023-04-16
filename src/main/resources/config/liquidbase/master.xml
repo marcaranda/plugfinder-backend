@@ -4,4 +4,6 @@
     <include file="changeLogs/00004_cargas+DatosCargadores.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00005_DeleteBasicPremiumTables.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00006_ChangeDataTypeCharge.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00007_add_autoincrements.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00008_add_ocupied_to_charger.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
