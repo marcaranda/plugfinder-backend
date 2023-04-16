@@ -32,7 +32,7 @@ public class BrandController {
     @PostMapping
     public BrandDto save_brand(@RequestBody BrandDto brand_model){
         ModelMapper model_mapper = new ModelMapper();
-        return model_mapper.map(brand_service.save_brand(model_mapper.map(brand_model<2, BrandModel.class)), BrandDto.class);
+        return model_mapper.map(brand_service.save_brand(model_mapper.map(brand_model, BrandModel.class)), BrandDto.class);
     }
     //endregion
 }
