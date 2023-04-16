@@ -1,0 +1,16 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="marc" id="delete foreign key to charger 2">
+        <dropForeignKeyConstraint baseTableName="charger" constraintName="FK_charger_2"/>
+    </changeSet>
+    <changeSet author="marc" id="change type table charger">
+        <modifyDataType tableName="charger" columnName="latitude" newDataType="double"></modifyDataType>
+        <modifyDataType tableName="charger" columnName="longitude" newDataType="double"></modifyDataType>
+    </changeSet>
+    <changeSet author="marc" id="change type table location">
+        <modifyDataType tableName="location" columnName="latitude" newDataType="double"></modifyDataType>
+        <modifyDataType tableName="location" columnName="longitude" newDataType="double"></modifyDataType>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to charger 2">
+        <addForeignKeyConstraint baseColumnNames="latitude, longitude" baseTableName="charger" constraintName="FK_charger_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="latitude, longitude" referencedTableName="location" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
