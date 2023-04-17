@@ -127,5 +127,13 @@ public class ChargerEntity {
     public void setTypes(List<ChargerTypeEntity> types) {
         this.types = types;
     }
+
+    public double getLatitude() {
+        return location.getLatitude();
+    }
+
+    public double getLongitude() {
+        return location.getLongitude();
+    }
     //endregion
 }
