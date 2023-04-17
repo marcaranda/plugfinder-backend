@@ -1,5 +1,8 @@
 package backend.plugfinder.controllers.dto;
 
+import backend.plugfinder.repositories.entity.LocationEntity;
+import backend.plugfinder.repositories.entity.UserEntity;
+
 import java.sql.Time;
 
 public class ChargerDto {
@@ -15,6 +18,14 @@ public class ChargerDto {
     private Time max_time_charging;
 
     private boolean occupied;
+
+    private boolean is_public;
+
+    private String company;
+
+    private UserEntity owner_user;
+
+    private LocationEntity location;
 
     //region Constructores, getters y setters
 
@@ -65,5 +76,37 @@ public class ChargerDto {
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
+    public boolean isIs_public() {
+        return is_public;
+    }
+
+    public void setIs_public(boolean is_public) {
+        this.is_public = is_public;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public UserEntity getOwner_user() {
+        return owner_user;
+    }
+
+    public void setOwner_user(UserEntity owner_user) {
+        this.owner_user = owner_user;
+    }
+
+    public LocationEntity getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEntity location) {
+        this.location = location;
+    }
+
     //endregion
 }

@@ -19,10 +19,12 @@
     <changeSet author="clusellas" id="add_timestamp_created_to_charge">
         <addColumn schemaName= "DBplugfinder"
                    tableName="charge">
-            <column name="created"
+            <column name="created_at"
                     defaultValueComputed="now()"
                     type="TIMESTAMP"
             />
+            <column name="ended_at"
+                    type="TIMESTAMP"></column>
         </addColumn>
     </changeSet>
 

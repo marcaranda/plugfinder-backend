@@ -17,6 +17,8 @@ public class ChargeDto {
 
     private Timestamp created_at;
 
+    private Timestamp ended_at;
+
     private int charged_kw;
 
     private int co2;
@@ -64,5 +66,17 @@ public class ChargeDto {
 
     public void setCo2(int co2) {
         this.co2 = co2;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getEnded_at() {
+        return ended_at;
+    }
+
+    public void setEnded_at(Timestamp ended_at) {
+        this.ended_at = ended_at;
     }
 }

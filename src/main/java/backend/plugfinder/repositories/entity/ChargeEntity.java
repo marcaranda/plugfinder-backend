@@ -28,6 +28,9 @@ public class ChargeEntity {
     @CreationTimestamp
     private Timestamp created_at;
 
+    @Column(name = "ended_at", nullable = true)
+    private Timestamp ended_at;
+
     @Column(nullable = false)
     private int charged_kw;
 
@@ -77,5 +80,13 @@ public class ChargeEntity {
 
     public void setCo2(int co2) {
         this.co2 = co2;
+    }
+
+    public Timestamp getEnded_at() {
+        return ended_at;
+    }
+
+    public void setEnded_at(Timestamp ended_at) {
+        this.ended_at = ended_at;
     }
 }
