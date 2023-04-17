@@ -4,6 +4,7 @@ import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
 import backend.plugfinder.services.models.UserModel;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,39 @@ public class ChargerService {
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
     }
 
+    public ChargerModel new_charge(ChargerModel chargerModel) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = find_charger_by_id(chargerModel.getId_charger());
+
+        if (charger != null) {
+            if (charger.isOccupied()){
+                throw new RuntimeException("El cargador ya esta ocupado");
+            }else{
+                charger.setOccupied(true);
+            }
+            return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+        }
+        else {
+            return null;
+        }
+    }
+
+
+    public ChargerModel end_charge(ChargerModel chargerModel) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = find_charger_by_id(chargerModel.getId_charger());
+
+        if (charger != null) {
+            charger.setOccupied(false);
+            return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+        }
+        else {
+            return null;
+        }
+    }
+
     public boolean delete_charger(long id) {
         try{
             charger_repo.deleteById(id);
@@ -67,6 +101,18 @@ public class ChargerService {
         catch (Exception error){
             return false;
         }
+    }
+
+    public ChargerModel find_charger_by_id(Long id) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        try {
+            return model_mapper.map(charger_repo.findById(id), ChargerModel.class);
+        }
+        catch (MappingException e) {
+            return null;
+        }
+
     }
 
 

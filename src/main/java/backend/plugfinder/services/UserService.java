@@ -154,6 +154,7 @@ public class UserService {
        catch (MappingException e) {
             return null;
        }
+
     }
 
     /**
