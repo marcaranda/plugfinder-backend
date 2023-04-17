@@ -1,12 +1,11 @@
 package backend.plugfinder.controllers;
 
-import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.controllers.dto.ChargerTypeDto;
 import backend.plugfinder.services.ChargerTypeService;
 import backend.plugfinder.services.models.ChargerTypeModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

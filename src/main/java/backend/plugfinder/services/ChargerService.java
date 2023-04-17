@@ -66,6 +66,7 @@ public class ChargerService {
 
     public ChargerModel save_charger(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
+
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
 
     }

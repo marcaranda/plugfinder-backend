@@ -1,9 +1,11 @@
 package backend.plugfinder.controllers.dto;
 
+import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import backend.plugfinder.repositories.entity.LocationEntity;
 import backend.plugfinder.repositories.entity.UserEntity;
 
 import java.sql.Time;
+import java.util.List;
 
 public class ChargerDto {
 
@@ -24,6 +26,8 @@ public class ChargerDto {
     private UserDto owner_user;
 
     private LocationDto location;
+
+    private List<ChargerTypeDto> types;
 
     //region Constructores, getters y setters
 
@@ -99,5 +103,12 @@ public class ChargerDto {
         this.location = location;
     }
 
+    public List<ChargerTypeDto> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<ChargerTypeDto> types) {
+        this.types = types;
+    }
     //endregion
 }

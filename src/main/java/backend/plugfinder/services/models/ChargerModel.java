@@ -1,6 +1,7 @@
 package backend.plugfinder.services.models;
 
 
+import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import backend.plugfinder.repositories.entity.LocationEntity;
 import backend.plugfinder.repositories.entity.UserEntity;
 import jakarta.persistence.Column;
@@ -8,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.sql.Time;
+import java.util.List;
 
 public class ChargerModel {
 
@@ -28,6 +30,8 @@ public class ChargerModel {
     private UserModel owner_user;
 
     private LocationModel location;
+
+    private List<ChargerTypeModel> types;
 
     //region Constructores, getters y setters
 
@@ -103,5 +107,12 @@ public class ChargerModel {
         this.location = location;
     }
 
+    public List<ChargerTypeModel> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<ChargerTypeModel> types) {
+        this.types = types;
+    }
     //endregion
 }
