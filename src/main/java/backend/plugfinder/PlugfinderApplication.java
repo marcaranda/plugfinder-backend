@@ -1,8 +1,7 @@
 package backend.plugfinder;
 
-import backend.plugfinder.helpers.ExcelController;
+import backend.plugfinder.helpers.LectorBD;
 
-import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class PlugfinderApplication {
 	@Autowired
-	private ExcelController excel_controller;
+	private LectorBD lector_bd;
 	@Autowired
 	private UserService user_service;
 
@@ -29,7 +28,7 @@ public class PlugfinderApplication {
 	public void runAfterStartup() throws IOException  {
 		UserModel user_model = user_service.find_user_by_id(1L);
 		if (user_model == null) {
-			excel_controller.read_models();
+			lector_bd.read_models();
 		}
 	}
 }

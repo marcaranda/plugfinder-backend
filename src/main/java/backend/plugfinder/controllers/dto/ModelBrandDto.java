@@ -1,9 +1,8 @@
 package backend.plugfinder.controllers.dto;
 
 import backend.plugfinder.helpers.ModelBrandId;
-import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class ModelBrandDto {
@@ -13,7 +12,7 @@ public class ModelBrandDto {
     private BrandDto brand_model;
     private UserDto user_model;
 
-    private ArrayList<ChargerTypeEntity> chargers_types;
+    private List<ChargerTypeDto> chargers_types;
 
     //endregion
 
@@ -50,11 +49,11 @@ public class ModelBrandDto {
         this.user_model = user_model;
     }
 
-    public ArrayList<ChargerTypeEntity> getChargers_types() {
+    public List<ChargerTypeDto> getChargers_types() {
         return chargers_types;
     }
 
-    public void setChargers_types(ArrayList<ChargerTypeEntity> chargers_types) {
+    public void setChargers_types(List<ChargerTypeDto> chargers_types) {
         this.chargers_types = chargers_types;
     }
     //endregion

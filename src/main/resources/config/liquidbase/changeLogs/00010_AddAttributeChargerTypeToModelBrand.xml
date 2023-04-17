@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="marc" id="relation-modelBrand/chargerType">
+        <createTable tableName="models_chargers_type">
+            <column name="type_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="brand_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="model_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="creator_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="autonomy" type="VARCHAR(10)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="marc" id="add foreign key to modelsChargersType 1">
+        <addForeignKeyConstraint baseColumnNames="type_id" baseTableName="models_chargers_type" constraintName="FK_models_chargers_type_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="type_id" referencedTableName="charger_type" validate="true"/>
+    </changeSet>
+    <changeSet author="marc" id="add foreig key to modelsChargersType 2">
+        <addForeignKeyConstraint baseColumnNames="brand_name,model_name,creator_id,autonomy" baseTableName="models_chargers_type" constraintName="FK_models_chargers_type_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="brand_name,name,user_id,autonomy" referencedTableName="model_brand" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

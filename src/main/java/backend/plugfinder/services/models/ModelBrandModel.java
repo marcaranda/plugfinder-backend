@@ -5,6 +5,7 @@ import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModelBrandModel {
     //region Atributes
@@ -13,7 +14,7 @@ public class ModelBrandModel {
     private BrandModel brand_model;
     private UserModel user_model;
 
-    private ArrayList<ChargerTypeEntity> chargers_types;
+    private List<ChargerTypeModel> chargers_types;
 
     //endregion
 
@@ -50,11 +51,11 @@ public class ModelBrandModel {
         this.user_model = user_model;
     }
 
-    public ArrayList<ChargerTypeEntity> getChargers_types() {
+    public List<ChargerTypeModel> getChargers_types() {
         return chargers_types;
     }
 
-    public void setChargers_types(ArrayList<ChargerTypeEntity> chargers_types) {
+    public void setChargers_types(List<ChargerTypeModel> chargers_types) {
         this.chargers_types = chargers_types;
     }
     //endregion

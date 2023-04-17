@@ -6,4 +6,5 @@
     <include file="changeLogs/00006_ChangeDataTypeCharge.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00008_DeleteAliasCar_TablesLocation_ChargersTypes_PublicCharges.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00009_ChangeTypeLongitude_Latitude.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00010_AddAttributeChargerTypeToModelBrand.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

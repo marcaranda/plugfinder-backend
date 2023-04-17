@@ -4,6 +4,7 @@ import backend.plugfinder.repositories.BrandRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 import backend.plugfinder.repositories.entity.BrandEntity;
+import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import backend.plugfinder.repositories.entity.ModelBrandEntity;
 import backend.plugfinder.repositories.entity.UserEntity;
 import org.apache.poi.ss.usermodel.*;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class ExcelController {
+public class LectorBD {
     @Autowired
     private BrandRepo brand_repo;
     @Autowired
@@ -88,10 +89,12 @@ public class ExcelController {
                 id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
 
                 ModelBrandEntity model = new ModelBrandEntity();
+                ArrayList<ChargerTypeEntity> types = new ArrayList<>();
                 model.setId(id);
                 model.setKnown(true);
                 model.setBrand_model(brand);
                 model.setUser_model(user);
+                model.setChargers_types(types);
                 model_brand_repo.save(model);
 
                 models.add(model);

@@ -39,9 +39,9 @@ public class ModelBrandService {
         }
     }
 
-    public ModelBrandModel save_model(ModelBrandModel modelBrandModel){
+    public ModelBrandModel save_model(ModelBrandModel model_brand_model){
         ModelMapper model_mapper = new ModelMapper();
-        return model_mapper.map(model_brand_repo.save(model_mapper.map(modelBrandModel, ModelBrandEntity.class)), ModelBrandModel.class);
+        return model_mapper.map(model_brand_repo.save(model_mapper.map(model_brand_model, ModelBrandEntity.class)), ModelBrandModel.class);
     }
 
     public ModelBrandModel get_model_by_id(String brand, String model, String autonomy){
