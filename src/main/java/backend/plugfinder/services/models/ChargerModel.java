@@ -27,9 +27,9 @@ public class ChargerModel {
 
     private String company;
 
-    private UserEntity owner_user;
+    private UserModel owner_user;
 
-    private LocationEntity location;
+    private LocationModel location;
 
     //region Constructores, getters y setters
 
@@ -96,19 +96,19 @@ public class ChargerModel {
         this.company = company;
     }
 
-    public UserEntity getOwner_user() {
+    public UserModel getOwner_user() {
         return owner_user;
     }
 
-    public void setOwner_user(UserEntity owner_user) {
+    public void setOwner_user(UserModel owner_user) {
         this.owner_user = owner_user;
     }
 
-    public LocationEntity getLocation() {
+    public LocationModel getLocation() {
         return location;
     }
 
-    public void setLocation(LocationEntity location) {
+    public void setLocation(LocationModel location) {
         this.location = location;
 
     }

@@ -23,9 +23,9 @@ public class ChargerDto {
 
     private String company;
 
-    private UserEntity owner_user;
+    private UserDto owner_user;
 
-    private LocationEntity location;
+    private LocationDto location;
 
     //region Constructores, getters y setters
 
@@ -92,19 +92,19 @@ public class ChargerDto {
         this.company = company;
     }
 
-    public UserEntity getOwner_user() {
+    public UserDto getOwner_user() {
         return owner_user;
     }
 
-    public void setOwner_user(UserEntity owner_user) {
+    public void setOwner_user(UserDto owner_user) {
         this.owner_user = owner_user;
     }
 
-    public LocationEntity getLocation() {
+    public LocationDto getLocation() {
         return location;
     }
 
-    public void setLocation(LocationEntity location) {
+    public void setLocation(LocationDto location) {
         this.location = location;
     }
 

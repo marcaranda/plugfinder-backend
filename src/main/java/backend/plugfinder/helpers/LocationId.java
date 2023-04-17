@@ -9,36 +9,36 @@ import java.io.Serializable;
 public class LocationId implements Serializable {
     //region Atributes
     @Column(name = "latitude")
-    private String latitude;
+    private double latitude;
 
     @Column(name = "longitude")
-    private String longitude;
+    private double longitude;
     //endregion
 
     //region Constructors
     public LocationId() {
     }
 
-    public LocationId(String latitude, String longitude) {
+    public LocationId(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
     //endregion
 
     //Region Getters & Setters
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
     //endregion

@@ -54,7 +54,7 @@ public class ChargerService {
         //Indicamos que es un cargador privado
         chargerModel.setIs_public(false);
         //Asignamos el usuario como propietario
-        chargerModel.setOwner_user(model_mapper.map(user, UserEntity.class));
+        chargerModel.setOwner_user(user);
         //Localizacion? -> Si frontend puede mandar la localizacion en el json no hace falta, sino tenemos que pedir que nos mande como parametros
         //la longitud i la latitud y crear un objeto LocationEntity y asignarlo al cargador
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
