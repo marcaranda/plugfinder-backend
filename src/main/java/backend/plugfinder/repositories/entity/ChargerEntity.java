@@ -10,7 +10,7 @@ import java.util.List;
 public class ChargerEntity {
     //region Atributes
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private long id_charger;
 
