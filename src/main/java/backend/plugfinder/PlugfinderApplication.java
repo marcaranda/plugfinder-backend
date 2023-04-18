@@ -30,7 +30,5 @@ public class PlugfinderApplication {
 		if (user_model == null) {
 			lector_bd.read_models();
 		}
-		//schedule
-		lector_bd.read_chargers();
 	}
 }

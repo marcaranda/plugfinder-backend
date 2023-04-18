@@ -16,6 +16,13 @@ public class ChargerService {
     @Autowired
     ChargerRepo charger_repo;
 
+    /**
+     * This method returns all the chargers that validate the filters
+     * @param is_public - Filter by public or private
+     * @param latitude - Latitude of the point
+     * @param longitude - Longitude of the point
+     * @return ArrayList<ChargerModel> - List of chargers
+     */
     public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude){
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerModel> chargers = new ArrayList<>();

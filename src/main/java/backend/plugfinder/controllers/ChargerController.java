@@ -19,6 +19,10 @@ public class ChargerController {
     @Autowired
     UserService user_service;
 
+    /**
+     * This method returns all the chargers that validate the filters
+     * @return ArrayList<ChargerDto> - List of chargers
+     */
     @GetMapping
     public ArrayList<ChargerDto> get_chargers(@RequestParam(required = false, value = "public") String is_public, @RequestParam(required = false, value = "latitude") Double latitude, @RequestParam(required = false, value = "longitude") Double longitude){
         ModelMapper model_mapper = new ModelMapper();
