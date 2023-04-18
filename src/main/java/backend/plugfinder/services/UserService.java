@@ -115,24 +115,46 @@ public class UserService {
     }
     /**
      * This method returns the profile of a user.
-     * @param user_id - Id of the user.
      * @return UserModel - Profile of the user.
      */
-    public UserModel update_user(Long user_id, String username, String real_name, String phone, String email, String password) throws OurException {
-        if(new TokenValidator().validate_id_with_token(user_id)) {
+    public UserModel update_user(UserModel user) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user.getUser_id())) {
             ModelMapper model_mapper = new ModelMapper();
 
-            UserModel user_to_update = find_user_by_id(user_id);
-            if(user_to_update == null || user_to_update.isDeleted()) {
+            if(user == null || user.isDeleted()) {
                 throw new OurException("Error al intentar actualizar el usuario. El usuario no existe.");
             }
-            if(username != null) user_to_update.setUsername(username);
-            if(real_name != null) user_to_update.setReal_name(real_name);
-            if(phone != null) user_to_update.setPhone(phone);
-            if(email != null) user_to_update.setEmail(email);
-            if(password != null) user_to_update.setPassword(encryptPassowrd(password));
-            user_repo.save(model_mapper.map(user_to_update, UserEntity.class));
-            return user_to_update;
+            else {
+                //Agafem l'usuari que tenim guardat a la BD
+                UserModel user_to_be_updated = model_mapper.map(user_repo.findById(user.getUser_id()), UserModel.class);
+                if(!user_to_be_updated.getEmail().equals(user.getEmail())) {
+                    if(!validateEmail(user.getEmail())) {
+                        throw new OurException("El correo electrónico no es válido.");
+                    }
+                }
+                String user_tlf = user.getPhone();
+                if(!user_to_be_updated.getPhone().equals(user_tlf)) {
+                    if(user_tlf != null && !validatePhoneNumber(user_tlf)) {
+                        throw new OurException("El número de teléfono no es válido.");
+                    }
+                }
+                if(!user_to_be_updated.getBirth_date().equals(user.getBirth_date())) {
+                    if(!validateBirthDate(user.getBirth_date())) {
+                        throw new OurException("La fecha de nacimiento no es válida.");
+                    }
+                }
+                if(!BCrypt.checkpw(user.getPassword(), user_to_be_updated.getPassword())) {
+                    //Encriptem la contraseña
+                    user.setPassword(encryptPassowrd(user.getPassword()));
+                }
+                else {
+                    user.setPassword(user_to_be_updated.getPassword());
+                }
+
+                //Com la crida al métode save està especificant l'id de l'usuari, no s'està fent un insert, sinó un update
+                user_repo.save(model_mapper.map(user, UserEntity.class));
+                return user;
+            }
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");
