@@ -29,6 +29,12 @@ public class ChargerController {
         return chargers;
     }
 
+    @GetMapping("/{charger_id}")
+    public ChargerDto get_charger(@PathVariable("charger_id") Long charger_id){
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(charger_service.find_charger_by_id(charger_id), ChargerDto.class);
+    }
+
     /**
      * This method returns all the chargers that are public
      * @return ArrayList<ChargerDto> - List of public chargers

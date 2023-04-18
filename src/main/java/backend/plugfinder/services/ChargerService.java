@@ -4,6 +4,7 @@ import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
 import backend.plugfinder.services.models.UserModel;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 public class ChargerService {
     @Autowired
     ChargerRepo charger_repo;
+
+    //region Public Methods
 
     public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude){
         ModelMapper model_mapper = new ModelMapper();
@@ -46,29 +49,44 @@ public class ChargerService {
         return chargers;
     }
 
-    /**
-     * Get all chargers by location
-     * @param latitude: Latitude of the location
-     * @param longitude: Longitude of the location
-     * @return: ArrayList with the chargers
-     * /
-    public ArrayList<ChargerModel> get_chargers_by_location(double latitude, double longitude) {
-        ModelMapper model_mapper = new ModelMapper();
-        ArrayList<ChargerModel> chargers = new ArrayList<>();
-        charger_repo.findAll().forEach(elementB -> {
-            //Si la distancia entre el cargador i el punt seleccionat es menor a 5km afegira el carregador a la llista
-            if (Haversine(latitude, longitude, elementB.getLatitude(), elementB.getLongitude(), 5)){
-                chargers.add(model_mapper.map(elementB, ChargerModel.class));
-            }
-        });
-        return chargers;
-    }*/
-
     public ChargerModel save_charger(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
 
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
 
+    }
+
+    public ChargerModel new_charge(ChargerModel chargerModel) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = find_charger_by_id(chargerModel.getId_charger());
+
+        if (charger != null) {
+            if (charger.isOccupied()){
+                throw new RuntimeException("El cargador ya esta ocupado");
+            }else{
+                charger.setOccupied(true);
+            }
+            return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+        }
+        else {
+            return null;
+        }
+    }
+
+
+    public ChargerModel end_charge(ChargerModel chargerModel) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = find_charger_by_id(chargerModel.getId_charger());
+
+        if (charger != null) {
+            charger.setOccupied(false);
+            return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+        }
+        else {
+            return null;
+        }
     }
 
     public boolean delete_charger(long id) {
@@ -80,6 +98,18 @@ public class ChargerService {
             return false;
         }
     }
+
+    public ChargerModel find_charger_by_id(Long id) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        try {
+            return model_mapper.map(charger_repo.findById(id), ChargerModel.class);
+        }
+        catch (MappingException e) {
+            return null;
+        }
+    }
+    //endregion
 
     //region Metodos Privados
     /** Check if the distance between the charger and the point is less than the max distance
@@ -104,6 +134,4 @@ public class ChargerService {
         return false;
     }
     //endregion
-
-
 }

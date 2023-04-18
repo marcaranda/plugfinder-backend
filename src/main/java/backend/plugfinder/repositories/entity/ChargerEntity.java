@@ -27,6 +27,9 @@ public class ChargerEntity {
     private Time max_time_charging;
 
     @Column(nullable = false)
+    private boolean occupied;
+
+    @Column(nullable = false)
     private boolean is_public;
 
     private String company;
@@ -86,6 +89,14 @@ public class ChargerEntity {
 
     public void setMax_time_charging(Time max_time_charging) {
         this.max_time_charging = max_time_charging;
+    }
+
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
     }
 
     public boolean isIs_public() {

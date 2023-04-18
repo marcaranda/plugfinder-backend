@@ -86,22 +86,13 @@ public class UserController {
 
     /**
      * This method updates the profile of a user.
-     * @param user_id - Id of the user.
-     * @param username - New username.
-     * @param real_name - New real name.
-     * @param phone - New phone number.
-     * @param email - New email.
-     * @param password - New password.
+     * @param user - User to be updated.
      * @return UserDto - Updated user profile.
      */
-    @PutMapping("/{user_id}/profile/edit")
-    public UserDto update_profile(@PathVariable("user_id") Long user_id, @RequestParam(required = false, value = "username") String username,
-                                  @RequestParam(required = false, value = "real_name") String real_name, @RequestParam(required = false, value = "phone") String phone,
-                                  @RequestParam(required = false, value = "email") String email, @RequestParam(required = false, value = "password") String password) throws OurException {
+    @PutMapping("/profile/edit")
+    public UserDto update_profile(@RequestBody UserDto user) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
-        // Configurar ModelMapper para ignorar valores nulos
-        model_mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-        UserDto updated_user = model_mapper.map(user_service.update_user(user_id, username, real_name, phone, email, password), UserDto.class);
+        UserDto updated_user = model_mapper.map(user_service.update_user(model_mapper.map(user, UserModel.class)), UserDto.class);
         if(updated_user == null) throw new OurException("El usuario no exsite");
         return updated_user;
     }

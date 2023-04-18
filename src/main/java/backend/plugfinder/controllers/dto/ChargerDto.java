@@ -19,6 +19,8 @@ public class ChargerDto {
 
     private Time max_time_charging;
 
+    private boolean occupied;
+
     private boolean is_public;
 
     private String company;
@@ -71,6 +73,13 @@ public class ChargerDto {
         this.max_time_charging = max_time_charging;
     }
 
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
+    }
     public boolean isIs_public() {
         return is_public;
     }
