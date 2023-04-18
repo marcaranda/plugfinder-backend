@@ -32,7 +32,7 @@ public class ChargerController {
     /**
      * This method returns all the chargers that are public
      * @return ArrayList<ChargerDto> - List of public chargers
-     */
+     * /
     @GetMapping("/location")
     public ArrayList<ChargerDto> get_chargers_by_location(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude){
         ModelMapper model_mapper = new ModelMapper();
@@ -41,7 +41,7 @@ public class ChargerController {
                 .collect(Collectors.toList());
 
         return chargers;
-    }
+    }*/
 
 
     //region Post Methods

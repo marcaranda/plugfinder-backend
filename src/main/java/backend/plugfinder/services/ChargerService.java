@@ -51,7 +51,7 @@ public class ChargerService {
      * @param latitude: Latitude of the location
      * @param longitude: Longitude of the location
      * @return: ArrayList with the chargers
-     */
+     * /
     public ArrayList<ChargerModel> get_chargers_by_location(double latitude, double longitude) {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerModel> chargers = new ArrayList<>();
@@ -62,7 +62,7 @@ public class ChargerService {
             }
         });
         return chargers;
-    }
+    }*/
 
     public ChargerModel save_charger(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();

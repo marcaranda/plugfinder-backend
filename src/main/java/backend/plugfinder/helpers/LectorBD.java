@@ -1,19 +1,21 @@
 package backend.plugfinder.helpers;
 
 import backend.plugfinder.repositories.BrandRepo;
+import backend.plugfinder.repositories.ChargerTypeRepo;
 import backend.plugfinder.repositories.ModelBrandRepo;
 import backend.plugfinder.repositories.UserRepo;
 import backend.plugfinder.repositories.entity.BrandEntity;
 import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import backend.plugfinder.repositories.entity.ModelBrandEntity;
 import backend.plugfinder.repositories.entity.UserEntity;
+import org.apache.poi.sl.draw.geom.GuideIf;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +29,8 @@ public class LectorBD {
     private ModelBrandRepo model_brand_repo;
     @Autowired
     private UserRepo user_repo;
+    @Autowired
+    private ChargerTypeRepo charger_type_repo;
 
     public List<ModelBrandEntity> read_models() throws IOException {
         List<ModelBrandEntity> models = new ArrayList<>();
@@ -76,28 +80,42 @@ public class LectorBD {
             else {
                 brand.setName(row.getCell(0).getStringCellValue());
                 brand.setKnown(true);
-                brand_repo.save(brand);
+                brand = brand_repo.save(brand);
             }
 
-                ModelBrandId id = new ModelBrandId();
-                switch (row.getCell(1).getCellType()){
-                    case STRING -> id.setName(row.getCell(1).getStringCellValue());
-                    case NUMERIC -> id.setName(Double.toString(row.getCell(1).getNumericCellValue()));
+            ModelBrandId id = new ModelBrandId();
+            switch (row.getCell(1).getCellType()){
+                case STRING -> id.setName(row.getCell(1).getStringCellValue());
+                case NUMERIC -> id.setName(Double.toString(row.getCell(1).getNumericCellValue()));
+            }
+            id.setBrand_name(brand.getName());
+            id.setUser_id(1L);
+            id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
+
+            ArrayList<ChargerTypeEntity> chargers_types = new ArrayList<>();
+            String[] types = row.getCell(3).getStringCellValue().split(",");
+            for (String t: types){
+                Optional<ChargerTypeEntity> type_model = charger_type_repo.findByName(t);
+                ChargerTypeEntity type = new ChargerTypeEntity();
+                if (type_model.isPresent()) {
+                    type = type_model.get();
                 }
-                id.setBrand_name(brand.getName());
-                id.setUser_id(1L);
-                id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
+                else {
+                    type.setName(t);
+                    type = charger_type_repo.save(type);
+                }
+                chargers_types.add(type);
+            }
 
-                ModelBrandEntity model = new ModelBrandEntity();
-                ArrayList<ChargerTypeEntity> types = new ArrayList<>();
-                model.setId(id);
-                model.setKnown(true);
-                model.setBrand_model(brand);
-                model.setUser_model(user);
-                model.setChargers_types(types);
-                model_brand_repo.save(model);
+            ModelBrandEntity model = new ModelBrandEntity();
+            model.setId(id);
+            model.setKnown(true);
+            model.setBrand_model(brand);
+            model.setUser_model(user);
+            model.setChargers_types(chargers_types);
+            model_brand_repo.save(model);
 
-                models.add(model);
+            models.add(model);
             }
 
         // Close the input stream and return the list of people
