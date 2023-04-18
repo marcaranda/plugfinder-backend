@@ -46,7 +46,8 @@ public class BrandService {
 
     public BrandModel get_by_id(String name) {
         ModelMapper model_mapper = new ModelMapper();
-        return model_mapper.map(brand_repo.findById(name).get(), BrandModel.class);
+        if (brand_repo.findById(name).isPresent()) return model_mapper.map(brand_repo.findById(name).get(), BrandModel.class);
+        else return null;
     }
     //endregion
 }

@@ -2,6 +2,8 @@ package backend.plugfinder.controllers.dto;
 
 import backend.plugfinder.helpers.ModelBrandId;
 
+import java.util.List;
+
 
 public class ModelBrandDto {
     //region Atributes
@@ -10,9 +12,8 @@ public class ModelBrandDto {
     private BrandDto brand_model;
     private UserDto user_model;
 
-    /*@ManyToOne
-    @JoinColumn(name = "charger_id")
-    private ChargerModel chargerModel;*/
+    private List<ChargerTypeDto> chargers_types;
+
     //endregion
 
     //region Getter & Setters
@@ -48,12 +49,12 @@ public class ModelBrandDto {
         this.user_model = user_model;
     }
 
-    /*public ChargerModel getChargerModel() {
-        return chargerModel;
+    public List<ChargerTypeDto> getChargers_types() {
+        return chargers_types;
     }
 
-    public void setChargerModel(ChargerModel chargerModel) {
-        this.chargerModel = chargerModel;
-    }*/
+    public void setChargers_types(List<ChargerTypeDto> chargers_types) {
+        this.chargers_types = chargers_types;
+    }
     //endregion
 }

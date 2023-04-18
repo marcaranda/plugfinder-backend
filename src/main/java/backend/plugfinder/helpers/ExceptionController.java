@@ -1,4 +1,4 @@
-package backend.plugfinder.controllers;
+package backend.plugfinder.helpers;
 
 import backend.plugfinder.helpers.OurException;
 import org.modelmapper.MappingException;
