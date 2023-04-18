@@ -24,18 +24,18 @@ public class ChargerService {
         else if (is_public == null && latitude != null && longitude != null) {
             charger_repo.findAll().forEach(elementB -> {
                 //Si la distancia entre el cargador i el punt seleccionat es menor a 5km afegira el carregador a la llista
-                if (Haversine(latitude, longitude, elementB.getLatitude(), elementB.getLongitude(), 5)){
+                if (Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), 5)){
                     chargers.add(model_mapper.map(elementB, ChargerModel.class));
                 }
             });
         }
         else if (is_public.equals("false") && latitude != null && longitude != null) charger_repo.findAllByPublic(false).forEach(elementB -> {
-            if (Haversine(latitude, longitude, elementB.getLatitude(), elementB.getLongitude(), 5)) {
+            if (Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), 5)) {
                 chargers.add(model_mapper.map(elementB, ChargerModel.class));
             }
         });
         else if (is_public.equals("true") && latitude != null && longitude != null) charger_repo.findAllByPublic(true).forEach(elementB -> {
-            if (Haversine(latitude, longitude, elementB.getLatitude(), elementB.getLongitude(), 5)) {
+            if (Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), 5)) {
                 chargers.add(model_mapper.map(elementB, ChargerModel.class));
             }
         });

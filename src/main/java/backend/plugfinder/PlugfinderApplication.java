@@ -1,7 +1,9 @@
 package backend.plugfinder;
 
+import backend.plugfinder.helpers.LectorAPI;
 import backend.plugfinder.helpers.LectorBD;
 
+import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -19,18 +22,19 @@ public class PlugfinderApplication {
 	private LectorBD lector_bd;
 	@Autowired
 	private UserService user_service;
+	@Autowired
+	private LectorAPI lector_api;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
-	public void runAfterStartup() throws IOException  {
+	public void runAfterStartup() throws IOException, OurException {
 		UserModel user_model = user_service.find_user_by_id(1L);
 		if (user_model == null) {
 			lector_bd.read_models();
+			lector_api.read_data_chargers();
 		}
-		//schedule
-		lector_bd.read_chargers();
 	}
 }

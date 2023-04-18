@@ -33,6 +33,11 @@ public class ChargerTypeService {
         return model_mapper.map(charger_type_repo.save(model_mapper.map(charger_type_model, ChargerTypeEntity.class)), ChargerTypeModel.class);
     }
 
+    public ChargerTypeModel get_charger_by_name(String name) {
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(charger_type_repo.findByName(name), ChargerTypeModel.class);
+    }
+
     //region Public Methods
 
     //endregion

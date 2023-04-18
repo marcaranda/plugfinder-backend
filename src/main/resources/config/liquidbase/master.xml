@@ -8,4 +8,5 @@
     <include file="changeLogs/00009_ChangeTypeLongitude_Latitude.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00010_AddAttributeChargerTypeToModelBrand.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00011_DeleteElectricCurrentTypeCharger.xml" relativeToChangelogFile="true" />
+    <!--<include file="changeLogs/00012_DeleteAliasCharger.xml" relativeToChangelogFile="true" />-->
 </databaseChangeLog>

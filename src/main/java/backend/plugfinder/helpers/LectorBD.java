@@ -8,6 +8,14 @@ import backend.plugfinder.repositories.entity.BrandEntity;
 import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import backend.plugfinder.repositories.entity.ModelBrandEntity;
 import backend.plugfinder.repositories.entity.UserEntity;
+import backend.plugfinder.services.BrandService;
+import backend.plugfinder.services.ChargerTypeService;
+import backend.plugfinder.services.ModelBrandService;
+import backend.plugfinder.services.UserService;
+import backend.plugfinder.services.models.BrandModel;
+import backend.plugfinder.services.models.ChargerTypeModel;
+import backend.plugfinder.services.models.ModelBrandModel;
+import backend.plugfinder.services.models.UserModel;
 import org.apache.poi.sl.draw.geom.GuideIf;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +32,16 @@ import java.util.Optional;
 @RestController
 public class LectorBD {
     @Autowired
-    private BrandRepo brand_repo;
+    private BrandService brand_service;
     @Autowired
-    private ModelBrandRepo model_brand_repo;
+    private ModelBrandService model_brand_service;
     @Autowired
-    private UserRepo user_repo;
+    private UserService user_service;
     @Autowired
-    private ChargerTypeRepo charger_type_repo;
+    private ChargerTypeService charger_type_service;
 
-    public List<ModelBrandEntity> read_models() throws IOException {
-        List<ModelBrandEntity> models = new ArrayList<>();
+    public List<ModelBrandModel> read_models() throws IOException, OurException {
+        List<ModelBrandModel> models = new ArrayList<>();
 
         // Load the Excel file
         FileInputStream input_stream = new FileInputStream(new File("modelos.xlsx"));
@@ -46,12 +54,8 @@ public class LectorBD {
 
         boolean end = false;
 
-        Optional<UserEntity> user_model = user_repo.findById(1L);
-        UserEntity user = new UserEntity();
-        if (user_model.isPresent()) {
-            user = user_model.get();
-        }
-        else {
+        UserModel user = user_service.find_user_by_id(1L);
+        if (user == null) {
             user.setUsername("admin");
             user.setReal_name("Admin");
             user.setPhone("+34649063779");
@@ -59,7 +63,7 @@ public class LectorBD {
             user.setPassword("admin");
             user.setBirth_date("07/01/2002");
             user.setAdmin(true);
-            user_repo.save(user);
+            user = user_service.user_register(user);
         }
 
         // Iterate through each row in the sheet
@@ -72,15 +76,11 @@ public class LectorBD {
                 break;
             }
 
-            Optional<BrandEntity> brand_model = brand_repo.findById(row.getCell(0).getStringCellValue());
-            BrandEntity brand = new BrandEntity();
-            if (brand_model.isPresent()) {
-                brand = brand_model.get();
-            }
-            else {
+            BrandModel brand = brand_service.get_by_id(row.getCell(0).getStringCellValue());
+            if (brand == null) {
                 brand.setName(row.getCell(0).getStringCellValue());
                 brand.setKnown(true);
-                brand = brand_repo.save(brand);
+                brand = brand_service.save_brand(brand);
             }
 
             ModelBrandId id = new ModelBrandId();
@@ -92,28 +92,24 @@ public class LectorBD {
             id.setUser_id(1L);
             id.setAutonomy(Double.toString(row.getCell(2).getNumericCellValue()));
 
-            ArrayList<ChargerTypeEntity> chargers_types = new ArrayList<>();
+            ArrayList<ChargerTypeModel> chargers_types = new ArrayList<>();
             String[] types = row.getCell(3).getStringCellValue().split(",");
             for (String t: types){
-                Optional<ChargerTypeEntity> type_model = charger_type_repo.findByName(t);
-                ChargerTypeEntity type = new ChargerTypeEntity();
-                if (type_model.isPresent()) {
-                    type = type_model.get();
-                }
-                else {
+                ChargerTypeModel type = charger_type_service.get_charger_by_name(t);
+                if (type == null) {
                     type.setName(t);
-                    type = charger_type_repo.save(type);
+                    type = charger_type_service.save_charger_type(type);
                 }
                 chargers_types.add(type);
             }
 
-            ModelBrandEntity model = new ModelBrandEntity();
+            ModelBrandModel model = new ModelBrandModel();
             model.setId(id);
             model.setKnown(true);
             model.setBrand_model(brand);
             model.setUser_model(user);
             model.setChargers_types(chargers_types);
-            model_brand_repo.save(model);
+            model_brand_service.save_model(model);
 
             models.add(model);
             }
