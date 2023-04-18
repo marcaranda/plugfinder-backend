@@ -35,7 +35,8 @@ public class ChargerTypeService {
 
     public ChargerTypeModel get_charger_by_name(String name) {
         ModelMapper model_mapper = new ModelMapper();
-        return model_mapper.map(charger_type_repo.findByName(name), ChargerTypeModel.class);
+        if (charger_type_repo.findByName(name).isPresent()) return model_mapper.map(charger_type_repo.findByName(name).get(), ChargerTypeModel.class);
+        else return null;
     }
 
     //region Public Methods

@@ -34,7 +34,6 @@ public class LectorAPI {
         ResponseEntity<String> response = rest_template.getForEntity(api_url, String.class);
         JSONArray data = new JSONArray(response.getBody());
 
-        long x = 1;
 
         for (Object json : data){
             JSONObject charger_json = (JSONObject) json;
@@ -53,18 +52,16 @@ public class LectorAPI {
                 }
 
                 ChargerModel charger = new ChargerModel();
-                charger.setId_charger(x);
-                charger.setAlias_charger("alias");
-                charger.setState("state");
-                charger.setPrice_x_kw(0);
-                charger.setMax_time_charging(Time.valueOf("00:10:50"));
+                charger.setPotency(charger_json.getInt("kw"));
+                charger.setOriginal_id(charger_json.getLong("id"));
+                charger.setAdress(charger_json.getString("adre_a"));
+                charger.setElectric_current(charger_json.getString("ac_dc"));
                 charger.setIs_public(true);
                 charger.setCompany(charger_json.getString("promotor_gestor"));
                 charger.setLocation(location);
                 charger.setTypes(charger_types);
                 charger_service.save_charger(charger);
 
-                ++x;
             }
         }
     }

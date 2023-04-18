@@ -4,9 +4,11 @@
     <include file="changeLogs/00004_cargas+DatosCargadores.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00005_DeleteBasicPremiumTables.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00006_ChangeDataTypeCharge.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00007_add_autoincrements.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00008_DeleteAliasCar_TablesLocation_ChargersTypes_PublicCharges.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00009_ChangeTypeLongitude_Latitude.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00010_AddAttributeChargerTypeToModelBrand.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00011_DeleteElectricCurrentTypeCharger.xml" relativeToChangelogFile="true" />
-    <!--<include file="changeLogs/00012_DeleteAliasCharger.xml" relativeToChangelogFile="true" />-->
+    <include file="changeLogs/00012_DeleteAliasCharger.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00013_add_ocupied_to_charger.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

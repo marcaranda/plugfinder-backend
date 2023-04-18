@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Map;
@@ -39,8 +41,19 @@ public class ChargeService {
 
     public ChargeModel save_charge(ChargeModel charge_model) {
         ModelMapper model_mapper = new ModelMapper();
-        charge_model.setDate(new Date(123,4,31));
-        charge_model.setCharge_time(new Time(16,34,40));
         return model_mapper.map(charge_repo.save(model_mapper.map(charge_model, ChargeEntity.class)), ChargeModel.class);
+    }
+
+    public ChargeModel end_charge(ChargeModel charge_model) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        charge_model.setEnded_at(Timestamp.from(Instant.now()));
+        return model_mapper.map(charge_repo.save(model_mapper.map(charge_model, ChargeEntity.class)), ChargeModel.class);
+    }
+
+    public ChargeModel get_charge(Long chargeId) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        return model_mapper.map(charge_repo.findById(chargeId).get(), ChargeModel.class);
     }
 }

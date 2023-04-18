@@ -4,4 +4,43 @@
             <column name="alias_charger"/>
         </dropColumn>
     </changeSet>
+    <changeSet author="marc" id="deleteColumn-state">
+        <dropColumn tableName="charger" >
+            <column name="state"/>
+        </dropColumn>
+    </changeSet>
+    <changeSet author="marc" id="deleteColumn-price_x_kw">
+        <dropColumn tableName="charger" >
+            <column name="price_x_kw"/>
+        </dropColumn>
+    </changeSet>
+    <changeSet author="marc" id="deleteColumn-max_time_charging">
+        <dropColumn tableName="charger" >
+            <column name="max_time_charging"/>
+        </dropColumn>
+    </changeSet>
+    <changeSet author="marc" id="addColumn-potency">
+        <addColumn tableName="charger" >
+            <column name="potency" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="marc" id="addColumn-originalId">
+        <addColumn tableName="charger" >
+            <column name="original_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="marc" id="addColumn-adress">
+        <addColumn tableName="charger" >
+            <column name="adress" type="VARCHAR(255)"></column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="marc" id="addColumn-electric_current">
+        <addColumn tableName="charger" >
+            <column name="electric_current" type="VARCHAR(255)"></column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

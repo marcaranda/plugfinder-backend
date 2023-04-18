@@ -56,6 +56,7 @@ public class LectorBD {
 
         UserModel user = user_service.find_user_by_id(1L);
         if (user == null) {
+            user = new UserModel();
             user.setUsername("admin");
             user.setReal_name("Admin");
             user.setPhone("+34649063779");
@@ -78,6 +79,7 @@ public class LectorBD {
 
             BrandModel brand = brand_service.get_by_id(row.getCell(0).getStringCellValue());
             if (brand == null) {
+                brand = new BrandModel();
                 brand.setName(row.getCell(0).getStringCellValue());
                 brand.setKnown(true);
                 brand = brand_service.save_brand(brand);
@@ -97,6 +99,7 @@ public class LectorBD {
             for (String t: types){
                 ChargerTypeModel type = charger_type_service.get_charger_by_name(t);
                 if (type == null) {
+                    type = new ChargerTypeModel();
                     type.setName(t);
                     type = charger_type_service.save_charger_type(type);
                 }
