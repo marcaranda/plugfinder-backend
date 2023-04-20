@@ -37,7 +37,7 @@ public class ChargeController {
     }
     //endregion
 
-    @PostMapping(path = "/new")
+    @PostMapping
     public ChargeDto save_charge(@RequestBody ChargeDto charge){
         ModelMapper model_mapper = new ModelMapper();
         ChargerDto charger = charge.getCharger();

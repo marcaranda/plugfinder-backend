@@ -20,9 +20,9 @@ public class ChargerController {
     UserService user_service;
 
     @GetMapping
-    public ArrayList<ChargerDto> get_chargers(){
+    public ArrayList<ChargerDto> get_chargers(@RequestParam(required = false, value = "public") String is_public, @RequestParam(required = false, value = "latitude") Double latitude, @RequestParam(required = false, value = "longitude") Double longitude){
         ModelMapper model_mapper = new ModelMapper();
-        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_chargers().stream()
+        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_chargers(is_public, latitude, longitude).stream()
                 .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
                 .collect(Collectors.toList());
 
@@ -38,37 +38,24 @@ public class ChargerController {
     /**
      * This method returns all the chargers that are public
      * @return ArrayList<ChargerDto> - List of public chargers
-     */
-    @GetMapping("/private")
-    public ArrayList<ChargerDto> get_private_chargers(){
+     * /
+    @GetMapping("/location")
+    public ArrayList<ChargerDto> get_chargers_by_location(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude){
         ModelMapper model_mapper = new ModelMapper();
-        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_private_chargers().stream()
+        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_chargers_by_location(latitude, longitude).stream()
                 .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
                 .collect(Collectors.toList());
 
         return chargers;
-    }
+    }*/
 
 
     //region Post Methods
-    @PostMapping("/new")
+    @PostMapping
     public ChargerDto save_charger(@RequestBody ChargerDto chargerModel){
         ModelMapper model_mapper = new ModelMapper();
 
         return model_mapper.map(charger_service.save_charger(model_mapper.map(chargerModel, ChargerModel.class)), ChargerDto.class);
-    }
-
-    /**
-     * This method saves a private charger in the DB
-     * @param user_id - Id of the user that is creating the charger
-     * @param chargerModel - Charger to be saved
-     * @return ChargerDto - Saved charger
-     */
-    @PostMapping("/{user_id}/private/new")
-    public ChargerDto save_private_charger(@PathVariable("user_id") Long user_id, @RequestBody ChargerDto chargerModel){
-        ModelMapper model_mapper = new ModelMapper();
-
-        return model_mapper.map(charger_service.save_private_charger(user_service.find_user_by_id(user_id), model_mapper.map(chargerModel, ChargerModel.class)), ChargerDto.class);
     }
     //endregion
 

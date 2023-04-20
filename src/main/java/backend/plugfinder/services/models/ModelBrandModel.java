@@ -1,7 +1,11 @@
 package backend.plugfinder.services.models;
 
 import backend.plugfinder.helpers.ModelBrandId;
+import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelBrandModel {
     //region Atributes
@@ -10,9 +14,8 @@ public class ModelBrandModel {
     private BrandModel brand_model;
     private UserModel user_model;
 
-    /*@ManyToOne
-    @JoinColumn(name = "charger_id")
-    private ChargerModel chargerModel;*/
+    private List<ChargerTypeModel> chargers_types;
+
     //endregion
 
     //region Getter & Setters
@@ -48,12 +51,12 @@ public class ModelBrandModel {
         this.user_model = user_model;
     }
 
-    /*public ChargerModel getChargerModel() {
-        return chargerModel;
+    public List<ChargerTypeModel> getChargers_types() {
+        return chargers_types;
     }
 
-    public void setChargerModel(ChargerModel chargerModel) {
-        this.chargerModel = chargerModel;
-    }*/
+    public void setChargers_types(List<ChargerTypeModel> chargers_types) {
+        this.chargers_types = chargers_types;
+    }
     //endregion
 }

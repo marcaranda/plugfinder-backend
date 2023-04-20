@@ -1,25 +1,18 @@
 package backend.plugfinder.services.models;
 
-
-import backend.plugfinder.repositories.entity.LocationEntity;
-import backend.plugfinder.repositories.entity.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-import java.sql.Time;
+import java.util.List;
 
 public class ChargerModel {
 
     private long id_charger;
 
-    private String alias_charger;
+    private int potency;
 
-    private String state;
+    private long original_id;
 
-    private int price_x_kw;
+    private String adress;
 
-    private Time max_time_charging;
+    private String electric_current;
 
     private boolean occupied;
 
@@ -31,8 +24,9 @@ public class ChargerModel {
 
     private LocationModel location;
 
-    //region Constructores, getters y setters
+    private List<ChargerTypeModel> types;
 
+    //region Constructores, getters y setters
     public long getId_charger() {
         return id_charger;
     }
@@ -41,36 +35,36 @@ public class ChargerModel {
         this.id_charger = id_charger;
     }
 
-    public String getAlias_charger() {
-        return alias_charger;
+    public int getPotency() {
+        return potency;
     }
 
-    public void setAlias_charger(String alias_charger) {
-        this.alias_charger = alias_charger;
+    public void setPotency(int potency) {
+        this.potency = potency;
     }
 
-    public String getState() {
-        return state;
+    public long getOriginal_id() {
+        return original_id;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setOriginal_id(long original_id) {
+        this.original_id = original_id;
     }
 
-    public int getPrice_x_kw() {
-        return price_x_kw;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setPrice_x_kw(int price_x_kw) {
-        this.price_x_kw = price_x_kw;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
-    public Time getMax_time_charging() {
-        return max_time_charging;
+    public String getElectric_current() {
+        return electric_current;
     }
 
-    public void setMax_time_charging(Time max_time_charging) {
-        this.max_time_charging = max_time_charging;
+    public void setElectric_current(String electric_current) {
+        this.electric_current = electric_current;
     }
 
     public boolean isOccupied() {
@@ -113,5 +107,12 @@ public class ChargerModel {
 
     }
 
+    public List<ChargerTypeModel> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<ChargerTypeModel> types) {
+        this.types = types;
+    }
     //endregion
 }

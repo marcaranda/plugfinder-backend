@@ -3,6 +3,9 @@ package backend.plugfinder.repositories.entity;
 import backend.plugfinder.helpers.ModelBrandId;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "model_brand")
 public class ModelBrandEntity {
@@ -20,9 +23,15 @@ public class ModelBrandEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user_model;
 
-    /*@ManyToOne
-    @JoinColumn(name = "charger_id")
-    private ChargerModel chargerModel;*/
+    @ManyToMany
+    @JoinTable(name = "models_chargers_type",
+            joinColumns = {
+                @JoinColumn(name = "model_name", referencedColumnName = "name"),
+                @JoinColumn(name = "brand_name", referencedColumnName = "brand_name"),
+                @JoinColumn(name = "creator_id", referencedColumnName = "user_id"),
+                @JoinColumn(name = "autonomy", referencedColumnName = "autonomy")},
+            inverseJoinColumns = @JoinColumn(name = "type_id"))
+    private List<ChargerTypeEntity> chargers_types;
     //endregion
 
     //region Getter & Setters
@@ -58,12 +67,12 @@ public class ModelBrandEntity {
         this.user_model = user_model;
     }
 
-    /*public ChargerModel getChargerModel() {
-        return chargerModel;
+    public List<ChargerTypeEntity> getChargers_types() {
+        return chargers_types;
     }
 
-    public void setChargerModel(ChargerModel chargerModel) {
-        this.chargerModel = chargerModel;
-    }*/
+    public void setChargers_types(List<ChargerTypeEntity> chargers_types) {
+        this.chargers_types = chargers_types;
+    }
     //endregion
 }

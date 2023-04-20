@@ -13,9 +13,6 @@ public class ChargerTypeEntity {
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    private String electric_current;
     //endregion
 
     //region Getters & Setters
@@ -33,14 +30,6 @@ public class ChargerTypeEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getElectric_current() {
-        return electric_current;
-    }
-
-    public void setElectric_current(String electric_current) {
-        this.electric_current = electric_current;
     }
     //endregion
 }

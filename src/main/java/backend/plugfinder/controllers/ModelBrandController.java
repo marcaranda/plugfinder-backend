@@ -37,10 +37,10 @@ public class ModelBrandController {
 
     //region Post Methods
     @PostMapping
-    public ModelBrandDto save_model(@RequestBody ModelBrandDto modelBrandDto){
+    public ModelBrandDto save_model(@RequestBody ModelBrandDto model_brand_dto){
         ModelMapper model_mapper = new ModelMapper();
 
-        return model_mapper.map(model_brand_service.save_model(model_mapper.map(modelBrandDto, ModelBrandModel.class)), ModelBrandDto.class);
+        return model_mapper.map(model_brand_service.save_model(model_mapper.map(model_brand_dto, ModelBrandModel.class)), ModelBrandDto.class);
     }
     //endregion
 }
