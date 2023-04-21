@@ -12,6 +12,7 @@ public class UserModel {
     private String email;
     private String password;
     private String birth_date;
+    private String photo;
     long rank_position;
     long points;
     double co2;
@@ -83,6 +84,14 @@ public class UserModel {
 
     public void setBirth_date(String birth_date) {
         this.birth_date = birth_date;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public boolean isDeleted() {
