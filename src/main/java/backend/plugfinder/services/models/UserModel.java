@@ -2,6 +2,7 @@ package backend.plugfinder.services.models;
 
 import jakarta.persistence.*;
 
+
 public class UserModel {
 
     //region User Attributes
@@ -13,6 +14,7 @@ public class UserModel {
     private String password;
     private String birth_date;
     private String photo;
+    private String photo_base64;
     long rank_position;
     long points;
     double co2;
@@ -92,6 +94,14 @@ public class UserModel {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getPhoto_base64() {
+        return photo_base64;
+    }
+
+    public void setPhoto_base64(String photo_base64) {
+        this.photo_base64 = photo_base64;
     }
 
     public boolean isDeleted() {
