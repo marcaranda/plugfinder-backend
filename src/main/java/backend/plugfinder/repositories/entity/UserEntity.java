@@ -23,6 +23,8 @@ public class UserEntity {
     private String password;
     @Column (nullable = false)
     private String birth_date;
+    @Column
+    private String photo;
     @Column (nullable = false, columnDefinition = "integer default 0")
     long rank_position;
     @Column (nullable = false, columnDefinition = "integer default 0")
@@ -102,6 +104,14 @@ public class UserEntity {
 
     public void setBirth_date(String birth_date) {
         this.birth_date = birth_date;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public boolean isDeleted() {
