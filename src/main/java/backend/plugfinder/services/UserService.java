@@ -174,7 +174,7 @@ public class UserService {
                         amazonS3Service.delete_file(user_to_be_updated.getUsername());
                     }
                     //Guardem la nova foto
-                    String public_url_photo = amazonS3Service.upload_file(user.getUsername(), user.getPhoto_base64());
+                    String public_url_photo = amazonS3Service.upload_file(user_to_be_updated.getUsername(), user.getPhoto_base64());
                     user.setPhoto(public_url_photo);
                 }
 

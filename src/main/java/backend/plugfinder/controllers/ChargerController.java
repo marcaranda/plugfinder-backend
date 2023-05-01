@@ -1,6 +1,7 @@
 package backend.plugfinder.controllers;
 
 import backend.plugfinder.controllers.dto.ChargerDto;
+import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.ChargerService;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.ChargerModel;
@@ -68,5 +69,12 @@ public class ChargerController {
         else{
             return "No se ha podido eliminar el cargador con id " + id;
         }
+    }
+
+    @PutMapping("/update")
+    public ChargerDto update_charger(@RequestBody ChargerDto charger_dto) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+
+        return model_mapper.map(charger_service.update_charger(model_mapper.map(charger_dto, ChargerModel.class)), ChargerDto.class);
     }
 }

@@ -1,4 +1,7 @@
 package backend.plugfinder.services;
+import backend.plugfinder.controllers.dto.ChargerDto;
+import backend.plugfinder.helpers.OurException;
+import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.ChargerEntity;
 import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.ChargerModel;
@@ -16,6 +19,9 @@ import java.util.ArrayList;
 public class ChargerService {
     @Autowired
     ChargerRepo charger_repo;
+
+    @Autowired
+    AmazonS3Service amazonS3Service;
 
     //region Public Methods
     public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude){
@@ -50,6 +56,12 @@ public class ChargerService {
 
     public ChargerModel save_charger(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
+
+        /* Pujem l'imatge pasada en base 64 al bucket s3 de amazon i emmagatzemem la seva url pública al atribut charger_photo del cargador */
+        if(chargerModel.getCharger_photo_base64() != null) {
+            String public_url_photo = amazonS3Service.upload_file("charger-" + chargerModel.getId_charger(), chargerModel.getCharger_photo_base64());
+            chargerModel.setCharger_photo_base64(public_url_photo);
+        }
 
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
 
@@ -97,6 +109,38 @@ public class ChargerService {
             return false;
         }
     }
+
+    //region Editar Cargador Privat
+    public ChargerModel update_charger(ChargerModel charger_model) throws OurException {
+        if(new TokenValidator().validate_id_with_token(charger_model.getOwner_user().getUser_id())) {
+            ModelMapper model_mapper = new ModelMapper();
+            ChargerModel charger_to_be_updated = model_mapper.map(charger_repo.findById(charger_model.getId_charger()), ChargerModel.class);
+
+            //Si el cargador es privat, llabors es pot actualitzar
+            if(!charger_to_be_updated.isIs_public()) {
+                //Si la foto del cargador és diferent l'actualitzem
+                if(charger_model.getCharger_photo_base64() != null) {
+                    if(charger_to_be_updated.getCharger_photo() != null) {
+                        //Eliminem la foto anterior
+                        amazonS3Service.delete_file("charger-" + charger_to_be_updated.getId_charger());
+                    }
+                    //Guardem la nova foto
+                    String public_url_photo = amazonS3Service.upload_file("charger-" + charger_model.getId_charger(), charger_model.getCharger_photo_base64());
+                    charger_model.setCharger_photo(public_url_photo);
+                }
+
+                //Com la crida al métode save està especificant l'id del cargador, no s'està fent un insert, sinó un update
+                return model_mapper.map(charger_repo.save(model_mapper.map(charger_model, ChargerEntity.class)), ChargerModel.class);
+            }
+            else {
+                throw new OurException("No se puede actualizar un cargador público");
+            }
+        }
+        else {
+            throw new OurException("El user_id del propietario del cargador es diferente al especificado en el token");
+        }
+    }
+    //endregion
 
     public ChargerModel find_charger_by_id(Long id) {
         ModelMapper model_mapper = new ModelMapper();
