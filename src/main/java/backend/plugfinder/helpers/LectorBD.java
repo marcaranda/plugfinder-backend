@@ -40,8 +40,7 @@ public class LectorBD {
     @Autowired
     private ChargerTypeService charger_type_service;
 
-    public List<ModelBrandModel> read_models() throws IOException, OurException {
-        List<ModelBrandModel> models = new ArrayList<>();
+    public void read_models() throws IOException, OurException {
 
         // Load the Excel file
         FileInputStream input_stream = new FileInputStream(new File("modelos.xlsx"));
@@ -64,6 +63,7 @@ public class LectorBD {
             user.setPassword("admin");
             user.setBirth_date("07/01/2002");
             user.setAdmin(true);
+            user.setFavorite_chargers(new ArrayList<>());
             user = user_service.user_register(user);
         }
 
@@ -112,13 +112,10 @@ public class LectorBD {
             model.setBrand_model(brand);
             model.setUser_model(user);
             model.setChargers_types(chargers_types);
-            model_brand_service.save_model(model);
-
-            models.add(model);
+            model = model_brand_service.save_model(model);
             }
 
         // Close the input stream and return the list of people
         input_stream.close();
-        return models;
     }
 }

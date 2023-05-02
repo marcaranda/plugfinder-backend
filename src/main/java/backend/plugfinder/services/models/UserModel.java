@@ -2,6 +2,8 @@ package backend.plugfinder.services.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 public class UserModel {
 
@@ -20,6 +22,8 @@ public class UserModel {
     double co2;
     private boolean deleted;
     private boolean admin;
+    private List<ChargerModel> favorite_chargers;
+
 
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
@@ -166,6 +170,14 @@ public class UserModel {
 
     public void setPremium_drop_date(String premium_drop_date) {
         this.premium_drop_date = premium_drop_date;
+    }
+
+    public List<ChargerModel> getFavorite_chargers() {
+        return favorite_chargers;
+    }
+
+    public void setFavorite_chargers(List<ChargerModel> favorite_chargers) {
+        this.favorite_chargers = favorite_chargers;
     }
 
     //endregion

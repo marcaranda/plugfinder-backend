@@ -2,6 +2,8 @@ package backend.plugfinder.controllers.dto;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 public class UserDto {
 
@@ -20,6 +22,8 @@ public class UserDto {
     double co2;
     private boolean deleted;
     private boolean admin;
+    private List<ChargerDto> favorite_chargers;
+
 
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
@@ -166,6 +170,14 @@ public class UserDto {
 
     public void setPremium_drop_date(String premium_drop_date) {
         this.premium_drop_date = premium_drop_date;
+    }
+
+    public List<ChargerDto> getFavorite_chargers() {
+        return favorite_chargers;
+    }
+
+    public void setFavorite_chargers(List<ChargerDto> favorite_chargers) {
+        this.favorite_chargers = favorite_chargers;
     }
 
     //endregion

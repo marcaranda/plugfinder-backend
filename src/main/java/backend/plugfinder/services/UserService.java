@@ -9,6 +9,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -246,6 +247,16 @@ public class UserService {
             else {
                 throw new OurException("El usuario no es premium");
             }
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void add_favorite(Long user_id, Long charger_id) {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            UserModel user = find_user_by_id(user_id);
+
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");

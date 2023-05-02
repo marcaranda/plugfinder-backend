@@ -71,6 +71,11 @@ public class UserController {
         user_service.unsubscribe_premium(user_id);
     }
 
+    @PutMapping("/{user_id}/addfavorite/{charger_id}")
+    public void add_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id){
+        user_service.add_favorite(user_id, charger_id);
+    }
+
     //region Perfil del usuario
     /**
      * This method returns the profile of a user.
