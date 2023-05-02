@@ -3,6 +3,7 @@ package backend.plugfinder.services;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.UserEntity;
+import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
@@ -24,6 +25,9 @@ public class UserService {
 
     @Autowired
     AmazonS3Service amazonS3Service;
+
+    @Autowired
+    CarService car_service;
 
 
     //region Registrar usuario
@@ -87,6 +91,14 @@ public class UserService {
             if(user == null || user.isDeleted()) {
                 throw new OurException("Error al intentar eliminar el usuario. El usuario no existe.");
             }
+
+            //Agafem els cotxes del usuari per eliminar-los
+            ArrayList<CarModel> user_cars = car_service.get_cars(user_id);
+            for(CarModel c : user_cars) {
+                //Eliminem els cotxes del usuari
+                car_service.delete_car(c.getId().getLicense(), user_id);
+            }
+
             user.setDeleted(true);
             user_repo.save(model_mapper.map(user, UserEntity.class));
         }
