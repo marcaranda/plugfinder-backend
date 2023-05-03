@@ -1,5 +1,6 @@
 package backend.plugfinder.controllers;
 
+import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.controllers.dto.UserDto;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.helpers.OurException;
@@ -71,6 +72,17 @@ public class UserController {
         user_service.unsubscribe_premium(user_id);
     }
 
+    //region Cargadores favoritos
+    @GetMapping("/{user_id}/favorites")
+    public ArrayList<ChargerDto> get_chargers_favorites(@PathVariable("user_id") Long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) user_service.get_chargers_favorites(user_id).stream()
+                .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
+                .collect(Collectors.toList());
+
+        return chargers;
+    }
+
     @PutMapping("/{user_id}/addfavorite/{charger_id}")
     public void add_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
         user_service.add_favorite(user_id, charger_id);
@@ -80,6 +92,7 @@ public class UserController {
     public void delete_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
         user_service.delete_favorite(user_id, charger_id);
     }
+    //endregion
 
     //region Perfil del usuario
     /**

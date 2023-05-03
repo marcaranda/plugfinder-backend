@@ -255,6 +255,18 @@ public class UserService {
         }
     }
 
+    public ArrayList<ChargerModel> get_chargers_favorites(long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            UserModel user = find_user_by_id(user_id);
+
+            return (ArrayList<ChargerModel>) user.getFavorite_chargers();
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
     public void add_favorite(Long user_id, Long charger_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
             ModelMapper model_mapper = new ModelMapper();
