@@ -72,8 +72,13 @@ public class UserController {
     }
 
     @PutMapping("/{user_id}/addfavorite/{charger_id}")
-    public void add_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id){
+    public void add_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
         user_service.add_favorite(user_id, charger_id);
+    }
+
+    @PutMapping("/{user_id}/deletefavorite/{charger_id}")
+    public void delete_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
+        user_service.delete_favorite(user_id, charger_id);
     }
 
     //region Perfil del usuario

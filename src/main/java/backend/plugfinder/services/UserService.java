@@ -3,6 +3,7 @@ package backend.plugfinder.services;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.UserEntity;
+import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
@@ -22,7 +23,8 @@ import java.util.regex.Pattern;
 public class UserService {
     @Autowired // This annotation allows the dependency injection
     UserRepo user_repo;
-
+    @Autowired
+    ChargerService charger_service;
     @Autowired
     AmazonS3Service amazonS3Service;
 
@@ -34,7 +36,7 @@ public class UserService {
      * @return UserModel - Registered user.
      */
     public UserModel user_register(UserModel user) throws OurException {
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
 
         /* Comprobación validez correo electrónico */
         if(!validateEmail(user.getEmail())) {
@@ -60,7 +62,7 @@ public class UserService {
             user.setPhoto(public_url_photo);
         }
 
-        return modelMapper.map(user_repo.save(modelMapper.map(user, UserEntity.class)), UserModel.class);
+        return model_mapper.map(user_repo.save(model_mapper.map(user, UserEntity.class)), UserModel.class);
     }
     //endregion
 
@@ -253,10 +255,28 @@ public class UserService {
         }
     }
 
-    public void add_favorite(Long user_id, Long charger_id) {
+    public void add_favorite(Long user_id, Long charger_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
             UserModel user = find_user_by_id(user_id);
+            ChargerModel charger = charger_service.find_charger_by_id(charger_id);
 
+            user.getFavorite_chargers().add(charger);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void delete_favorite(Long user_id, Long charger_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            UserModel user = find_user_by_id(user_id);
+            ChargerModel charger = charger_service.find_charger_by_id(charger_id);
+
+            user.getFavorite_chargers().remove(charger);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");
