@@ -1,6 +1,7 @@
 package backend.plugfinder.services.models;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ChargerModel {
 
@@ -133,6 +134,19 @@ public class ChargerModel {
 
     public void setCharger_photo_base64(String charger_photo_base64) {
         this.charger_photo_base64 = charger_photo_base64;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChargerModel that = (ChargerModel) o;
+        return id_charger == that.id_charger;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_charger);
     }
 
     //endregion

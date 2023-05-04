@@ -3,6 +3,7 @@ package backend.plugfinder.services.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class UserModel {
@@ -178,6 +179,19 @@ public class UserModel {
 
     public void setFavorite_chargers(List<ChargerModel> favorite_chargers) {
         this.favorite_chargers = favorite_chargers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserModel userModel = (UserModel) o;
+        return user_id == userModel.user_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user_id);
     }
 
     //endregion
