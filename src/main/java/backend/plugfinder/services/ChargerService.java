@@ -1,49 +1,86 @@
 package backend.plugfinder.services;
+import backend.plugfinder.repositories.ChargerFiltersRepo;
+import backend.plugfinder.repositories.ChargerSpecification;
+import backend.plugfinder.repositories.SearchCriteria;
 import backend.plugfinder.repositories.entity.ChargerEntity;
-import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
-import backend.plugfinder.services.models.UserModel;
+import org.apache.commons.lang3.tuple.Pair;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ChargerService {
     @Autowired
     ChargerRepo charger_repo;
 
-    //region Public Methods
-    public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude){
+    @Autowired
+    ChargerFiltersRepo charger_filters;
+
+    private JpaSpecificationExecutor<ChargerEntity> chargerRepository;
+
+    //https://www.baeldung.com/rest-api-search-language-spring-data-specifications --> seguir esto
+    public ArrayList<ChargerModel> buscar_cargadores(Boolean is_public, Double latitude, Double longitude, String type, Long real_charge_speed, Long radius) {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerModel> chargers = new ArrayList<>();
 
-        if (is_public == null && latitude == null && longitude == null) charger_repo.findAll().forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
-        else if (is_public == null && latitude != null && longitude != null) {
+        ChargerSpecification spec1 = null;
+        ChargerSpecification spec2 = null;
+        ChargerSpecification spec3 = null;
+        ChargerSpecification spec4 = null;
+        ChargerSpecification spec5 = null;
+        ChargerSpecification spec6 = null;
+
+        if(is_public!=null){
+            spec1 = new ChargerSpecification(new SearchCriteria("is_public", ":", is_public));
+        }
+        if (type!=null) {
+            spec2 = new ChargerSpecification(new SearchCriteria("type", ":", type));
+        }
+        if (latitude != null && longitude != null && radius != null) {
+            double [] limites = calcularLimites(latitude, longitude, radius);
+
+            Pair<Double, Double> left_down = Pair.of(limites[0], limites[2]);
+            Pair<Double, Double> right_up = Pair.of(limites[1], limites[3]);
+            spec3 = new ChargerSpecification(new SearchCriteria("location", ">", left_down));
+            spec4 = new ChargerSpecification(new SearchCriteria("location", "<", right_up));
+        }
+
+        List<ChargerEntity> results = charger_filters.findAll(Specification.where(spec1).and(spec2).and(spec3).and(spec4));
+
+
+        results.forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
+        return chargers;
+    }
+
+
+    //region Public Methods
+    public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude, String type, Long real_charge_speed, Long radius){
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargerModel> chargers = new ArrayList<>();
+
+        if (is_public == null ) {
             charger_repo.findAll().forEach(elementB -> {
                 //Si la distancia entre el cargador i el punt seleccionat es menor a 5km afegira el carregador a la llista
-                if (Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), 5)){
+                if ((latitude == null && longitude == null) || Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), radius)){
                     chargers.add(model_mapper.map(elementB, ChargerModel.class));
                 }
             });
-        }
-        else if (is_public.equals("false") && latitude != null && longitude != null) charger_repo.findAllByPublic(false).forEach(elementB -> {
-            if (Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), 5)) {
-                chargers.add(model_mapper.map(elementB, ChargerModel.class));
-            }
-        });
-        else if (is_public.equals("true") && latitude != null && longitude != null) charger_repo.findAllByPublic(true).forEach(elementB -> {
-            if (Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), 5)) {
-                chargers.add(model_mapper.map(elementB, ChargerModel.class));
-            }
-        });
-        else if (is_public.equals("false") && latitude == null && longitude == null) charger_repo.findAllByPublic(false).forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
-        else if (is_public.equals("true") && latitude == null && longitude == null) charger_repo.findAllByPublic(true).forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
+        }else {
+            charger_repo.findAllByPublic(is_public.equals("true")).forEach(elementB -> {
+                if ((latitude == null && longitude == null) || Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), radius)) {
+                    chargers.add(model_mapper.map(elementB, ChargerModel.class));
+                }
 
+            });
+        }
 
         return chargers;
     }
@@ -133,6 +170,36 @@ public class ChargerService {
         return false;
     }
     //endregion
+
+    private double[] calcularLimites(double latitud, double longitud, double radio) {
+        // Convertir la latitud y longitud a radianes
+        double latitudRad = Math.toRadians(latitud);
+        double longitudRad = Math.toRadians(longitud);
+
+        // Radio de la Tierra en kilometros
+        final double radioTierra = 6371.0;
+
+        // Calcular la distancia en radianes que representa el radio de búsqueda
+        double distanciaRad = radio / radioTierra;
+
+        // Calcular los límites de longitud
+        double longitudMinRad = longitudRad - distanciaRad / Math.cos(latitudRad);
+        double longitudMaxRad = longitudRad + distanciaRad / Math.cos(latitudRad);
+
+        // Calcular los límites de latitud
+        double latitudMinRad = latitudRad - distanciaRad;
+        double latitudMaxRad = latitudRad + distanciaRad;
+
+        // Convertir los límites de latitud y longitud a grados
+        double[] limites = new double[4];
+        limites[0] = Math.toDegrees(longitudMinRad); // límite oeste
+        limites[1] = Math.toDegrees(longitudMaxRad); // límite este
+        limites[2] = Math.toDegrees(latitudMinRad);  // límite sur
+        limites[3] = Math.toDegrees(latitudMaxRad);  // límite norte
+
+        return limites;
+    }
+
 
 
 }

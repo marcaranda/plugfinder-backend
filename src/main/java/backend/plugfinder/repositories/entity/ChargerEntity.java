@@ -1,8 +1,11 @@
 package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Root;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Entity
 @Table(name = "charger")
@@ -137,5 +140,6 @@ public class ChargerEntity {
     public void setTypes(List<ChargerTypeEntity> types) {
         this.types = types;
     }
+
     //endregion
 }
