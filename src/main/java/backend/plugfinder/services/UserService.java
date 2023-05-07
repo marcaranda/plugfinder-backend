@@ -10,8 +10,6 @@ import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -23,6 +21,9 @@ import java.util.regex.Pattern;
 public class UserService {
     @Autowired // This annotation allows the dependency injection
     UserRepo user_repo;
+
+    @Autowired
+    AmazonS3Service amazonS3Service;
 
 
     //region Registrar usuario
@@ -51,6 +52,12 @@ public class UserService {
         /* Encriptado de contraseña -- IMPORTANTE: Al hacer log-in, tenemos que comparar la contraseña introducida con la encriptada en la BD. Para ello,
         usamos la función checkpw(psw, pswCryp) de la clase BCrypt, pero antes tenemos que encriptar la contraseña introducida por el usuario.*/
         user.setPassword(encryptPassowrd(user.getPassword()));
+
+        /* Subimos la imagen pasada en formato base 64 al bucket s3 de amazon y guardamos su url pública en el atributo photo del usuario */
+        if(user.getPhoto_base64() != null) {
+            String public_url_photo = amazonS3Service.upload_file(user.getUsername(), user.getPhoto_base64());
+            user.setPhoto(public_url_photo);
+        }
 
         return modelMapper.map(user_repo.save(modelMapper.map(user, UserEntity.class)), UserModel.class);
     }
@@ -110,6 +117,7 @@ public class UserService {
             user_without_delicated_data.setUsername(user.getUsername());
             user_without_delicated_data.setReal_name(user.getReal_name());
             user_without_delicated_data.setBirth_date(user.getBirth_date());
+            user_without_delicated_data.setPhoto(user.getPhoto());
             return user_without_delicated_data;
         }
     }
@@ -127,22 +135,30 @@ public class UserService {
             else {
                 //Agafem l'usuari que tenim guardat a la BD
                 UserModel user_to_be_updated = model_mapper.map(user_repo.findById(user.getUser_id()), UserModel.class);
+
+                //Si el correu és diferent l'actualitzem
                 if(!user_to_be_updated.getEmail().equals(user.getEmail())) {
                     if(!validateEmail(user.getEmail())) {
                         throw new OurException("El correo electrónico no es válido.");
                     }
                 }
+
+                //Si el tlf és diferent l'actualitzem
                 String user_tlf = user.getPhone();
                 if(!user_to_be_updated.getPhone().equals(user_tlf)) {
                     if(user_tlf != null && !validatePhoneNumber(user_tlf)) {
                         throw new OurException("El número de teléfono no es válido.");
                     }
                 }
+
+                //Si la data de naixement és diferent l'actualitzem
                 if(!user_to_be_updated.getBirth_date().equals(user.getBirth_date())) {
                     if(!validateBirthDate(user.getBirth_date())) {
                         throw new OurException("La fecha de nacimiento no es válida.");
                     }
                 }
+
+                //Si la contrasenya és diferent l'actualtizem
                 if(!BCrypt.checkpw(user.getPassword(), user_to_be_updated.getPassword())) {
                     //Encriptem la contraseña
                     user.setPassword(encryptPassowrd(user.getPassword()));
@@ -151,9 +167,19 @@ public class UserService {
                     user.setPassword(user_to_be_updated.getPassword());
                 }
 
+                //Si la foto de perfil és diferent l'actualitzem
+                if(user.getPhoto_base64() != null) {
+                    if(user_to_be_updated.getPhoto() != null) {
+                        //Eliminem la foto anterior
+                        amazonS3Service.delete_file(user_to_be_updated.getUsername());
+                    }
+                    //Guardem la nova foto
+                    String public_url_photo = amazonS3Service.upload_file(user_to_be_updated.getUsername(), user.getPhoto_base64());
+                    user.setPhoto(public_url_photo);
+                }
+
                 //Com la crida al métode save està especificant l'id de l'usuari, no s'està fent un insert, sinó un update
-                user_repo.save(model_mapper.map(user, UserEntity.class));
-                return user;
+                return model_mapper.map(user_repo.save(model_mapper.map(user, UserEntity.class)), UserModel.class);
             }
         }
         else {

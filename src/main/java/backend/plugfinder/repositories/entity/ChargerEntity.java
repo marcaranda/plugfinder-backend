@@ -47,6 +47,8 @@ public class ChargerEntity {
             joinColumns = @JoinColumn(name = "charger_id", referencedColumnName = "id_charger"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
     private List<ChargerTypeEntity> types;
+    @Column
+    private String charger_photo;
     //endregion
 
     //region Getters & Setters
@@ -137,5 +139,14 @@ public class ChargerEntity {
     public void setTypes(List<ChargerTypeEntity> types) {
         this.types = types;
     }
+
+    public String getCharger_photo() {
+        return charger_photo;
+    }
+
+    public void setCharger_photo(String charger_photo) {
+        this.charger_photo = charger_photo;
+    }
+
     //endregion
 }
