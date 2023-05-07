@@ -22,18 +22,12 @@ public class ChargeService {
     @Autowired
     ChargeRepo charge_repo;
 
-    public ArrayList<ChargeModel> get_charges(Long user_id) throws OurException {
+    public ArrayList<ChargeModel> get_charges(Long charge_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargeModel> charges = new ArrayList<>();
 
-        if (user_id != null){
-            if (new TokenValidator().validate_id_with_token(user_id)) {
-                charge_repo.get_charges_by_user_id(user_id).forEach(elementB -> charges.add(model_mapper.map(elementB, ChargeModel.class)));
-                return charges;
-            }
-            else {
-                throw new OurException("El user_id enviado es diferente al especificado en el token");
-            }
+        if (charge_id != null){
+            charges.add(get_charge(charge_id));
         }
         else charge_repo.findAll().forEach(elementB -> charges.add(model_mapper.map(elementB, ChargeModel.class)));
         return charges;
