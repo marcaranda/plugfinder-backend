@@ -35,6 +35,8 @@ public class UserEntity {
     private boolean deleted;
     @Column (nullable = false, columnDefinition = "boolean default false")
     private boolean admin;
+    @Column (nullable = false, columnDefinition = "boolean default false")
+    private boolean user_api;
 
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
@@ -148,6 +150,14 @@ public class UserEntity {
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public boolean isUser_api() {
+        return user_api;
+    }
+
+    public void setUser_api(boolean user_api) {
+        this.user_api = user_api;
     }
 
     public void setAdmin(boolean admin) {

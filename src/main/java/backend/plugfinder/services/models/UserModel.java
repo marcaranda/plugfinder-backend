@@ -20,6 +20,7 @@ public class UserModel {
     double co2;
     private boolean deleted;
     private boolean admin;
+    private boolean user_api;
 
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
@@ -138,6 +139,14 @@ public class UserModel {
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public boolean isUser_api() {
+        return user_api;
+    }
+
+    public void setUser_api(boolean user_api) {
+        this.user_api = user_api;
     }
 
     public void setAdmin(boolean admin) {
