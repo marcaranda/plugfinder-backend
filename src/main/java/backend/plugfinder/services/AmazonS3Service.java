@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class AmazonS3Service {
      */
     public String upload_file(String name, String file_base64) {
         /* Decodifiquem el contingut del fitxer */
-        byte[] content = Base64.getDecoder().decode(file_base64);
+        byte[] content = DatatypeConverter.parseBase64Binary(file_base64);
 
         PutObjectResult result = amazonS3Client.putObject(new PutObjectRequest(bucketName, name + "-photo", new ByteArrayInputStream(content), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));

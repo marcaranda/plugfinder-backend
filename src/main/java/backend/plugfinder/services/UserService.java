@@ -174,8 +174,12 @@ public class UserService {
                         amazonS3Service.delete_file(user_to_be_updated.getUsername());
                     }
                     //Guardem la nova foto
-                    String public_url_photo = amazonS3Service.upload_file(user_to_be_updated.getUsername(), user.getPhoto_base64());
-                    user.setPhoto(public_url_photo);
+                    if(user.getUsername() != null) {
+                        user.setPhoto(amazonS3Service.upload_file(user.getUsername(), user.getPhoto_base64()));
+                    }
+                    else {
+                        user.setPhoto(amazonS3Service.upload_file(user_to_be_updated.getUsername(), user.getPhoto_base64()));
+                    }
                 }
 
                 //Com la crida al métode save està especificant l'id de l'usuari, no s'està fent un insert, sinó un update
