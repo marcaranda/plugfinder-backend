@@ -7,6 +7,7 @@ import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.ChargerModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class ChargerController {
     }
 
     @GetMapping("/{charger_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargerDto get_charger(@PathVariable("charger_id") Long charger_id){
         ModelMapper model_mapper = new ModelMapper();
         return model_mapper.map(charger_service.find_charger_by_id(charger_id), ChargerDto.class);
@@ -53,6 +55,7 @@ public class ChargerController {
 
     //region Post Methods
     @PostMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargerDto save_charger(@RequestBody ChargerDto chargerModel){
         ModelMapper model_mapper = new ModelMapper();
 
@@ -62,6 +65,7 @@ public class ChargerController {
 
     //region Delete Methods
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public String delete_charger(@PathVariable("id") int id){
         if (charger_service.delete_charger(id)){
             return "Se elimino correctamente el cargador con id " + id;
@@ -72,6 +76,7 @@ public class ChargerController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargerDto update_charger(@RequestBody ChargerDto charger_dto) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 

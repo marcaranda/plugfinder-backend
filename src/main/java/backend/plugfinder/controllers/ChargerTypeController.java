@@ -6,6 +6,7 @@ import backend.plugfinder.services.models.ChargerTypeModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class ChargerTypeController {
 
     //region Get Methods
     @GetMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ArrayList<ChargerTypeDto> get_chargers_types(){
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerTypeDto> chargers_types = (ArrayList<ChargerTypeDto>) charger_type_service.get_chargers_types().stream()
@@ -28,6 +30,7 @@ public class ChargerTypeController {
     }
 
     @GetMapping(path = "id/{id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargerTypeDto get_charger_type(@PathVariable("id") long id){
         ModelMapper model_mapper = new ModelMapper();
 
@@ -37,6 +40,7 @@ public class ChargerTypeController {
 
     //region Post Methods
     @PostMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargerTypeDto save_charger_type(@RequestBody ChargerTypeDto charger_type_dto){
         ModelMapper model_mapper = new ModelMapper();
 

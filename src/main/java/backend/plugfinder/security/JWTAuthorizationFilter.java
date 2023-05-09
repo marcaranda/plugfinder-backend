@@ -30,7 +30,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             String token = bearerToken.replace("Bearer ","");
             UsernamePasswordAuthenticationToken authenticationToken = TokenUtils.getAuthentication(token);
             UserModel us = model_mapper.map(userRepository.findOneByEmail(authenticationToken.getPrincipal().toString()), UserModel.class);
-            authenticationToken.setDetails(us.getUser_id());
+            UserDetailsAux user_details_aux = new UserDetailsAux(us.getUser_id(), us.isUser_api());
+            authenticationToken.setDetails(user_details_aux);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         filterChain.doFilter(request, response);

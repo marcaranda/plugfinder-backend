@@ -10,6 +10,7 @@ import backend.plugfinder.services.models.ChargerModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +28,7 @@ public class ChargeController {
 
     //region Get Methods
     @GetMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ArrayList<ChargeDto> get_charge(@RequestParam(required = false, value = "id") Long charge_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargeDto> charges = (ArrayList<ChargeDto>) charge_service.get_charges(charge_id).stream()
@@ -38,6 +40,7 @@ public class ChargeController {
     //endregion
 
     @PostMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargeDto save_charge(@RequestBody ChargeDto charge){
         ModelMapper model_mapper = new ModelMapper();
         ChargerDto charger = charge.getCharger();
@@ -51,6 +54,7 @@ public class ChargeController {
     }
 
     @PostMapping(path = "/{charge_id}/end")
+    @PreAuthorize("@securityService.not_userAPI()")
     public ChargeDto end_charge(@PathVariable("charge_id") Long charge_id){
         ModelMapper model_mapper = new ModelMapper();
 

@@ -7,6 +7,7 @@ import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.CarModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ public class CarController {
 
     //region Get Methods
     @GetMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ArrayList<CarDto> get_cars(@RequestParam(required = false, value = "user_id") Long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<CarDto> cars = (ArrayList<CarDto>) car_service.get_cars(user_id).stream()
@@ -33,6 +35,7 @@ public class CarController {
     }
 
     @GetMapping(path = "/license/{license}/user_id/{user_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public CarDto get_car_by_id(@PathVariable("license") String license, @PathVariable("user_id") long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         return model_mapper.map(car_service.get_car_by_id(license, user_id), CarDto.class);
@@ -41,6 +44,7 @@ public class CarController {
 
     //region Post Methods
     @PostMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public CarDto save_car(@RequestBody CarDto car_dto) throws SQLException {
         ModelMapper model_mapper = new ModelMapper();
 
@@ -48,6 +52,7 @@ public class CarController {
     }
 
     @PutMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public CarDto edit_car(@RequestBody CarDto car_dto) throws SQLException {
         ModelMapper model_mapper = new ModelMapper();
 
@@ -57,6 +62,7 @@ public class CarController {
 
     //region Delete Methods
     @DeleteMapping(path = "/license/{license}/user_id/{user_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public String delete_car(@PathVariable("license") String license, @PathVariable("user_id") long user_id) throws OurException {
         return car_service.delete_car(license, user_id);
     }
