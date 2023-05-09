@@ -23,7 +23,9 @@ public class ChargerDto {
 
     private UserDto owner_user;
 
-    private LocationDto location;
+    private double latitude;
+
+    private double longitude;
 
     private List<ChargerTypeDto> types;
 
@@ -99,12 +101,20 @@ public class ChargerDto {
         this.owner_user = owner_user;
     }
 
-    public LocationDto getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(LocationDto location) {
-        this.location = location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public List<ChargerTypeDto> getTypes() {
@@ -114,5 +124,7 @@ public class ChargerDto {
     public void setTypes(List<ChargerTypeDto> types) {
         this.types = types;
     }
+
+
     //endregion
 }

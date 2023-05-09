@@ -11,4 +11,5 @@
     <include file="changeLogs/00011_DeleteElectricCurrentTypeCharger.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00012_DeleteAliasCharger.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00013_add_ocupied_to_charger.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00114_refactor_location.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

@@ -27,7 +27,7 @@ public class ChargerService {
     private JpaSpecificationExecutor<ChargerEntity> chargerRepository;
 
     //https://www.baeldung.com/rest-api-search-language-spring-data-specifications --> seguir esto
-    public ArrayList<ChargerModel> buscar_cargadores(Boolean is_public, Double latitude, Double longitude, String type, Long real_charge_speed, Long radius) {
+    public ArrayList<ChargerModel> buscar_cargadores(Boolean is_public, Double latitude, Double longitude, Integer type, Long real_charge_speed, Long radius) {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerModel> chargers = new ArrayList<>();
 
@@ -37,23 +37,29 @@ public class ChargerService {
         ChargerSpecification spec4 = null;
         ChargerSpecification spec5 = null;
         ChargerSpecification spec6 = null;
+        ChargerSpecification spec7 = null;
 
         if(is_public!=null){
             spec1 = new ChargerSpecification(new SearchCriteria("is_public", ":", is_public));
         }
         if (type!=null) {
-            spec2 = new ChargerSpecification(new SearchCriteria("type", ":", type));
+            spec2 = new ChargerSpecification(new SearchCriteria("type_id", ":", type));
         }
         if (latitude != null && longitude != null && radius != null) {
             double [] limites = calcularLimites(latitude, longitude, radius);
 
-            Pair<Double, Double> left_down = Pair.of(limites[0], limites[2]);
-            Pair<Double, Double> right_up = Pair.of(limites[1], limites[3]);
-            spec3 = new ChargerSpecification(new SearchCriteria("location", ">", left_down));
-            spec4 = new ChargerSpecification(new SearchCriteria("location", "<", right_up));
+            spec3 = new ChargerSpecification(new SearchCriteria("longitude", ">", limites[0]));
+            spec4 = new ChargerSpecification(new SearchCriteria("longitude", "<", limites[1]));
+            spec5 = new ChargerSpecification(new SearchCriteria("latitude", ">", limites[2]));
+            spec6 = new ChargerSpecification(new SearchCriteria("latitude", "<", limites[3]));
+
         }
 
-        List<ChargerEntity> results = charger_filters.findAll(Specification.where(spec1).and(spec2).and(spec3).and(spec4));
+        if (real_charge_speed!=null) {
+            spec7 = new ChargerSpecification(new SearchCriteria("potency", ":", real_charge_speed));
+        }
+
+        List<ChargerEntity> results = charger_filters.findAll(Specification.where(spec1).and(spec2).and(spec3).and(spec4).and(spec5).and(spec6).and(spec7));
 
 
         results.forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
@@ -62,28 +68,29 @@ public class ChargerService {
 
 
     //region Public Methods
-    public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude, String type, Long real_charge_speed, Long radius){
-        ModelMapper model_mapper = new ModelMapper();
-        ArrayList<ChargerModel> chargers = new ArrayList<>();
+//    public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude, String type, Long real_charge_speed, Long radius){
+//        ModelMapper model_mapper = new ModelMapper();
+//        ArrayList<ChargerModel> chargers = new ArrayList<>();
+//
+//        if (is_public == null ) {
+//            charger_repo.findAll().forEach(elementB -> {
+//                //Si la distancia entre el cargador i el punt seleccionat es menor a 5km afegira el carregador a la llista
+//                if ((latitude == null && longitude == null) || Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), radius)){
+//                    chargers.add(model_mapper.map(elementB, ChargerModel.class));
+//                }
+//            });
+//        }else {
+//            charger_repo.findAllByPublic(is_public.equals("true")).forEach(elementB -> {
+//                if ((latitude == null && longitude == null) || Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), radius)) {
+//                    chargers.add(model_mapper.map(elementB, ChargerModel.class));
+//                }
+//
+//            });
+//        }
+//
+//        return chargers;
+//    }
 
-        if (is_public == null ) {
-            charger_repo.findAll().forEach(elementB -> {
-                //Si la distancia entre el cargador i el punt seleccionat es menor a 5km afegira el carregador a la llista
-                if ((latitude == null && longitude == null) || Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), radius)){
-                    chargers.add(model_mapper.map(elementB, ChargerModel.class));
-                }
-            });
-        }else {
-            charger_repo.findAllByPublic(is_public.equals("true")).forEach(elementB -> {
-                if ((latitude == null && longitude == null) || Haversine(latitude, longitude, elementB.getLocation().getId().getLatitude(), elementB.getLocation().getId().getLongitude(), radius)) {
-                    chargers.add(model_mapper.map(elementB, ChargerModel.class));
-                }
-
-            });
-        }
-
-        return chargers;
-    }
 
     public ChargerModel save_charger(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();

@@ -40,10 +40,9 @@ public class ChargerEntity {
     @JoinColumn(name = "owner_user")
     private UserEntity owner_user;
 
-    @ManyToOne
-    @JoinColumn(name = "latitude")
-    @JoinColumn(name = "longitude")
-    private LocationEntity location;
+    private double latitude;
+    private double longitude;
+
 
     @ManyToMany
     @JoinTable(name = "types_of_chargers",
@@ -125,12 +124,20 @@ public class ChargerEntity {
         this.owner_user = owner_user;
     }
 
-    public LocationEntity getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(LocationEntity location) {
-        this.location = location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public List<ChargerTypeEntity> getTypes() {

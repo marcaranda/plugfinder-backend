@@ -39,11 +39,6 @@ public class LectorAPI {
             JSONObject charger_json = (JSONObject) json;
 
             if (!charger_json.getString("tipus_connexi").equals("")) {
-                LocationId location_id = new LocationId(charger_json.getDouble("latitud"), charger_json.getDouble("longitud"));
-                LocationModel location = new LocationModel();
-                location.setId(location_id);
-                location = location_service.save_location(location);
-
                 ArrayList<ChargerTypeModel> charger_types = new ArrayList<>();
                 String[] types = charger_json.getString("tipus_connexi").split("\\+");
                 for (String t : types){
@@ -58,7 +53,8 @@ public class LectorAPI {
                 charger.setElectric_current(charger_json.getString("ac_dc"));
                 charger.setIs_public(true);
                 charger.setCompany(charger_json.getString("promotor_gestor"));
-                charger.setLocation(location);
+                charger.setLatitude(charger_json.getDouble("latitud"));
+                charger.setLongitude(charger_json.getDouble("longitud"));
                 charger.setTypes(charger_types);
                 charger_service.save_charger(charger);
 
