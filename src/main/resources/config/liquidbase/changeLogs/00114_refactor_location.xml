@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet author="clusellas" id="addocupied-to-charger">
+        <addColumn schemaName= "DBplugfinder"
+                   tableName="charger">
+            <column name="occupied"
+                    defaultValue="0"
+                    type="BIT(1)"
+            />
+        </addColumn>
+    </changeSet>
+
+
+
+    <changeSet author="clusellas" id="remove-column-charge_time">
+        <dropColumn columnName="charge_time" tableName="charge"/>
+        <dropColumn columnName="date" tableName="charge"/>
+    </changeSet>
+
+    <changeSet author="clusellas" id="add_timestamp_created_to_charge">
+        <addColumn schemaName= "DBplugfinder"
+                   tableName="charge">
+            <column name="created_at"
+                    defaultValueComputed="now()"
+                    type="TIMESTAMP"
+            />
+            <column name="ended_at"
+                    type="TIMESTAMP"></column>
+        </addColumn>
+    </changeSet>
+
+
+
+
+</databaseChangeLog>
