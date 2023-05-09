@@ -29,6 +29,10 @@ public class ChargerDto {
 
     private List<ChargerTypeDto> types;
 
+    private String charger_photo;
+
+    private String charger_photo_base64;
+
     //region Constructores, getters y setters
     public long getId_charger() {
         return id_charger;
@@ -125,6 +129,21 @@ public class ChargerDto {
         this.types = types;
     }
 
+    public String getCharger_photo() {
+        return charger_photo;
+    }
+
+    public void setCharger_photo(String charger_photo) {
+        this.charger_photo = charger_photo;
+    }
+
+    public String getCharger_photo_base64() {
+        return charger_photo_base64;
+    }
+
+    public void setCharger_photo_base64(String charger_photo_base64) {
+        this.charger_photo_base64 = charger_photo_base64;
+    }
 
     //endregion
 }

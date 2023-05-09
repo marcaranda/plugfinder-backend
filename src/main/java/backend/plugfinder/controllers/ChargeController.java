@@ -27,9 +27,9 @@ public class ChargeController {
 
     //region Get Methods
     @GetMapping
-    public ArrayList<ChargeDto> get_charge(@RequestParam(required = false, value = "id") Long user_id) throws OurException {
+    public ArrayList<ChargeDto> get_charge(@RequestParam(required = false, value = "id") Long charge_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
-        ArrayList<ChargeDto> charges = (ArrayList<ChargeDto>) charge_service.get_charges(user_id).stream()
+        ArrayList<ChargeDto> charges = (ArrayList<ChargeDto>) charge_service.get_charges(charge_id).stream()
                 .map(elementB -> model_mapper.map(elementB, ChargeDto.class))
                 .collect(Collectors.toList());
 
