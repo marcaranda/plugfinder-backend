@@ -4,6 +4,7 @@ import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.ChargerModel;
+import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
@@ -27,6 +28,9 @@ public class UserService {
     ChargerService charger_service;
     @Autowired
     AmazonS3Service amazonS3Service;
+
+    @Autowired
+    CarService car_service;
 
 
     //region Registrar usuario
@@ -90,6 +94,14 @@ public class UserService {
             if(user == null || user.isDeleted()) {
                 throw new OurException("Error al intentar eliminar el usuario. El usuario no existe.");
             }
+
+            //Agafem els cotxes del usuari per eliminar-los
+            ArrayList<CarModel> user_cars = car_service.get_cars(user_id);
+            for(CarModel c : user_cars) {
+                //Eliminem els cotxes del usuari
+                car_service.delete_car(c.getId().getLicense(), user_id);
+            }
+
             user.setDeleted(true);
             user_repo.save(model_mapper.map(user, UserEntity.class));
         }
@@ -177,8 +189,12 @@ public class UserService {
                         amazonS3Service.delete_file(user_to_be_updated.getUsername());
                     }
                     //Guardem la nova foto
-                    String public_url_photo = amazonS3Service.upload_file(user_to_be_updated.getUsername(), user.getPhoto_base64());
-                    user.setPhoto(public_url_photo);
+                    if(user.getUsername() != null) {
+                        user.setPhoto(amazonS3Service.upload_file(user.getUsername(), user.getPhoto_base64()));
+                    }
+                    else {
+                        user.setPhoto(amazonS3Service.upload_file(user_to_be_updated.getUsername(), user.getPhoto_base64()));
+                    }
                 }
 
                 //Com la crida al métode save està especificant l'id de l'usuari, no s'està fent un insert, sinó un update

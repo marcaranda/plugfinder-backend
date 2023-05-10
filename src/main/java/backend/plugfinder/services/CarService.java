@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 public class CarService {
     @Autowired
     CarRepo car_repo;
-    @Autowired
-    UserService user_service;
+    //@Autowired
+    //UserService user_service;
 
     //region Public Methods
     public ArrayList<CarModel> get_cars(Long user_id) throws OurException {
@@ -50,8 +50,8 @@ public class CarService {
             throw new SQLException("La matrícula no es válida");
         }
 
-        UserModel user_model = user_service.find_user_by_id(car_model.getId().getId());
-        car_model.setUser_model(user_model);
+        //UserModel user_model = user_service.find_user_by_id(car_model.getId().getId());
+        //car_model.setUser_model(user_model);
 
         return model_mapper.map(car_repo.save(model_mapper.map(car_model, CarEntity.class)), CarModel.class);
     }

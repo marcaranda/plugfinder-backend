@@ -1,13 +1,5 @@
 package backend.plugfinder.helpers;
 
-import backend.plugfinder.repositories.BrandRepo;
-import backend.plugfinder.repositories.ChargerTypeRepo;
-import backend.plugfinder.repositories.ModelBrandRepo;
-import backend.plugfinder.repositories.UserRepo;
-import backend.plugfinder.repositories.entity.BrandEntity;
-import backend.plugfinder.repositories.entity.ChargerTypeEntity;
-import backend.plugfinder.repositories.entity.ModelBrandEntity;
-import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.BrandService;
 import backend.plugfinder.services.ChargerTypeService;
 import backend.plugfinder.services.ModelBrandService;
@@ -16,18 +8,15 @@ import backend.plugfinder.services.models.BrandModel;
 import backend.plugfinder.services.models.ChargerTypeModel;
 import backend.plugfinder.services.models.ModelBrandModel;
 import backend.plugfinder.services.models.UserModel;
-import org.apache.poi.sl.draw.geom.GuideIf;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class LectorBD {
@@ -43,7 +32,9 @@ public class LectorBD {
     public void read_models() throws IOException, OurException {
 
         // Load the Excel file
-        FileInputStream input_stream = new FileInputStream(new File("modelos.xlsx"));
+        //FileInputStream input_stream = new FileInputStream(new File("src/main/resources/modelos.xlsx"));
+        ClassPathResource resource = new ClassPathResource("modelos.xlsx");
+        InputStream input_stream = resource.getInputStream();
 
         // Get the workbook instance for XLSX file
         Workbook workbook = WorkbookFactory.create(input_stream);
