@@ -26,13 +26,27 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         ModelMapper model_mapper = new ModelMapper();
         String bearerToken = request.getHeader("Authorization");
 
-        if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.replace("Bearer ","");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.replace("Bearer ", "");
             UsernamePasswordAuthenticationToken authenticationToken = TokenUtils.getAuthentication(token);
-            UserModel us = model_mapper.map(userRepository.findOneByEmail(authenticationToken.getPrincipal().toString()), UserModel.class);
-            authenticationToken.setDetails(us.getUser_id());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            if (authenticationToken != null && authenticationToken.getPrincipal() != null) {
+                UserModel us = model_mapper.map(userRepository.findOneByEmail(authenticationToken.getPrincipal().toString()), UserModel.class);
+
+                if (us != null && !us.isDeleted()) {
+                    UserDetailsAux user_details_aux = new UserDetailsAux(us.getUser_id(), us.isUser_api());
+                    authenticationToken.setDetails(user_details_aux);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
         }
+
         filterChain.doFilter(request, response);
     }
 }

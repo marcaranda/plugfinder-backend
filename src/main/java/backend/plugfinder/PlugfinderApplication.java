@@ -3,6 +3,7 @@ package backend.plugfinder;
 import backend.plugfinder.helpers.LectorAPI;
 import backend.plugfinder.helpers.LectorBD;
 
+import backend.plugfinder.helpers.LectorPlugfinderAPI;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
@@ -25,6 +26,9 @@ public class PlugfinderApplication {
 	@Autowired
 	private LectorAPI lector_api;
 
+	@Autowired
+	private LectorPlugfinderAPI lector_plugfinder_api;
+
 	public static void main(String[] args) {
 		SpringApplication.run(PlugfinderApplication.class, args);
 	}
@@ -35,6 +39,9 @@ public class PlugfinderApplication {
 		if (user_model == null) {
 			lector_bd.read_models();
 			lector_api.read_data_chargers();
+		}
+		if(user_service.find_user_by_id(2L) == null) {
+			lector_plugfinder_api.create_user_api();
 		}
 	}
 }

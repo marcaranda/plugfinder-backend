@@ -37,6 +37,8 @@ public class UserEntity {
     private boolean deleted;
     @Column (nullable = false, columnDefinition = "boolean default false")
     private boolean admin;
+    @Column (nullable = false, columnDefinition = "boolean default false")
+    private boolean user_api;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "favorite_chargers",
@@ -155,6 +157,14 @@ public class UserEntity {
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public boolean isUser_api() {
+        return user_api;
+    }
+
+    public void setUser_api(boolean user_api) {
+        this.user_api = user_api;
     }
 
     public void setAdmin(boolean admin) {

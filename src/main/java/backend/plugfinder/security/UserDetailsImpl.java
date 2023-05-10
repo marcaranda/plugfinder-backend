@@ -2,6 +2,8 @@ package backend.plugfinder.security;
 
 import backend.plugfinder.services.models.UserModel;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,8 +11,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class UserDetailsImpl implements UserDetails {
-    private final UserModel user;
+    private UserModel user;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,4 +57,6 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public long getId() {return user.getUser_id();}
+
+    public boolean isUser_Api() {return user.isUser_api();}
 }

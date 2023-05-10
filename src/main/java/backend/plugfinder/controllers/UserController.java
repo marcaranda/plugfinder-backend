@@ -2,18 +2,14 @@ package backend.plugfinder.controllers;
 
 import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.controllers.dto.UserDto;
-import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -22,6 +18,7 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired // This annotation allows the dependency injection.
     UserService user_service;
+
 
     //region Métodos Púbilicos
     //region Registrar Usuario
@@ -50,6 +47,7 @@ public class UserController {
      * @param user_id - Id of the user to be deleted.
      */
     @PutMapping ("/delete/{user_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public void delete_user(@PathVariable Long user_id) throws OurException {
             user_service.delete_user(user_id);
     }
@@ -59,6 +57,7 @@ public class UserController {
      * @param user_id: userId of the user that is getting the premium version
      */
     @PutMapping("/{user_id}/premium")
+    @PreAuthorize("@securityService.not_userAPI()")
     public void get_premium(@PathVariable("user_id") Long user_id) throws OurException {
         user_service.get_premium(user_id);
     }
@@ -68,12 +67,14 @@ public class UserController {
      * @param user_id: userId of the user that is being unsubscribed of the premium version
      */
     @PutMapping("/{user_id}/unsubscribePremium")
+    @PreAuthorize("@securityService.not_userAPI()")
     public void stop_premium(@PathVariable("user_id") Long user_id) throws OurException {
         user_service.unsubscribe_premium(user_id);
     }
 
     //region Cargadores favoritos
     @GetMapping("/{user_id}/favorites")
+    @PreAuthorize("@securityService.not_userAPI()")
     public ArrayList<ChargerDto> get_chargers_favorites(@PathVariable("user_id") Long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) user_service.get_chargers_favorites(user_id).stream()
@@ -84,11 +85,13 @@ public class UserController {
     }
 
     @PutMapping("/{user_id}/addfavorite/{charger_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public void add_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
         user_service.add_favorite(user_id, charger_id);
     }
 
     @PutMapping("/{user_id}/deletefavorite/{charger_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
     public void delete_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
         user_service.delete_favorite(user_id, charger_id);
     }
@@ -101,6 +104,7 @@ public class UserController {
      * @return UserDto - User profile.
      */
     @GetMapping("/{user_id}/profile")
+    @PreAuthorize("@securityService.not_userAPI()")
     public UserDto view_profile(@PathVariable("user_id") Long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         UserDto user = model_mapper.map(user_service.view_profile(user_id), UserDto.class);
@@ -114,6 +118,7 @@ public class UserController {
      * @return UserDto - Updated user profile.
      */
     @PutMapping("/profile/edit")
+    @PreAuthorize("@securityService.not_userAPI()")
     public UserDto update_profile(@RequestBody UserDto user) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         UserDto updated_user = model_mapper.map(user_service.update_user(model_mapper.map(user, UserModel.class)), UserDto.class);
@@ -128,6 +133,7 @@ public class UserController {
      * @return ArrayList<UserModel> - List of users.
      */
     @GetMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ArrayList<UserDto> get_users() {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<UserDto> users = (ArrayList<UserDto>) user_service.get_users().stream()

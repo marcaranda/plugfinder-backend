@@ -5,6 +5,7 @@ import backend.plugfinder.services.BrandService;
 import backend.plugfinder.services.models.BrandModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class BrandController {
 
     //region Get Methods
     @GetMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public ArrayList<BrandDto> get_brands(@RequestParam(required = false, value = "known") String known){
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<BrandDto> brands = (ArrayList<BrandDto>) brand_service.get_brands(known).stream()
@@ -30,6 +32,7 @@ public class BrandController {
 
     //region Post Methods
     @PostMapping
+    @PreAuthorize("@securityService.not_userAPI()")
     public BrandDto save_brand(@RequestBody BrandDto brand_model){
         ModelMapper model_mapper = new ModelMapper();
         return model_mapper.map(brand_service.save_brand(model_mapper.map(brand_model, BrandModel.class)), BrandDto.class);

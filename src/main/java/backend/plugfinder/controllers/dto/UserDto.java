@@ -25,6 +25,8 @@ public class UserDto {
     private List<ChargerDto> favorite_chargers;
 
 
+    private boolean user_api;
+
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
     boolean premium;
@@ -146,6 +148,14 @@ public class UserDto {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public boolean isUser_api() {
+        return user_api;
+    }
+
+    public void setUser_api(boolean user_api) {
+        this.user_api = user_api;
     }
 
     public boolean isPremium() {
