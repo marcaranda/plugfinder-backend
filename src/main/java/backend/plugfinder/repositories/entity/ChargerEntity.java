@@ -1,8 +1,11 @@
 package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Root;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Entity
 @Table(name = "charger")
@@ -37,12 +40,11 @@ public class ChargerEntity {
     @JoinColumn(name = "owner_user")
     private UserEntity owner_user;
 
-    @ManyToOne
-    @JoinColumn(name = "latitude")
-    @JoinColumn(name = "longitude")
-    private LocationEntity location;
+    private double latitude;
+    private double longitude;
 
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "types_of_chargers",
             joinColumns = @JoinColumn(name = "charger_id", referencedColumnName = "id_charger"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
@@ -124,12 +126,20 @@ public class ChargerEntity {
         this.owner_user = owner_user;
     }
 
-    public LocationEntity getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(LocationEntity location) {
-        this.location = location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public List<ChargerTypeEntity> getTypes() {
@@ -147,6 +157,7 @@ public class ChargerEntity {
     public void setCharger_photo(String charger_photo) {
         this.charger_photo = charger_photo;
     }
+
 
     //endregion
 }

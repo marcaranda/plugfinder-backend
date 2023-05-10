@@ -2,6 +2,8 @@ package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Users")
 public class UserEntity {
@@ -38,6 +40,12 @@ public class UserEntity {
     @Column (nullable = false, columnDefinition = "boolean default false")
     private boolean user_api;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "favorite_chargers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "charger_id", referencedColumnName = "id_charger"))
+    private List<ChargerEntity> favorite_chargers;
+
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -51,7 +59,6 @@ public class UserEntity {
     //endregion
 
     //region Getters y Setters
-
     public long getUser_id() {
         return user_id;
     }
@@ -186,6 +193,14 @@ public class UserEntity {
 
     public void setPremium_drop_date(String premium_drop_date) {
         this.premium_drop_date = premium_drop_date;
+    }
+
+    public List<ChargerEntity> getFavorite_chargers() {
+        return favorite_chargers;
+    }
+
+    public void setFavorite_chargers(List<ChargerEntity> favorite_chargers) {
+        this.favorite_chargers = favorite_chargers;
     }
 
     //endregion

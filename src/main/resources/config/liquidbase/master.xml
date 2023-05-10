@@ -11,6 +11,8 @@
     <include file="changeLogs/00011_DeleteElectricCurrentTypeCharger.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00012_DeleteAliasCharger.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00013_add_ocupied_to_charger.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00114_refactor_location.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00014_add_photo_to_user_and_charger.xml" relativeToChangelogFile="true" />
-    <include file="changeLogs/00015_add_userApi_users.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00015_add_favorite_charger_to_user.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/00016_add_userApi_users.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

@@ -3,12 +3,15 @@ package backend.plugfinder.services;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.UserEntity;
+import backend.plugfinder.services.models.ChargerModel;
+import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,9 +24,13 @@ import java.util.regex.Pattern;
 public class UserService {
     @Autowired // This annotation allows the dependency injection
     UserRepo user_repo;
-
+    @Autowired
+    ChargerService charger_service;
     @Autowired
     AmazonS3Service amazonS3Service;
+
+    @Autowired
+    CarService car_service;
 
 
     //region Registrar usuario
@@ -33,7 +40,7 @@ public class UserService {
      * @return UserModel - Registered user.
      */
     public UserModel user_register(UserModel user) throws OurException {
-        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper model_mapper = new ModelMapper();
 
         /* Comprobación validez correo electrónico */
         if(!validateEmail(user.getEmail())) {
@@ -59,7 +66,7 @@ public class UserService {
             user.setPhoto(public_url_photo);
         }
 
-        return modelMapper.map(user_repo.save(modelMapper.map(user, UserEntity.class)), UserModel.class);
+        return model_mapper.map(user_repo.save(model_mapper.map(user, UserEntity.class)), UserModel.class);
     }
     //endregion
 
@@ -87,6 +94,14 @@ public class UserService {
             if(user == null || user.isDeleted()) {
                 throw new OurException("Error al intentar eliminar el usuario. El usuario no existe.");
             }
+
+            //Agafem els cotxes del usuari per eliminar-los
+            ArrayList<CarModel> user_cars = car_service.get_cars(user_id);
+            for(CarModel c : user_cars) {
+                //Eliminem els cotxes del usuari
+                car_service.delete_car(c.getId().getLicense(), user_id);
+            }
+
             user.setDeleted(true);
             user_repo.save(model_mapper.map(user, UserEntity.class));
         }
@@ -250,6 +265,46 @@ public class UserService {
             else {
                 throw new OurException("El usuario no es premium");
             }
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public ArrayList<ChargerModel> get_chargers_favorites(long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            UserModel user = find_user_by_id(user_id);
+
+            return (ArrayList<ChargerModel>) user.getFavorite_chargers();
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void add_favorite(Long user_id, Long charger_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            UserModel user = find_user_by_id(user_id);
+            ChargerModel charger = charger_service.find_charger_by_id(charger_id);
+
+            user.getFavorite_chargers().add(charger);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void delete_favorite(Long user_id, Long charger_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            UserModel user = find_user_by_id(user_id);
+            ChargerModel charger = charger_service.find_charger_by_id(charger_id);
+
+            user.getFavorite_chargers().remove(charger);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");
