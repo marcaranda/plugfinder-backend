@@ -44,7 +44,7 @@ public class ChargerEntity {
     private double longitude;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "types_of_chargers",
             joinColumns = @JoinColumn(name = "charger_id", referencedColumnName = "id_charger"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
