@@ -38,6 +38,17 @@ public class ChargerController {
         return model_mapper.map(charger_service.find_charger_by_id(charger_id), ChargerDto.class);
     }
 
+    @GetMapping("/user/{user_id}")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public ArrayList<ChargerDto> get_user_chargers(@PathVariable("user_id") Long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_user_chargers(user_id).stream()
+                .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
+                .collect(Collectors.toList());
+
+        return chargers;
+    }
+
     /**
      * This method returns all the chargers that are public
      * @return ArrayList<ChargerDto> - List of public chargers
