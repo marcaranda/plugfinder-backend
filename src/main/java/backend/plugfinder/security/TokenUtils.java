@@ -17,13 +17,14 @@ public class TokenUtils {
     private final static Long ACCESS_TOKEN_EXPIRATION_TIME = 2_592_000L; // 30 days in seconds, change it in production to a less time
 
 
-    public static String generateAccessToken(Long user_id, String email, boolean user_api) {
+    public static String generateAccessToken(Long user_id, String email, boolean user_api, boolean premium) {
         long expiration_time = ACCESS_TOKEN_EXPIRATION_TIME * 1_000;
         Date expiration_date = new Date(System.currentTimeMillis() + expiration_time);
 
         Map<String,Object> extra = new HashMap<>();
         extra.put("id", user_id);
         extra.put("user_api", user_api);
+        extra.put("premium", premium);
 
         return Jwts.builder()
                 .setSubject(email)

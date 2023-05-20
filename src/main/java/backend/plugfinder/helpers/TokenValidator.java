@@ -31,4 +31,13 @@ public class TokenValidator {
             return false;
         }
     }
+
+    /**
+     * Validates if the user is a premium user
+     * @return True if the user is a premium user
+     */
+    public boolean is_premium_user() {
+        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return details instanceof UserDetailsAux user_details_aux && user_details_aux.getPremium();
+    }
 }

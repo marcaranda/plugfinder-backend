@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class UserDetailsAux {
     private Long user_id;
     private Boolean user_api;
+    private Boolean premium;
 }
