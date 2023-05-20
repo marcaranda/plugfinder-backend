@@ -7,9 +7,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-public class ChargeDto {
+public class ReservationDto {
 
-    private long id_charge;
+    private long id_reservation;
 
     private ChargerDto charger;
 
@@ -19,26 +19,13 @@ public class ChargeDto {
 
     private Timestamp ended_at;
 
-    private int charged_kw;
 
-    private int co2;
-
-    private ReservationDto reservation;
-
-    public ReservationDto getReservation() {
-        return reservation;
+    public long get_id_reservation() {
+        return id_reservation;
     }
 
-    public void setReservation(ReservationDto reservation) {
-        this.reservation = reservation;
-    }
-
-    public long getId_charge() {
-        return id_charge;
-    }
-
-    public void setId_charge(long id_charge) {
-        this.id_charge = id_charge;
+    public void set_id_reservation(long id_reservation) {
+        this.id_reservation = id_reservation;
     }
 
     public ChargerDto getCharger() {
@@ -59,22 +46,6 @@ public class ChargeDto {
 
     public Timestamp getCreated_at() {
         return created_at;
-    }
-
-    public int getCharged_kw() {
-        return charged_kw;
-    }
-
-    public void setCharged_kw(int charged_kw) {
-        this.charged_kw = charged_kw;
-    }
-
-    public int getCo2() {
-        return co2;
-    }
-
-    public void setCo2(int co2) {
-        this.co2 = co2;
     }
 
     public void setCreated_at(Timestamp created_at) {
