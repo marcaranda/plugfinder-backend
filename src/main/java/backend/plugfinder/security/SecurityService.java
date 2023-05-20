@@ -24,6 +24,21 @@ public class SecurityService {
         return true;
     }
 
+    /**
+     * Validates if the user is a premium user
+     * @return True if the user is a premium user
+     */
+    public boolean premium_user() throws OurException {
+        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if(details instanceof UserDetailsAux user_details_aux) {
+            //Si el usuario es un usuario no es premium no puede acceder a esa funcionalidad
+            if(!user_details_aux.getPremium()) {
+                throw new OurException("El usuario no es premium");
+            }
+        }
+        return true;
+    }
+
     /*
     public boolean can_delete_user() throws OurException {
         Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
