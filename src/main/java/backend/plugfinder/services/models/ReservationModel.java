@@ -1,16 +1,18 @@
 package backend.plugfinder.services.models;
 
 
-import backend.plugfinder.controllers.dto.ReservationDto;
 import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 
-public class ChargeModel {
+public class ReservationModel {
 
-    private long id_charge;
+    private long id_reservation;
 
     private ChargerModel charger;
 
@@ -20,19 +22,13 @@ public class ChargeModel {
 
     private Timestamp ended_at;
 
-    private int charged_kw;
 
-    private int co2;
-
-    private ReservationModel reservation;
-
-
-    public long getId_charge() {
-        return id_charge;
+    public long get_id_reservation() {
+        return id_reservation;
     }
 
-    public void setId_charge(long id_charge) {
-        this.id_charge = id_charge;
+    public void set_id_reservation(long id_reservation) {
+        this.id_reservation = id_reservation;
     }
 
     public ChargerModel getCharger() {
@@ -55,22 +51,6 @@ public class ChargeModel {
         return created_at;
     }
 
-    public int getCharged_kw() {
-        return charged_kw;
-    }
-
-    public void setCharged_kw(int charged_kw) {
-        this.charged_kw = charged_kw;
-    }
-
-    public int getCo2() {
-        return co2;
-    }
-
-    public void setCo2(int co2) {
-        this.co2 = co2;
-    }
-
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
@@ -83,11 +63,14 @@ public class ChargeModel {
         this.ended_at = ended_at;
     }
 
-    public ReservationModel getReservation() {
-        return reservation;
-    }
+    public boolean timeExtended(){
 
-    public void setReservation(ReservationModel reservation) {
-        this.reservation = reservation;
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+
+        long milliseconds = now.getTime() - this.created_at.getTime();
+        long minutes = milliseconds / (60 * 1000);
+
+        return minutes > 3;
+
     }
 }
