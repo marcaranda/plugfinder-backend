@@ -1,0 +1,58 @@
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="clusellas" id="createtable reservation">
+        <createTable tableName="reservation">
+            <column name="id_reservation" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="id_charger" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="license" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at"
+                    defaultValueComputed="now()"
+                    type="TIMESTAMP"/>
+            <column name="ended_at"
+                    type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="clusellas" id="addAutoIncrement-id_reservation">
+        <addAutoIncrement columnDataType="BIGINT"
+                          columnName="id_reservation"
+                          defaultOnNull="false"
+                          generationType="ALWAYS"
+                          schemaName="DBplugfinder"
+                          startWith="1"
+                          tableName="reservation"/>
+    </changeSet>
+
+    <changeSet author="clusellas" id="add foreig key reservation->charger">
+        <addForeignKeyConstraint baseColumnNames="id_charger" baseTableName="reservation" constraintName="fk_idcharger_on_reservation" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id_charger" referencedTableName="charger" validate="true"/>
+    </changeSet>
+    <changeSet author="clusellas" id="add foreig key reservation->car">
+        <addForeignKeyConstraint baseColumnNames="user_id , license" baseTableName="reservation" constraintName="fk_user_license_car_on_reservation" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id ,license" referencedTableName="car" validate="true"/>
+    </changeSet>
+
+    <changeSet author="clusellas" id="addColumn-reservation_id_to_charge">
+        <addColumn schemaName= "DBplugfinder"
+                   tableName="charge">
+            <column name="id_reservation"
+                    type="BIGINT">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="clusellas" id="add foreig key charge->reservation">
+        <addForeignKeyConstraint baseColumnNames="id_reservation" baseTableName="charge" constraintName="fk_user_reservation_on_charge" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id_reservation" referencedTableName="reservation" validate="true"/>
+    </changeSet>
+
+
+</databaseChangeLog>

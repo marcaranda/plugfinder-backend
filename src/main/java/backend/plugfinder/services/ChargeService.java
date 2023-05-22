@@ -1,26 +1,34 @@
 package backend.plugfinder.services;
 
+import backend.plugfinder.controllers.dto.ChargeDto;
+import backend.plugfinder.controllers.dto.ChargerDto;
+import backend.plugfinder.controllers.dto.ReservationDto;
 import backend.plugfinder.helpers.OurException;
-import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.ChargeEntity;
-import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargeModel;
 import backend.plugfinder.repositories.ChargeRepo;
+import backend.plugfinder.services.models.ChargerModel;
+import backend.plugfinder.services.models.ReservationModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
+import backend.plugfinder.services.ReservationService;
+
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.sql.Date;
-import java.util.Map;
 
 @Service
 public class ChargeService {
     @Autowired
     ChargeRepo charge_repo;
+
+    @Autowired
+    ChargerService charger_service;
+
+    @Autowired
+    ReservationService reservation_service;
 
     public ArrayList<ChargeModel> get_charges(Long charge_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
@@ -35,11 +43,20 @@ public class ChargeService {
 
     public ChargeModel save_charge(ChargeModel charge_model) {
         ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = charge_model.getCharger();
+        charger_service.occupy(model_mapper.map(charger, ChargerModel.class));
+
         return model_mapper.map(charge_repo.save(model_mapper.map(charge_model, ChargeEntity.class)), ChargeModel.class);
     }
 
     public ChargeModel end_charge(ChargeModel charge_model) {
+
         ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = charge_model.getCharger();
+        charger_service.disoccupy(model_mapper.map(charger, ChargerModel.class));
+
 
         charge_model.setEnded_at(Timestamp.from(Instant.now()));
         return model_mapper.map(charge_repo.save(model_mapper.map(charge_model, ChargeEntity.class)), ChargeModel.class);
@@ -50,4 +67,22 @@ public class ChargeService {
 
         return model_mapper.map(charge_repo.findById(chargeId).get(), ChargeModel.class);
     }
+
+    public ChargeModel save_charge_from_reservation(Long reservation_id) throws Exception {
+        ModelMapper model_mapper = new ModelMapper();
+
+        ReservationModel reservation = reservation_service.get_reservation_for_charge(reservation_id);
+
+        ChargeModel charge = new ChargeModel();
+
+        charge.setCar(reservation.getCar());
+        charge.setCharger(reservation.getCharger());
+        charge.setReservation(reservation);
+
+        reservation_service.end_reservation(model_mapper.map(reservation, ReservationModel.class));
+
+        return save_charge(charge);
+
+    }
+
 }

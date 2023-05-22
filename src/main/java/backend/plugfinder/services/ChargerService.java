@@ -125,7 +125,7 @@ public class ChargerService {
 
     }
 
-    public ChargerModel new_charge(ChargerModel chargerModel) {
+    public ChargerModel occupy(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
 
         ChargerModel charger = find_charger_by_id(chargerModel.getId_charger());
@@ -158,7 +158,7 @@ public class ChargerService {
     }
 
 
-    public ChargerModel end_charge(ChargerModel chargerModel) {
+    public ChargerModel disoccupy(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
 
         ChargerModel charger = find_charger_by_id(chargerModel.getId_charger());
