@@ -1,11 +1,8 @@
 package backend.plugfinder.repositories.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Root;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 @Entity
 @Table(name = "charger")
@@ -35,6 +32,9 @@ public class ChargerEntity {
     private boolean is_public;
 
     private String company;
+
+    @Column(nullable = false)
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "owner_user")
@@ -158,6 +158,13 @@ public class ChargerEntity {
         this.charger_photo = charger_photo;
     }
 
+    public boolean isActive() {
+        return active;
+    }
 
-    //endregion
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+//endregion
 }

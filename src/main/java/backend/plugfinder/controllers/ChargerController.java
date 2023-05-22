@@ -21,6 +21,7 @@ public class ChargerController {
     @Autowired
     UserService user_service;
 
+    //region Get Methods
     @GetMapping
     public ArrayList<ChargerDto> get_chargers(@RequestParam(required = false, value = "public") Boolean is_public, @RequestParam(required = false, value = "latitude") Double latitude, @RequestParam(required = false, value = "longitude") Double longitude , @RequestParam (required = false, value = "type") Integer type, @RequestParam (required = false, value = "real_charge_speed") Long real_charge_speed, @RequestParam (required = false, value = "price") Long price, @RequestParam (required = false, value = "radius") Long radius){
         ModelMapper model_mapper = new ModelMapper();
@@ -48,21 +49,7 @@ public class ChargerController {
 
         return chargers;
     }
-
-    /**
-     * This method returns all the chargers that are public
-     * @return ArrayList<ChargerDto> - List of public chargers
-     * /
-    @GetMapping("/location")
-    public ArrayList<ChargerDto> get_chargers_by_location(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude){
-        ModelMapper model_mapper = new ModelMapper();
-        ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.get_chargers_by_location(latitude, longitude).stream()
-                .map(elementB -> model_mapper.map(elementB, ChargerDto.class))
-                .collect(Collectors.toList());
-
-        return chargers;
-    }*/
-
+    //endregion
 
     //region Post Methods
     @PostMapping
@@ -77,7 +64,7 @@ public class ChargerController {
     //region Delete Methods
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("@securityService.not_userAPI()")
-    public String delete_charger(@PathVariable("id") int id){
+    public String delete_charger(@PathVariable("id") Long id){
         if (charger_service.delete_charger(id)){
             return "Se elimino correctamente el cargador con id " + id;
         }
@@ -85,7 +72,9 @@ public class ChargerController {
             return "No se ha podido eliminar el cargador con id " + id;
         }
     }
+    //endregion
 
+    //region Put Methods
     @PutMapping("/update")
     @PreAuthorize("@securityService.not_userAPI()")
     public ChargerDto update_charger(@RequestBody ChargerDto charger_dto) throws OurException {
@@ -93,4 +82,13 @@ public class ChargerController {
 
         return model_mapper.map(charger_service.update_charger(model_mapper.map(charger_dto, ChargerModel.class)), ChargerDto.class);
     }
+
+    @PutMapping("/{charger_id}/active")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public ChargerDto active_charger(@PathVariable("charger_id") Long id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+
+        return model_mapper.map(charger_service.active_charger(id), ChargerDto.class);
+    }
+    //endregion
 }
