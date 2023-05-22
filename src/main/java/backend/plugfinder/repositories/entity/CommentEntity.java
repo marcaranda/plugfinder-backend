@@ -9,7 +9,7 @@ public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private Long commnet_id;
+    private Long comment_id;
 
     /** Id of the user that has commented*/
     @ManyToOne
@@ -30,12 +30,12 @@ public class CommentEntity {
 
 
     //region Getters and Setters
-    public Long getCommnet_id() {
-        return commnet_id;
+    public Long getComment_id() {
+        return comment_id;
     }
 
-    public void setCommnet_id(Long commnet_id) {
-        this.commnet_id = commnet_id;
+    public void setComment_id(Long commnet_id) {
+        this.comment_id = commnet_id;
     }
 
     public UserEntity getUser() {

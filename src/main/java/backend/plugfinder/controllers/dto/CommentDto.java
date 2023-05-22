@@ -6,7 +6,7 @@ import backend.plugfinder.services.models.UserModel;
 public class CommentDto {
     //region Comment attributes
 
-    private Long commnet_id;
+    private Long comment_id;
 
     private UserModel user;
 
@@ -20,12 +20,12 @@ public class CommentDto {
 
     //region Getters and Setters
 
-    public Long getCommnet_id() {
-        return commnet_id;
+    public Long getComment_id() {
+        return comment_id;
     }
 
-    public void setCommnet_id(Long commnet_id) {
-        this.commnet_id = commnet_id;
+    public void setComment_id(Long commnet_id) {
+        this.comment_id = commnet_id;
     }
 
     public UserModel getUser() {
