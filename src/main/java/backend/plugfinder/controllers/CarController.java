@@ -40,6 +40,13 @@ public class CarController {
         ModelMapper model_mapper = new ModelMapper();
         return model_mapper.map(car_service.get_car_by_id(license, user_id), CarDto.class);
     }
+
+    @GetMapping(path = "user_id/{user_id}/default")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public CarDto get_default_car(@PathVariable("user_id") long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        return model_mapper.map(car_service.get_default_car(user_id), CarDto.class);
+    }
     //endregion
 
     //region Post Methods

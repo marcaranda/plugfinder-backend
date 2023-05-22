@@ -91,6 +91,17 @@ public class CarService {
         }
     }
 
+    public CarModel get_default_car(long user_id) throws OurException {
+        if (new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+
+            return model_mapper.map(car_repo.findDefaultCarByUserId(user_id), CarModel.class);
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
     public CarModel default_car(String license, long user_id) throws OurException {
         if (new TokenValidator().validate_id_with_token(user_id)) {
             ModelMapper model_mapper = new ModelMapper();
