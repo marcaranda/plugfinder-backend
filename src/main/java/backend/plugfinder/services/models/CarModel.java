@@ -7,6 +7,7 @@ public class CarModel {
     //region Atributes
     private CarId id;
     private boolean deleted;
+    private boolean default_car;
     private UserModel user_model;
     private ModelBrandModel model_brand_model;
     //endregion
@@ -26,6 +27,14 @@ public class CarModel {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public boolean isDefault_car() {
+        return default_car;
+    }
+
+    public void setDefault_car(boolean default_car) {
+        this.default_car = default_car;
     }
 
     public UserModel getUser_model() {

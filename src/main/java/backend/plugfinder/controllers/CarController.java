@@ -45,18 +45,28 @@ public class CarController {
     //region Post Methods
     @PostMapping
     @PreAuthorize("@securityService.not_userAPI()")
-    public CarDto save_car(@RequestBody CarDto car_dto) throws SQLException {
+    public CarDto save_car(@RequestBody CarDto car_dto) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+
+        return model_mapper.map(car_service.save_car(model_mapper.map(car_dto, CarModel.class)), CarDto.class);
+    }
+    //endregion
+
+    //region Put Methods
+    @PutMapping
+    @PreAuthorize("@securityService.not_userAPI()")
+    public CarDto edit_car(@RequestBody CarDto car_dto) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 
         return model_mapper.map(car_service.save_car(model_mapper.map(car_dto, CarModel.class)), CarDto.class);
     }
 
-    @PutMapping
+    @PutMapping(path = "/license/{license}/user_id/{user_id}/default")
     @PreAuthorize("@securityService.not_userAPI()")
-    public CarDto edit_car(@RequestBody CarDto car_dto) throws SQLException {
+    public CarDto default_car(@PathVariable("license") String license, @PathVariable("user_id") long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 
-        return model_mapper.map(car_service.save_car(model_mapper.map(car_dto, CarModel.class)), CarDto.class);
+        return model_mapper.map(car_service.default_car(license, user_id), CarDto.class);
     }
     //endregion
 
