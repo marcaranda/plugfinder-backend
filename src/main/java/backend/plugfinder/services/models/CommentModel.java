@@ -22,8 +22,8 @@ public class CommentModel {
         return comment_id;
     }
 
-    public void setComment_id(Long commnet_id) {
-        this.comment_id = commnet_id;
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
     }
 
     public UserModel getUser() {

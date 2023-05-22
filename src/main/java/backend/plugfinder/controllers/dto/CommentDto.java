@@ -1,16 +1,13 @@
 package backend.plugfinder.controllers.dto;
 
-import backend.plugfinder.services.models.ChargerModel;
-import backend.plugfinder.services.models.UserModel;
-
 public class CommentDto {
     //region Comment attributes
 
     private Long comment_id;
 
-    private UserModel user;
+    private UserDto user;
 
-    private ChargerModel charger;
+    private ChargerDto charger;
 
     private String comment;
 
@@ -24,23 +21,23 @@ public class CommentDto {
         return comment_id;
     }
 
-    public void setComment_id(Long commnet_id) {
-        this.comment_id = commnet_id;
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
     }
 
-    public UserModel getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
-    public ChargerModel getCharger() {
+    public ChargerDto getCharger() {
         return charger;
     }
 
-    public void setCharger(ChargerModel charger) {
+    public void setCharger(ChargerDto charger) {
         this.charger = charger;
     }
 
