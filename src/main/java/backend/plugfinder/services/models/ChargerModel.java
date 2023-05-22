@@ -29,6 +29,8 @@ public class ChargerModel {
 
     private String company;
 
+    private boolean active;
+
     private UserModel owner_user;
 
     private double latitude;
@@ -151,6 +153,14 @@ public class ChargerModel {
 
     public void setCharger_photo_base64(String charger_photo_base64) {
         this.charger_photo_base64 = charger_photo_base64;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
