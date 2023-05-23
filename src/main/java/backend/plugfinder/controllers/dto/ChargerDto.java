@@ -23,6 +23,8 @@ public class ChargerDto {
 
     private boolean active;
 
+    private Long price;
+
     private UserDto owner_user;
 
     private double latitude;
@@ -105,6 +107,14 @@ public class ChargerDto {
 
     public void setOwner_user(UserDto owner_user) {
         this.owner_user = owner_user;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public double getLatitude() {

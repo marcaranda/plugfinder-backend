@@ -36,6 +36,8 @@ public class ChargerEntity {
     @Column(nullable = false)
     private boolean active;
 
+    private Long price;
+
     @ManyToOne
     @JoinColumn(name = "owner_user")
     private UserEntity owner_user;
@@ -124,6 +126,14 @@ public class ChargerEntity {
 
     public void setOwner_user(UserEntity owner_user) {
         this.owner_user = owner_user;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public double getLatitude() {

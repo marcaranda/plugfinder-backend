@@ -18,4 +18,5 @@
     <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/03017_create_reservation_class+pk.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02002_default_car.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02003_price_charger.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
