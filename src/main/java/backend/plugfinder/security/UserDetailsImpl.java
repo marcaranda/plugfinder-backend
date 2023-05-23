@@ -59,4 +59,6 @@ public class UserDetailsImpl implements UserDetails {
     public long getId() {return user.getUser_id();}
 
     public boolean isUser_Api() {return user.isUser_api();}
+
+    public boolean isPremium() {return user.isPremium();}
 }

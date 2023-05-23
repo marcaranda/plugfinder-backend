@@ -6,6 +6,7 @@ import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.repositories.entity.ChargerEntity;
+import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
 import org.apache.commons.lang3.tuple.Pair;
@@ -14,7 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +74,18 @@ public class ChargerService {
         return chargers;
     }
 
+    public ArrayList<ChargerModel> get_user_chargers(Long user_id) throws OurException {
+        if (new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            ArrayList<ChargerModel> chargers = new ArrayList<>();
+
+            charger_repo.findAllByUserId(user_id).forEach(elementB -> chargers.add(model_mapper.map(elementB, ChargerModel.class)));
+            return chargers;
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
 
     //region Public Methods
 //    public ArrayList<ChargerModel> get_chargers(String is_public, Double latitude, Double longitude, String type, Long real_charge_speed, Long radius){
@@ -128,6 +143,18 @@ public class ChargerService {
         }
     }
 
+    public ChargerModel active_charger(Long id){
+        ModelMapper model_mapper = new ModelMapper();
+
+        ChargerModel charger = find_charger_by_id(id);
+        if (charger != null){
+            charger.setActive(!charger.isActive());
+            return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
+        }
+    }
 
     public ChargerModel disoccupy(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
