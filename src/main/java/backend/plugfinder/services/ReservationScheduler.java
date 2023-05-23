@@ -21,7 +21,7 @@ public class ReservationScheduler {
         ArrayList<ReservationModel> reservations =  reservationService.get_reservations(null);
 
         for (ReservationModel reservation : reservations) {
-            if (reservation.getEnded_at() == null && reservation.timeExtended()) {
+            if (reservation.getEnded_at() == null && reservation.timeExceeded()) {
                 reservationService.end_reservation(reservation);
             }
         }
