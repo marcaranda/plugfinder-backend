@@ -147,7 +147,6 @@ public class ChargerService {
         ModelMapper model_mapper = new ModelMapper();
 
         ChargerModel charger = find_charger_by_id(id);
-
         if (charger != null){
             charger.setActive(!charger.isActive());
             return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
@@ -156,7 +155,6 @@ public class ChargerService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
         }
     }
-
 
     public ChargerModel disoccupy(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();

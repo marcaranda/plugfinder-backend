@@ -15,7 +15,6 @@
     <include file="changeLogs/00014_add_photo_to_user_and_charger.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00015_add_favorite_charger_to_user.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/00016_add_userApi_users.xml" relativeToChangelogFile="true" />
-    <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/03017_create_reservation_class+pk.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01018_add_table_comment.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01019_add_table_incidence.xml" relativeToChangelogFile="true" />
