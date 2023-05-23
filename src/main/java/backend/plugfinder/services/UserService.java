@@ -11,12 +11,18 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -310,6 +316,54 @@ public class UserService {
             throw new OurException("El user_id enviado es diferente al especificado en el token");
         }
     }
+
+    //region Message
+    public void send_message(Map<String, Object> request) throws OurException {
+        String message = (String) request.get("message");
+        long source_id = (long) request.get("sourceId");
+        long target_id = (long) request.get("targetId");
+
+        UserModel source_user = find_user_by_id(source_id);
+        UserModel target_user = find_user_by_id(target_id);
+
+        if (source_user != null){
+            if(new TokenValidator().validate_id_with_token(source_id)) {
+                if (target_user != null){
+                    RestTemplate restTemplate = new RestTemplate();
+                    String apiUrl = "http://url-de-la-api-rest";
+
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+
+                    MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+                    map.add("message", message);
+                    map.add("sourceID", source_user.getEmail());
+                    map.add("targetID", target_user.getEmail());
+
+                    HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map, headers);
+
+                    ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+
+                    if (response.getStatusCode().is2xxSuccessful()) {
+                        String responseBody = response.getBody();
+                        // Procesa la respuesta de la API
+                    } else {
+                        // Manejo de errores
+                    }
+                }
+                else {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario con id " + target_id + " no existe");
+                }
+            }
+            else {
+                throw new OurException("El user_id enviado es diferente al especificado en el token");
+            }
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario con id " + source_id + " no existe");
+        }
+    }
+    //endregion
 
     //region Métodos Privados
     /**
