@@ -19,7 +19,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        String errorMessage = "An unexpected error occurred.";
+        String errorMessage = ex.getMessage();
         return ResponseEntity.status(status).body(errorMessage);
     }
 }
