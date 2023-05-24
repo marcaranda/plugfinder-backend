@@ -62,15 +62,10 @@ public class ChargerController {
     //endregion
 
     //region Delete Methods
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{charger_id}")
     @PreAuthorize("@securityService.not_userAPI()")
-    public String delete_charger(@PathVariable("id") Long id){
-        if (charger_service.delete_charger(id)){
-            return "Se elimino correctamente el cargador con id " + id;
-        }
-        else{
-            return "No se ha podido eliminar el cargador con id " + id;
-        }
+    public String delete_charger(@PathVariable("charger_id") Long charger_id) throws OurException {
+        return charger_service.delete_charger(charger_id);
     }
     //endregion
 

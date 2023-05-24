@@ -17,6 +17,8 @@
     <include file="changeLogs/00016_add_userApi_users.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/03017_create_reservation_class+pk.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02002_default_car.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01018_add_table_comment.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01019_add_table_incidence.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

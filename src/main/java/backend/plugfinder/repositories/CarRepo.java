@@ -17,4 +17,7 @@ public interface CarRepo extends CrudRepository<CarEntity, CarId> {
 
     @Query("SELECT c FROM CarEntity c WHERE c.deleted = false AND c.id.license = :license AND c.id.id = :user_id")
     public abstract Optional<CarEntity> findCarModelById_LicenseAndId_Id(@Param("license") String license, @Param("user_id") long user_id);
+
+    @Query("SELECT c FROM CarEntity c WHERE c.default_car = true AND c.id.id = :user_id")
+    public abstract Optional<CarEntity> findDefaultCarByUserId(@Param("user_id") long userId);
 }

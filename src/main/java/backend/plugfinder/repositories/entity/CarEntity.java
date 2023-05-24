@@ -11,6 +11,8 @@ public class CarEntity {
     private CarId id;
     @Column(nullable = false)
     private boolean deleted;
+    @Column(nullable = false)
+    private boolean default_car;
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
@@ -38,6 +40,14 @@ public class CarEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public boolean isDefault_car() {
+        return default_car;
+    }
+
+    public void setDefault_car(boolean default_car) {
+        this.default_car = default_car;
     }
 
     public UserEntity getUser_model() {
