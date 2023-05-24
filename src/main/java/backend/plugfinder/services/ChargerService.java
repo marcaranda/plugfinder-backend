@@ -5,6 +5,7 @@ import backend.plugfinder.repositories.SearchCriteria;
 import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
+import backend.plugfinder.repositories.entity.CarEntity;
 import backend.plugfinder.repositories.entity.ChargerEntity;
 import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargerModel;
@@ -143,13 +144,17 @@ public class ChargerService {
         }
     }
 
-    public ChargerModel active_charger(Long id){
+    public ChargerModel active_charger(Long id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 
         ChargerModel charger = find_charger_by_id(id);
         if (charger != null){
-            charger.setActive(!charger.isActive());
-            return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+            if (new TokenValidator().validate_id_with_token(charger.getOwner_user().getUser_id()) && !charger.isIs_public()) {
+                charger.setActive(!charger.isActive());
+                return model_mapper.map(charger_repo.save(model_mapper.map(charger, ChargerEntity.class)), ChargerModel.class);
+            } else {
+                throw new OurException("El user_id del propietario del cargador es diferente al especificado en el token");
+            }
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
@@ -170,13 +175,23 @@ public class ChargerService {
         }
     }
 
-    public boolean delete_charger(long id) {
-        try{
-            charger_repo.deleteById(id);
-            return true;
+    public String delete_charger(Long charger_id) throws OurException {
+        ChargerModel charger = find_charger_by_id(charger_id);
+
+        if (charger != null) {
+            if (new TokenValidator().validate_id_with_token(charger.getOwner_user().getUser_id()) && !charger.isIs_public()) {
+                try {
+                    charger_repo.deleteById(charger_id);
+                    return "Se elimino correctamente el cargador con id " + charger_id;
+                } catch (Exception error) {
+                    return "No se ha podido eliminar el cargador con id " + charger_id;
+                }
+            } else {
+                throw new OurException("El user_id del propietario del cargador es diferente al especificado en el token");
+            }
         }
-        catch (Exception error){
-            return false;
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
         }
     }
 
