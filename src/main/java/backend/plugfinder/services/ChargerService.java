@@ -30,6 +30,7 @@ public class ChargerService {
     @Autowired
     ChargerFiltersRepo charger_filters;
 
+    @Autowired
     AmazonS3Service amazonS3Service;
 
     private JpaSpecificationExecutor<ChargerEntity> chargerRepository;
@@ -118,7 +119,7 @@ public class ChargerService {
         /* Pujem l'imatge pasada en base 64 al bucket s3 de amazon i emmagatzemem la seva url pública al atribut charger_photo del cargador */
         if(chargerModel.getCharger_photo_base64() != null) {
             String public_url_photo = amazonS3Service.upload_file("charger-" + chargerModel.getId_charger(), chargerModel.getCharger_photo_base64());
-            chargerModel.setCharger_photo_base64(public_url_photo);
+            chargerModel.setCharger_photo(public_url_photo);
         }
 
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
