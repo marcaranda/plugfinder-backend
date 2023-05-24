@@ -148,7 +148,6 @@ public class ChargerService {
         ModelMapper model_mapper = new ModelMapper();
 
         ChargerModel charger = find_charger_by_id(id);
-
         if (charger != null){
             if (new TokenValidator().validate_id_with_token(charger.getOwner_user().getUser_id()) && !charger.isIs_public()) {
                 charger.setActive(!charger.isActive());
@@ -161,7 +160,6 @@ public class ChargerService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
         }
     }
-
 
     public ChargerModel disoccupy(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();

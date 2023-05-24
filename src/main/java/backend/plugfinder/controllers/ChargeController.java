@@ -50,7 +50,7 @@ public class ChargeController {
     }
 
     @PostMapping(path = "/new_from_reservation")
-    @PreAuthorize("@securityService.not_userAPI()")
+    @PreAuthorize("@securityService.not_userAPI() && @securityService.premium_user()")
     public ChargeDto create_charge_from_reservation(@RequestParam(required = false) Long reservation_id){
         ModelMapper model_mapper = new ModelMapper();
         try {

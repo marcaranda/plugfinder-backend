@@ -63,7 +63,7 @@ public class ReservationModel {
         this.ended_at = ended_at;
     }
 
-    public boolean timeExtended(){
+    public boolean timeExceeded(){
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
