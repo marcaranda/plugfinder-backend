@@ -10,6 +10,7 @@ import backend.plugfinder.repositories.entity.ChargerEntity;
 import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
+import backend.plugfinder.services.models.ChargerTypeModel;
 import org.apache.commons.lang3.tuple.Pair;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,9 @@ public class ChargerService {
 
     @Autowired
     ChargerFiltersRepo charger_filters;
+
+    @Autowired
+    ChargerTypeService charger_type_service;
 
     @Autowired
     AmazonS3Service amazonS3Service;
@@ -199,7 +203,7 @@ public class ChargerService {
     }
 
     //region Editar Cargador Privat
-    public ChargerModel update_charger(Long charger_id, Double price, String electric_current, Integer potency, String photo) throws OurException {
+    public ChargerModel update_charger(Long charger_id, Double price, String electric_current, Integer potency, ArrayList<Long> chargers_type_id, String photo) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         ChargerModel charger_to_be_updated = model_mapper.map(charger_repo.findById(charger_id), ChargerModel.class);
 
@@ -216,6 +220,18 @@ public class ChargerService {
 
                 if (potency != null){
                     charger_to_be_updated.setPotency(potency);
+                }
+
+                if (chargers_type_id != null){
+                    List<ChargerTypeModel> types = new ArrayList<>();
+                    for (Long id: chargers_type_id){
+                        ChargerTypeModel type = charger_type_service.get_charger_type_by_id(id);
+                        if (type != null) types.add(type);
+                        else {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El tipo de cargador no existe");
+                        }
+                    }
+                    charger_to_be_updated.setTypes(types);
                 }
 
                 //Si la foto del cargador és diferent l'actualitzem
