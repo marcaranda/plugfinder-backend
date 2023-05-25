@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -126,6 +127,14 @@ public class UserController {
         return updated_user;
     }
 
+    //endregion
+
+    //region Message
+    @PostMapping("/message")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public void send_message(@RequestBody Map<String, Object> request) throws OurException {
+        user_service.send_message(request);
+    }
     //endregion
 
     /**
