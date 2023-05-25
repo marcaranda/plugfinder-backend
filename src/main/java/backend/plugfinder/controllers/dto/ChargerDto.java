@@ -35,6 +35,8 @@ public class ChargerDto {
 
     private String charger_photo_base64;
 
+    private double score;
+
     //region Constructores, getters y setters
     public long getId_charger() {
         return id_charger;
@@ -153,6 +155,14 @@ public class ChargerDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
     //endregion

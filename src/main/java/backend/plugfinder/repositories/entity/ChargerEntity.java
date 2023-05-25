@@ -51,6 +51,9 @@ public class ChargerEntity {
     private List<ChargerTypeEntity> types;
     @Column
     private String charger_photo;
+
+    @Column (columnDefinition = "double default value 0.0")
+    private double score;
     //endregion
 
     //region Getters & Setters
@@ -166,5 +169,13 @@ public class ChargerEntity {
         this.active = active;
     }
 
-//endregion
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    //endregion
 }

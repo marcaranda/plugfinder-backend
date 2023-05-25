@@ -68,6 +68,7 @@ public class CommentService {
     public CommentModel save_comment(CommentModel comment_model) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         try {
+            charger_service.update_charger_score(comment_model.getCharger().getId_charger(), comment_model.getPoints(), get_charger_comments(comment_model.getCharger().getId_charger()).size()+1);
             return model_mapper.map(comment_repo.save(model_mapper.map(comment_model, CommentEntity.class)), CommentModel.class);
         }
         catch (Exception e){
@@ -83,6 +84,7 @@ public class CommentService {
     public CommentModel update_comment(CommentModel comment_model) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         try {
+            charger_service.update_charger_score(comment_model.getCharger().getId_charger(), comment_model.getPoints(), get_charger_comments(comment_model.getCharger().getId_charger()).size()+1);
             //As we are giving the comment id it will make an update not a save
             return model_mapper.map(comment_repo.save(model_mapper.map(comment_model, CommentEntity.class)), CommentModel.class);
         }
