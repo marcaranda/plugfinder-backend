@@ -255,6 +255,24 @@ public class ChargerService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
         }
     }
+
+    /** Actualitza la puntuación del cargador
+     * @param charger_id: Id del cargador
+     * @param score: Puntuación del cargador
+     * @throws OurException: Si el cargador no existeix
+     */
+    public void update_charger_score(Long charger_id, double score, int num_comments) throws OurException {
+        ChargerModel charger = find_charger_by_id(charger_id);
+
+        if (charger != null) {
+            charger.setScore(recalculate_score(charger.getScore(), score, num_comments));
+            charger_repo.save(new ModelMapper().map(charger, ChargerEntity.class));
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
+        }
+    }
+
     //endregion
 
     public ChargerModel find_charger_by_id(Long id) {
@@ -270,6 +288,7 @@ public class ChargerService {
     //endregion
 
     //region Metodos Privados
+
     /** Check if the distance between the charger and the point is less than the max distance
      * @param latitude: Latitude of the point
      * @param longitude: Longitude of the point
@@ -291,6 +310,7 @@ public class ChargerService {
         }
         return false;
     }
+    //endregion
 
     private double[] calcularLimites(double latitud, double longitud, double radio) {
         // Convertir la latitud y longitud a radianes
@@ -320,5 +340,12 @@ public class ChargerService {
 
         return limites;
     }
-    //endregion
+
+    /** Recalcula la puntuación del cargador
+     * @param score: Puntuación del cargador
+     * @return: Puntuación recalculada
+     */
+    private double recalculate_score(double actual_score, double score, int num_comments) {
+        return (actual_score*(num_comments-1) + score)/num_comments;
+    }
 }

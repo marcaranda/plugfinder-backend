@@ -60,6 +60,7 @@ public class ReservationModel {
     }
 
     public void setEnded_at(Timestamp ended_at) {
+        if (this.ended_at != null) return;
         this.ended_at = ended_at;
     }
 
@@ -70,7 +71,7 @@ public class ReservationModel {
         long milliseconds = now.getTime() - this.created_at.getTime();
         long minutes = milliseconds / (60 * 1000);
 
-        return minutes > 3;
+        return minutes > 15;
 
     }
 }

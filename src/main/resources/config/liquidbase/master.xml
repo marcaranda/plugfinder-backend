@@ -25,4 +25,5 @@
     <include file="changeLogs/02004_change_type_price.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02005_location_nullable.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02006_delete_default_value_location.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/01020_add_score_to_charger.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

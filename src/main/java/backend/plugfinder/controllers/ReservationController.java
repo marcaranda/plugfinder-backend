@@ -1,11 +1,13 @@
 package backend.plugfinder.controllers;
 
+import backend.plugfinder.controllers.dto.ChargeDto;
 import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.controllers.dto.ReservationDto;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.services.ChargeService;
 import backend.plugfinder.services.ChargerService;
 import backend.plugfinder.services.ReservationService;
+import backend.plugfinder.services.models.ChargeModel;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.services.models.ReservationModel;
 import org.modelmapper.ModelMapper;
@@ -48,14 +50,14 @@ public class ReservationController {
     @PreAuthorize("@securityService.not_userAPI() && @securityService.premium_user()")
     public ReservationDto end_reservation(@PathVariable("reservation_id") Long reservation_id){
         ModelMapper model_mapper = new ModelMapper();
-        ReservationDto reservation = null;
-
         try{
-            reservation = model_mapper.map(reservation_service.end_reservation(model_mapper.map(reservation, ReservationModel.class)), ReservationDto.class);;
+            ReservationDto reserva = model_mapper.map(reservation_service.get_reservation(reservation_id), ReservationDto.class);
+
+            return model_mapper.map(reservation_service.end_reservation(model_mapper.map(reserva, ReservationModel.class)), ReservationDto.class);
+
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Charger is not free");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
-        return reservation;
     }
 }
