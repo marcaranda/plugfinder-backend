@@ -23,7 +23,7 @@ public class ChargerDto {
 
     private boolean active;
 
-    private Long price;
+    private Double price;
 
     private UserDto owner_user;
 
@@ -109,11 +109,11 @@ public class ChargerDto {
         this.owner_user = owner_user;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
