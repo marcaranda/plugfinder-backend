@@ -22,5 +22,4 @@
     <include file="changeLogs/01018_add_table_comment.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01019_add_table_incidence.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
-    <include file="changeLogs/02004_change_type_price.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

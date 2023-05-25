@@ -23,7 +23,7 @@ public class ChargerModel {
 
     private boolean active;
 
-    private Double price;
+    private Long price;
 
     private UserModel owner_user;
 
@@ -109,11 +109,11 @@ public class ChargerModel {
         this.owner_user = owner_user;
     }
 
-    public Double getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

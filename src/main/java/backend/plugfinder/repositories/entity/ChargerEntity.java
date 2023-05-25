@@ -36,7 +36,7 @@ public class ChargerEntity {
     @Column(nullable = false)
     private boolean active;
 
-    private Double price;
+    private Long price;
 
     @ManyToOne
     @JoinColumn(name = "owner_user")
@@ -128,11 +128,11 @@ public class ChargerEntity {
         this.owner_user = owner_user;
     }
 
-    public Double getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
