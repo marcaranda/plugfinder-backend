@@ -10,6 +10,7 @@ import backend.plugfinder.repositories.entity.ChargerEntity;
 import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
+import backend.plugfinder.services.models.ChargerTypeModel;
 import org.apache.commons.lang3.tuple.Pair;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,9 @@ public class ChargerService {
 
     @Autowired
     ChargerFiltersRepo charger_filters;
+
+    @Autowired
+    ChargerTypeService charger_type_service;
 
     @Autowired
     AmazonS3Service amazonS3Service;
@@ -199,33 +203,56 @@ public class ChargerService {
     }
 
     //region Editar Cargador Privat
-    public ChargerModel update_charger(ChargerModel charger_model) throws OurException {
-        if(new TokenValidator().validate_id_with_token(charger_model.getOwner_user().getUser_id())) {
-            ModelMapper model_mapper = new ModelMapper();
-            ChargerModel charger_to_be_updated = model_mapper.map(charger_repo.findById(charger_model.getId_charger()), ChargerModel.class);
+    public ChargerModel update_charger(Long charger_id, Double price, String electric_current, Integer potency, ArrayList<Long> chargers_type_id, String photo) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        ChargerModel charger_to_be_updated = model_mapper.map(charger_repo.findById(charger_id), ChargerModel.class);
 
+        if (charger_to_be_updated != null) {
             //Si el cargador es privat, llabors es pot actualitzar
-            if(!charger_to_be_updated.isIs_public()) {
+            if (!charger_to_be_updated.isIs_public()) {
+                if (price != null){
+                    charger_to_be_updated.setPrice(price);
+                }
+
+                if (electric_current != null){
+                    charger_to_be_updated.setElectric_current(electric_current);
+                }
+
+                if (potency != null){
+                    charger_to_be_updated.setPotency(potency);
+                }
+
+                if (chargers_type_id != null){
+                    List<ChargerTypeModel> types = new ArrayList<>();
+                    for (Long id: chargers_type_id){
+                        ChargerTypeModel type = charger_type_service.get_charger_type_by_id(id);
+                        if (type != null) types.add(type);
+                        else {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El tipo de cargador no existe");
+                        }
+                    }
+                    charger_to_be_updated.setTypes(types);
+                }
+
                 //Si la foto del cargador és diferent l'actualitzem
-                if(charger_model.getCharger_photo_base64() != null) {
-                    if(charger_to_be_updated.getCharger_photo() != null) {
+                if (photo != null && photo.length() > 0) {
+                    if (charger_to_be_updated.getCharger_photo() != null) {
                         //Eliminem la foto anterior
                         amazonS3Service.delete_file("charger-" + charger_to_be_updated.getId_charger());
                     }
                     //Guardem la nova foto
-                    String public_url_photo = amazonS3Service.upload_file("charger-" + charger_model.getId_charger(), charger_model.getCharger_photo_base64());
-                    charger_model.setCharger_photo(public_url_photo);
+                    String public_url_photo = amazonS3Service.upload_file("charger-" + charger_id, photo);
+                    charger_to_be_updated.setCharger_photo(public_url_photo);
                 }
 
                 //Com la crida al métode save està especificant l'id del cargador, no s'està fent un insert, sinó un update
-                return model_mapper.map(charger_repo.save(model_mapper.map(charger_model, ChargerEntity.class)), ChargerModel.class);
-            }
-            else {
+                return model_mapper.map(charger_repo.save(model_mapper.map(charger_to_be_updated, ChargerEntity.class)), ChargerModel.class);
+            } else {
                 throw new OurException("No se puede actualizar un cargador público");
             }
         }
         else {
-            throw new OurException("El user_id del propietario del cargador es diferente al especificado en el token");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
         }
     }
     //endregion
@@ -293,7 +320,5 @@ public class ChargerService {
 
         return limites;
     }
-
-
-
+    //endregion
 }
