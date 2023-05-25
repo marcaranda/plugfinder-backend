@@ -27,7 +27,7 @@ public class ReservationController {
 
     //region Get Methods
     @GetMapping
-    @PreAuthorize("@securityService.not_userAPI()")
+    @PreAuthorize("@securityService.not_userAPI() && @securityService.premium_user()")
     public ArrayList<ReservationDto> get_reservation(@RequestParam(required = false, value = "id") Long reservation_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ReservationDto> reservations = (ArrayList<ReservationDto>) reservation_service.get_reservations(reservation_id).stream()
@@ -38,14 +38,14 @@ public class ReservationController {
     }
 
     @PostMapping
-    @PreAuthorize("@securityService.not_userAPI()")
+    @PreAuthorize("@securityService.not_userAPI() && @securityService.premium_user()")
     public ReservationDto save_reservation(@RequestBody ReservationDto reservation) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         return model_mapper.map(reservation_service.save_reservation(model_mapper.map(reservation, ReservationModel.class)), ReservationDto.class);
     }
 
     @PostMapping(path = "/{reservation_id}/end")
-    @PreAuthorize("@securityService.not_userAPI()")
+    @PreAuthorize("@securityService.not_userAPI() && @securityService.premium_user()")
     public ReservationDto end_reservation(@PathVariable("reservation_id") Long reservation_id){
         ModelMapper model_mapper = new ModelMapper();
         ReservationDto reservation = null;

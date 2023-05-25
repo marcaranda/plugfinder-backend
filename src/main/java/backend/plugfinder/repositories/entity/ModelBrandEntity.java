@@ -23,7 +23,7 @@ public class ModelBrandEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user_model;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "models_chargers_type",
             joinColumns = {
                 @JoinColumn(name = "model_name", referencedColumnName = "name"),

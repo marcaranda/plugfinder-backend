@@ -31,6 +31,7 @@ public class ChargerService {
     @Autowired
     ChargerFiltersRepo charger_filters;
 
+    @Autowired
     AmazonS3Service amazonS3Service;
 
     private JpaSpecificationExecutor<ChargerEntity> chargerRepository;
@@ -116,10 +117,12 @@ public class ChargerService {
     public ChargerModel save_charger(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
 
+        ChargerModel charger_saved = model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
+
         /* Pujem l'imatge pasada en base 64 al bucket s3 de amazon i emmagatzemem la seva url pública al atribut charger_photo del cargador */
         if(chargerModel.getCharger_photo_base64() != null) {
-            String public_url_photo = amazonS3Service.upload_file("charger-" + chargerModel.getId_charger(), chargerModel.getCharger_photo_base64());
-            chargerModel.setCharger_photo_base64(public_url_photo);
+            String public_url_photo = amazonS3Service.upload_file("charger-" + charger_saved.getId_charger(), chargerModel.getCharger_photo_base64());
+            charger_saved.setCharger_photo(public_url_photo);
         }
 
         return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
@@ -148,7 +151,6 @@ public class ChargerService {
         ModelMapper model_mapper = new ModelMapper();
 
         ChargerModel charger = find_charger_by_id(id);
-
         if (charger != null){
             if (new TokenValidator().validate_id_with_token(charger.getOwner_user().getUser_id()) && !charger.isIs_public()) {
                 charger.setActive(!charger.isActive());
@@ -161,7 +163,6 @@ public class ChargerService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cargador no existe");
         }
     }
-
 
     public ChargerModel disoccupy(ChargerModel chargerModel) {
         ModelMapper model_mapper = new ModelMapper();
