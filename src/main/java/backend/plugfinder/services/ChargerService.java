@@ -11,6 +11,8 @@ import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
 import backend.plugfinder.services.models.ChargerTypeModel;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
@@ -129,7 +131,7 @@ public class ChargerService {
             charger_saved.setCharger_photo(public_url_photo);
         }
 
-        return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
+        return model_mapper.map(charger_repo.save(model_mapper.map(charger_saved, ChargerEntity.class)), ChargerModel.class);
 
     }
 
@@ -235,7 +237,8 @@ public class ChargerService {
                 }
 
                 //Si la foto del cargador és diferent l'actualitzem
-                if (photo != null && photo.length() > 0) {
+                photo = extractImageBase64(photo);
+                if (photo != null) {
                     if (charger_to_be_updated.getCharger_photo() != null) {
                         //Eliminem la foto anterior
                         amazonS3Service.delete_file("charger-" + charger_to_be_updated.getId_charger());
@@ -347,5 +350,21 @@ public class ChargerService {
      */
     private double recalculate_score(double actual_score, double score, int num_comments) {
         return (actual_score*(num_comments-1) + score)/num_comments;
+    }
+
+    /**
+     * This method extracts the image from the base64 string.
+     * @param fileBase64 - Base64 string.
+     * @return String - Image in base64.
+     */
+    private String extractImageBase64(String fileBase64) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode jsonNode = objectMapper.readTree(fileBase64);
+            return jsonNode.get("photo").asText();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error while trying to extract the image");
+        }
     }
 }
