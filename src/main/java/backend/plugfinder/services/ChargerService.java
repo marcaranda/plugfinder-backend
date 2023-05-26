@@ -237,8 +237,8 @@ public class ChargerService {
                 }
 
                 //Si la foto del cargador és diferent l'actualitzem
-                photo = extractImageBase64(photo);
                 if (photo != null) {
+                    photo = extractImageBase64(photo);
                     if (charger_to_be_updated.getCharger_photo() != null) {
                         //Eliminem la foto anterior
                         amazonS3Service.delete_file("charger-" + charger_to_be_updated.getId_charger());
