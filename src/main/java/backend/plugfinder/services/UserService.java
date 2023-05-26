@@ -11,8 +11,11 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -39,21 +42,21 @@ public class UserService {
      * @param user - User to be registered.
      * @return UserModel - Registered user.
      */
-    public UserModel user_register(UserModel user) throws OurException {
+    public UserModel user_register(UserModel user) {
         ModelMapper model_mapper = new ModelMapper();
 
         /* Comprobación validez correo electrónico */
         if(!validateEmail(user.getEmail())) {
-            throw new OurException("El correo electrónico no es válido.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El correo electrónico no es válido.");
         }
         /* Comprobación validez número de teléfono */
         String tlf = user.getPhone();
         if(tlf != null && !validatePhoneNumber(tlf)) {
-            throw new OurException("El número de teléfono no es válido.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El número de teléfono no es válido.");
         }
         /* Comprobación validez fecha de nacimiento */
         if(!validateBirthDate(user.getBirth_date())) {
-            throw new OurException("La fecha de nacimiento no es válida.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de nacimiento no es válida.");
         }
 
         /* Encriptado de contraseña -- IMPORTANTE: Al hacer log-in, tenemos que comparar la contraseña introducida con la encriptada en la BD. Para ello,
