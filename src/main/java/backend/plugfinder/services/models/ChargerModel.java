@@ -1,13 +1,5 @@
 package backend.plugfinder.services.models;
 
-import jakarta.persistence.criteria.Root;
-import org.springframework.data.jpa.domain.Specification;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,11 +23,13 @@ public class ChargerModel {
 
     private boolean active;
 
+    private Double price;
+
     private UserModel owner_user;
 
-    private double latitude;
+    private Double latitude;
 
-    private double longitude;
+    private Double longitude;
 
     private List<ChargerTypeModel> types;
 
@@ -117,19 +111,27 @@ public class ChargerModel {
         this.owner_user = owner_user;
     }
 
-    public double getLatitude() {
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

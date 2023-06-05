@@ -4,6 +4,7 @@ package backend.plugfinder.services;
 import backend.plugfinder.repositories.ChargerTypeRepo;
 import backend.plugfinder.repositories.entity.ChargerTypeEntity;
 import backend.plugfinder.services.models.ChargerTypeModel;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,13 @@ public class ChargerTypeService {
 
     public ChargerTypeModel get_charger_type_by_id(long id) {
         ModelMapper model_mapper = new ModelMapper();
-        return model_mapper.map(charger_type_repo.findById(id).get(), ChargerTypeModel.class);
+
+        try {
+            return model_mapper.map(charger_type_repo.findById(id), ChargerTypeModel.class);
+        }
+        catch (MappingException e) {
+            return null;
+        }
     }
 
     public ChargerTypeModel save_charger_type(ChargerTypeModel charger_type_model) {
