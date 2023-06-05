@@ -1,5 +1,6 @@
 package backend.plugfinder.services.models;
 
+import backend.plugfinder.helpers.Zones;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public class UserModel {
     boolean premium;
     String premium_registration_date;
     String premium_drop_date;
+
+    Zones zone;
     //endregion
 
     //endregion
@@ -127,7 +130,7 @@ public class UserModel {
     }
 
     public long getPoints() {
-        return points;
+        return this.points;
     }
 
     public void setPoints(long points) {
@@ -188,6 +191,14 @@ public class UserModel {
 
     public void setFavorite_chargers(List<ChargerModel> favorite_chargers) {
         this.favorite_chargers = favorite_chargers;
+    }
+
+    public Zones getZone() {
+        return zone;
+    }
+
+    public void setZone(Zones zone) {
+        this.zone = zone;
     }
 
     @Override

@@ -2,6 +2,7 @@ package backend.plugfinder.services;
 
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
+import backend.plugfinder.helpers.Zones;
 import backend.plugfinder.repositories.entity.UserEntity;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.services.models.CarModel;
@@ -80,6 +81,18 @@ public class UserService {
         user_repo.findAll().forEach(elementB -> users.add(model_mapper.map(elementB, UserModel.class)));
         return users;
     }
+
+    public ArrayList<UserModel> get_ranking(Zones zone) {
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<UserModel> users = new ArrayList<>();
+        if (zone != null){
+            user_repo.findOrderRankingByZone(zone).forEach(elementB -> users.add(model_mapper.map(elementB, UserModel.class)));
+        }else{
+            user_repo.findOrderRanking().forEach(elementB -> users.add(model_mapper.map(elementB, UserModel.class)));
+        }
+        return users;
+    }
+
 
     //region Eliminar usuario
     /**
@@ -311,6 +324,17 @@ public class UserService {
         }
     }
 
+    public void add_points(Long user_id, long points){
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            ModelMapper model_mapper = new ModelMapper();
+            UserModel user = find_user_by_id(user_id);
+
+            user.setPoints(user.getPoints() + points);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
+        }
+
+    }
+
     //region Métodos Privados
     /**
      * This method validates the user's email.
@@ -362,4 +386,6 @@ public class UserService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
     //endregion
+
+
 }

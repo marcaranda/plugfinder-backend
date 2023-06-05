@@ -1,6 +1,6 @@
 package backend.plugfinder.controllers.dto;
 
-import jakarta.persistence.*;
+import backend.plugfinder.helpers.Zones;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ public class UserDto {
     private boolean deleted;
     private boolean admin;
     private List<ChargerDto> favorite_chargers;
+
+    private Zones zone;
 
 
     private boolean user_api;
@@ -188,6 +190,14 @@ public class UserDto {
 
     public void setFavorite_chargers(List<ChargerDto> favorite_chargers) {
         this.favorite_chargers = favorite_chargers;
+    }
+
+    public Zones getZone() {
+        return zone;
+    }
+
+    public void setZone(Zones zone) {
+        this.zone = zone;
     }
 
     //endregion
