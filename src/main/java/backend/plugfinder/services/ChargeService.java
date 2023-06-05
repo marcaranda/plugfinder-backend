@@ -1,11 +1,9 @@
 package backend.plugfinder.services;
 
-import backend.plugfinder.controllers.dto.ChargeDto;
-import backend.plugfinder.controllers.dto.ChargerDto;
-import backend.plugfinder.controllers.dto.ReservationDto;
 import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.repositories.entity.ChargeEntity;
 import backend.plugfinder.services.models.ChargeModel;
+import backend.plugfinder.services.models.UserModel;
 import backend.plugfinder.repositories.ChargeRepo;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.services.models.ReservationModel;
@@ -26,6 +24,9 @@ public class ChargeService {
 
     @Autowired
     ChargerService charger_service;
+
+    @Autowired
+    UserService user_service;
 
     @Autowired
     ReservationService reservation_service;
@@ -57,8 +58,15 @@ public class ChargeService {
         ChargerModel charger = charge_model.getCharger();
         charger_service.disoccupy(model_mapper.map(charger, ChargerModel.class));
 
-
         charge_model.setEnded_at(Timestamp.from(Instant.now()));
+
+        int potency = charger.getPotency();
+        long duration = (charge_model.getEnded_at().getTime() - charge_model.getCreated_at().getTime()) / 1000 / 60 / 60;
+
+        long points_charge = potency*duration;
+        UserModel user = charge_model.getCar().getUser_model();
+        user_service.add_points(user.getUser_id(), points_charge);
+
         return model_mapper.map(charge_repo.save(model_mapper.map(charge_model, ChargeEntity.class)), ChargeModel.class);
     }
 

@@ -3,6 +3,7 @@ package backend.plugfinder.controllers;
 import backend.plugfinder.controllers.dto.ChargerDto;
 import backend.plugfinder.controllers.dto.UserDto;
 import backend.plugfinder.helpers.OurException;
+import backend.plugfinder.helpers.Zones;
 import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
 import org.modelmapper.ModelMapper;
@@ -142,5 +143,18 @@ public class UserController {
 
         return users;
     }
+
+    @GetMapping("/ranking")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public ArrayList<UserDto> get_ranking(@RequestParam(required = false, value = "zone") Zones zone) {
+        ModelMapper model_mapper = new ModelMapper();
+
+        ArrayList<UserDto> users = (ArrayList<UserDto>) user_service.get_ranking(zone).stream()
+                .map(elementB ->model_mapper.map(elementB, UserDto.class))
+                .collect(Collectors.toList());
+
+        return users;
+    }
+
     //endregion
 }
