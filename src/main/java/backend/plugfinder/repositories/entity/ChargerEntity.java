@@ -36,12 +36,16 @@ public class ChargerEntity {
     @Column(nullable = false)
     private boolean active;
 
+    private Double price;
+
     @ManyToOne
     @JoinColumn(name = "owner_user")
     private UserEntity owner_user;
 
-    private double latitude;
-    private double longitude;
+    @Column(nullable = false)
+    private Double latitude;
+    @Column(nullable = false)
+    private Double longitude;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -51,6 +55,9 @@ public class ChargerEntity {
     private List<ChargerTypeEntity> types;
     @Column
     private String charger_photo;
+
+    @Column (columnDefinition = "double default value 0.0")
+    private double score;
     //endregion
 
     //region Getters & Setters
@@ -126,19 +133,27 @@ public class ChargerEntity {
         this.owner_user = owner_user;
     }
 
-    public double getLatitude() {
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -166,5 +181,13 @@ public class ChargerEntity {
         this.active = active;
     }
 
-//endregion
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    //endregion
 }

@@ -18,8 +18,13 @@
     <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/03017_create_reservation_class+pk.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02002_default_car.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02003_price_charger.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01018_add_table_comment.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/01019_add_table_incidence.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/02001_ActiveButton.xml" relativeToChangelogFile="true" />
     <include file="changeLogs/03020_add_zone_to_user.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02004_change_type_price.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02005_location_nullable.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/02006_delete_default_value_location.xml" relativeToChangelogFile="true" />
+    <include file="changeLogs/01020_add_score_to_charger.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

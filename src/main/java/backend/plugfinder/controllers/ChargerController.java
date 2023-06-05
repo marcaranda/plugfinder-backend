@@ -70,12 +70,14 @@ public class ChargerController {
     //endregion
 
     //region Put Methods
-    @PutMapping("/update")
+    @PutMapping("/{charger_id}/edit")
     @PreAuthorize("@securityService.not_userAPI()")
-    public ChargerDto update_charger(@RequestBody ChargerDto charger_dto) throws OurException {
+    public ChargerDto update_charger(@PathVariable("charger_id") Long charger_id, @RequestParam(required = false, value = "price") Double price,
+                                     @RequestParam(required = false, value = "current") String electric_current, @RequestParam(required = false, value = "potency") Integer potency,
+                                     @RequestParam(required = false, value = "types") ArrayList<Long> chargers_type_id, @RequestBody(required = false) String photo) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 
-        return model_mapper.map(charger_service.update_charger(model_mapper.map(charger_dto, ChargerModel.class)), ChargerDto.class);
+        return model_mapper.map(charger_service.update_charger(charger_id, price, electric_current, potency, chargers_type_id, photo), ChargerDto.class);
     }
 
     @PutMapping("/{charger_id}/active")
