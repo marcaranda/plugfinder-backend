@@ -46,6 +46,12 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "charger_id", referencedColumnName = "id_charger"))
     private List<ChargerEntity> favorite_chargers;
 
+    @ManyToMany
+    @JoinTable(name = "last_chats",
+            joinColumns = @JoinColumn(name = "user_id_1", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    private List<UserEntity> last_chats;
+
     //region Premium attributes
     /** Here we will define the attributes for a premium user*/
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -201,6 +207,14 @@ public class UserEntity {
 
     public void setFavorite_chargers(List<ChargerEntity> favorite_chargers) {
         this.favorite_chargers = favorite_chargers;
+    }
+
+    public List<UserEntity> getLast_chats() {
+        return last_chats;
+    }
+
+    public void setLast_chats(List<UserEntity> last_chats) {
+        this.last_chats = last_chats;
     }
 
     //endregion
