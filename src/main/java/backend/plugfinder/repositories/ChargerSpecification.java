@@ -1,11 +1,10 @@
 package backend.plugfinder.repositories;
 
 import backend.plugfinder.repositories.entity.ChargerEntity;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import backend.plugfinder.repositories.entity.ChargerTypeEntity;
+import jakarta.persistence.criteria.*;
 import org.apache.commons.lang3.tuple.Pair;
+import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 
@@ -32,16 +31,23 @@ public class ChargerSpecification implements Specification<ChargerEntity> {
         else if (criteria.getOperation().equalsIgnoreCase(":")) {
 
             if (criteria.getKey()=="type_id"){
-                return builder.equal(root.join("types").get(criteria.getKey()), criteria.getValue());
+
+                List<Long> longList = (List<Long>) criteria.getValue();
+
+                Join<ChargerEntity, ChargerTypeEntity> typeJoin = root.join("types");
+                return typeJoin.get("type_id").in(longList);
 
             } else if (root.get(criteria.getKey()).getJavaType() == String.class) {
                 return builder.like(
                         root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
             } else {
 
-
                 return builder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
+        }
+        else if (criteria.getOperation().equalsIgnoreCase("between")){
+            return builder.between(root.get(criteria.getKey()), (int) criteria.getValue(), (int) criteria.getValue2());
+
         }
         return null;
     }
