@@ -5,13 +5,15 @@ public class SearchCriteria {
     private String key;
     private String operation;
     private Object value;
+    private Object value2;
 
     private boolean B_key;
 
-    public SearchCriteria(String key, String op, Object value) {
+    public SearchCriteria(String key, String op, Object value, Object value2) {
         this.key = key;
         this.operation = op;
         this.value = value;
+        this.value2 = value2;
     }
 
     //region Getters y setters
@@ -38,5 +40,13 @@ public class SearchCriteria {
 
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    public Object getValue2() {
+        return value2;
+    }
+
+    public void setValue2(Object value2) {
+        this.value2 = value2;
     }
 }
