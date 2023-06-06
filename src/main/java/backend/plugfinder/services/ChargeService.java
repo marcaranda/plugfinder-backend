@@ -61,9 +61,11 @@ public class ChargeService {
         charge_model.setEnded_at(Timestamp.from(Instant.now()));
 
         int potency = charger.getPotency();
-        long duration = (charge_model.getEnded_at().getTime() - charge_model.getCreated_at().getTime()) / 1000 / 60 / 60;
+        long duration = (charge_model.getEnded_at().getTime() - charge_model.getCreated_at().getTime()) / 1000 / 60; // in minutes
+        long points_charge = (potency*duration)/60;
 
-        long points_charge = potency*duration;
+        charge_model.setCharged_kw((int) points_charge);
+
         UserModel user = charge_model.getCar().getUser_model();
         user_service.add_points(user.getUser_id(), points_charge);
 
