@@ -43,7 +43,6 @@ public class ChargerService {
 
     private JpaSpecificationExecutor<ChargerEntity> chargerRepository;
 
-    //https://www.baeldung.com/rest-api-search-language-spring-data-specifications --> seguir esto
     public ArrayList<ChargerModel> buscar_cargadores(Boolean is_public, Double latitude, Double longitude, Integer[] types, Long speed_lower, Long speed_upper, Long radius) {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerModel> chargers = new ArrayList<>();
