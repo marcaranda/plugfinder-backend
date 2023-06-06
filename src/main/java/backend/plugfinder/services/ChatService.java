@@ -36,7 +36,7 @@ public class ChatService {
             if (source_user == null) throw new OurException("El source user no existe");
             UserModel target_user = user_service.find_user_by_id(message.getTarget_id());
             if (target_user == null) throw new OurException("El target user no existe");
-            user_service.save_last_chats(source_user, target_user);
+
 
             RestTemplate restTemplate = new RestTemplate();
 
@@ -62,6 +62,7 @@ public class ChatService {
             response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
 
             if (response.getStatusCode().is2xxSuccessful()) {
+                user_service.save_last_chats(source_user, target_user);
                 return response.getBody();
             }
             else {
