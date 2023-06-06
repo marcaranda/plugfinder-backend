@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(BrandController.class)
-public class BrandControllerTest extends AbstractBaseControllerTest{
+public class BrandControllerTest extends AbstractBaseControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -57,6 +57,7 @@ public class BrandControllerTest extends AbstractBaseControllerTest{
                     brandModel.isKnown() == true;
         }));
     }
+}
 
 
 
