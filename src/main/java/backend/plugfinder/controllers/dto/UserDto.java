@@ -23,7 +23,6 @@ public class UserDto {
     double co2;
     private boolean deleted;
     private boolean admin;
-    private List<UserEntity> last_chats;
     private Zones zone;
 
 
@@ -182,14 +181,6 @@ public class UserDto {
 
     public void setPremium_drop_date(String premium_drop_date) {
         this.premium_drop_date = premium_drop_date;
-    }
-
-    public List<UserEntity> getLast_chats() {
-        return last_chats;
-    }
-
-    public void setLast_chats(List<UserEntity> last_chats) {
-        this.last_chats = last_chats;
     }
 
     public Zones getZone() {

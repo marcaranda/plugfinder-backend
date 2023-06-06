@@ -26,7 +26,7 @@ public class UserModel {
     private boolean deleted;
     private boolean admin;
     private List<ChargerModel> favorite_chargers;
-    private List<UserEntity> last_chats;
+    private List<UserModel> last_chats;
     private boolean user_api;
 
     //region Premium attributes
@@ -194,11 +194,11 @@ public class UserModel {
         this.favorite_chargers = favorite_chargers;
     }
 
-    public List<UserEntity> getLast_chats() {
+    public List<UserModel> getLast_chats() {
         return last_chats;
     }
 
-    public void setLast_chats(List<UserEntity> last_chats) {
+    public void setLast_chats(List<UserModel> last_chats) {
         this.last_chats = last_chats;
     }
 

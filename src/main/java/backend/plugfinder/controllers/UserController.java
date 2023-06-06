@@ -98,6 +98,19 @@ public class UserController {
     }
     //endregion
 
+    //region Last Chats
+    @GetMapping("/{user_id}/chats")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public ArrayList<UserDto> get_last_chats(@PathVariable("user_id") Long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<UserDto> chargers = (ArrayList<UserDto>) user_service.get_last_chats(user_id).stream()
+                .map(elementB -> model_mapper.map(elementB, UserDto.class))
+                .collect(Collectors.toList());
+
+        return chargers;
+    }
+    //endregion
+
     //region Perfil del usuario
     /**
      * This method returns the profile of a user.

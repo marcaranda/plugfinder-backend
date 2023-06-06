@@ -4,6 +4,7 @@ import backend.plugfinder.helpers.OurException;
 import backend.plugfinder.helpers.TokenValidator;
 import backend.plugfinder.services.models.MessageModel;
 import backend.plugfinder.services.models.UserModel;
+import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ChatService {
@@ -34,6 +36,7 @@ public class ChatService {
             if (source_user == null) throw new OurException("El source user no existe");
             UserModel target_user = user_service.find_user_by_id(message.getTarget_id());
             if (target_user == null) throw new OurException("El target user no existe");
+            user_service.save_last_chats(source_user, target_user);
 
             RestTemplate restTemplate = new RestTemplate();
 
