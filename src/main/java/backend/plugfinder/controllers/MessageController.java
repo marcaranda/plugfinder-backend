@@ -8,6 +8,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
+
 @Controller
 public class MessageController {
     @Autowired
@@ -17,6 +19,7 @@ public class MessageController {
 
     @MessageMapping("/message")
     public MessageDto send_message(@Payload MessageDto message) throws OurException {
+        message.setTime(String.valueOf(LocalDateTime.now()));
         simp_messaging_template.convertAndSendToUser(String.valueOf(message.getTarget_id()), "/private", message);
         chat_controller.save_message(message);
         return message;
