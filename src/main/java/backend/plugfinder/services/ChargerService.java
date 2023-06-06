@@ -11,6 +11,8 @@ import backend.plugfinder.services.models.CarModel;
 import backend.plugfinder.services.models.ChargerModel;
 import backend.plugfinder.repositories.ChargerRepo;
 import backend.plugfinder.services.models.ChargerTypeModel;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -41,7 +44,7 @@ public class ChargerService {
     private JpaSpecificationExecutor<ChargerEntity> chargerRepository;
 
     //https://www.baeldung.com/rest-api-search-language-spring-data-specifications --> seguir esto
-    public ArrayList<ChargerModel> buscar_cargadores(Boolean is_public, Double latitude, Double longitude, Integer type, Long real_charge_speed, Long radius) {
+    public ArrayList<ChargerModel> buscar_cargadores(Boolean is_public, Double latitude, Double longitude, Integer[] types, Long speed_lower, Long speed_upper, Long radius) {
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerModel> chargers = new ArrayList<>();
 
@@ -54,23 +57,29 @@ public class ChargerService {
         ChargerSpecification spec7 = null;
 
         if(is_public!=null){
-            spec1 = new ChargerSpecification(new SearchCriteria("is_public", ":", is_public));
+            spec1 = new ChargerSpecification(new SearchCriteria("is_public", ":", is_public, null));
         }
-        if (type!=null) {
-            spec2 = new ChargerSpecification(new SearchCriteria("type_id", ":", type));
+        if (types!=null) {
+
+            List<Long> type_list = new ArrayList<>();
+
+            for (int value : types) {
+                type_list.add((long) value);
+            }
+
+            spec2 = new ChargerSpecification(new SearchCriteria("type_id", ":", type_list, null));
         }
         if (latitude != null && longitude != null && radius != null) {
             double [] limites = calcularLimites(latitude, longitude, radius);
 
-            spec3 = new ChargerSpecification(new SearchCriteria("longitude", ">", limites[0]));
-            spec4 = new ChargerSpecification(new SearchCriteria("longitude", "<", limites[1]));
-            spec5 = new ChargerSpecification(new SearchCriteria("latitude", ">", limites[2]));
-            spec6 = new ChargerSpecification(new SearchCriteria("latitude", "<", limites[3]));
-
+            spec3 = new ChargerSpecification(new SearchCriteria("longitude", ">", limites[0], null));
+            spec4 = new ChargerSpecification(new SearchCriteria("longitude", "<", limites[1], null));
+            spec5 = new ChargerSpecification(new SearchCriteria("latitude", ">", limites[2], null));
+            spec6 = new ChargerSpecification(new SearchCriteria("latitude", "<", limites[3], null));
         }
 
-        if (real_charge_speed!=null) {
-            spec7 = new ChargerSpecification(new SearchCriteria("potency", ":", real_charge_speed));
+        if (speed_lower!=null && speed_upper!=null) {
+            spec7 = new ChargerSpecification(new SearchCriteria("potency", "between", speed_lower.intValue(), speed_upper.intValue()));
         }
 
         List<ChargerEntity> results = charger_filters.findAll(Specification.where(spec1).and(spec2).and(spec3).and(spec4).and(spec5).and(spec6).and(spec7));
@@ -129,7 +138,7 @@ public class ChargerService {
             charger_saved.setCharger_photo(public_url_photo);
         }
 
-        return model_mapper.map(charger_repo.save(model_mapper.map(chargerModel, ChargerEntity.class)), ChargerModel.class);
+        return model_mapper.map(charger_repo.save(model_mapper.map(charger_saved, ChargerEntity.class)), ChargerModel.class);
 
     }
 
@@ -235,7 +244,8 @@ public class ChargerService {
                 }
 
                 //Si la foto del cargador és diferent l'actualitzem
-                if (photo != null && photo.length() > 0) {
+                if (photo != null) {
+                    photo = extractImageBase64(photo);
                     if (charger_to_be_updated.getCharger_photo() != null) {
                         //Eliminem la foto anterior
                         amazonS3Service.delete_file("charger-" + charger_to_be_updated.getId_charger());
@@ -347,5 +357,21 @@ public class ChargerService {
      */
     private double recalculate_score(double actual_score, double score, int num_comments) {
         return (actual_score*(num_comments-1) + score)/num_comments;
+    }
+
+    /**
+     * This method extracts the image from the base64 string.
+     * @param fileBase64 - Base64 string.
+     * @return String - Image in base64.
+     */
+    private String extractImageBase64(String fileBase64) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode jsonNode = objectMapper.readTree(fileBase64);
+            return jsonNode.get("photo").asText();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error while trying to extract the image");
+        }
     }
 }

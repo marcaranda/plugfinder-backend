@@ -1,5 +1,6 @@
 package backend.plugfinder.repositories.entity;
 
+import backend.plugfinder.helpers.Zones;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -39,6 +40,9 @@ public class UserEntity {
     private boolean admin;
     @Column (nullable = false, columnDefinition = "boolean default false")
     private boolean user_api;
+    @Enumerated
+    @Column(name = "zone", nullable = false, columnDefinition = "VARCHAR(100)")
+    private Zones zone;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "favorite_chargers",
@@ -191,6 +195,14 @@ public class UserEntity {
 
     public void setPremium_registration_date(String premium_registration_date) {
         this.premium_registration_date = premium_registration_date;
+    }
+
+    public Zones getZone() {
+        return zone;
+    }
+
+    public void setZone(Zones zone) {
+        this.zone = zone;
     }
 
     public String getPremium_drop_date() {
