@@ -5,6 +5,8 @@ import backend.plugfinder.services.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 public class LectorPlugfinderAPI {
     @Autowired
@@ -21,6 +23,7 @@ public class LectorPlugfinderAPI {
             user.setPassword("userapi");
             user.setBirth_date("01/01/2000");
             user.setUser_api(true);
+            user.setZone(Zones.BARCELONA);
             user_service.user_register(user);
         }
     }

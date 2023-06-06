@@ -50,10 +50,10 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "charger_id", referencedColumnName = "id_charger"))
     private List<ChargerEntity> favorite_chargers;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "last_chats",
             joinColumns = @JoinColumn(name = "user_id_1", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id_2", referencedColumnName = "user_id"))
     private List<UserEntity> last_chats;
 
     //region Premium attributes

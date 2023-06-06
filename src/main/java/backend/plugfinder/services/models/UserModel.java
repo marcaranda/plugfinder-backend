@@ -1,6 +1,7 @@
 package backend.plugfinder.services.models;
 
 import backend.plugfinder.helpers.Zones;
+import backend.plugfinder.repositories.entity.UserEntity;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class UserModel {
     private boolean deleted;
     private boolean admin;
     private List<ChargerModel> favorite_chargers;
-
+    private List<UserEntity> last_chats;
     private boolean user_api;
 
     //region Premium attributes
@@ -191,6 +192,14 @@ public class UserModel {
 
     public void setFavorite_chargers(List<ChargerModel> favorite_chargers) {
         this.favorite_chargers = favorite_chargers;
+    }
+
+    public List<UserEntity> getLast_chats() {
+        return last_chats;
+    }
+
+    public void setLast_chats(List<UserEntity> last_chats) {
+        this.last_chats = last_chats;
     }
 
     public Zones getZone() {

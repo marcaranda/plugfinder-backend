@@ -1,6 +1,7 @@
 package backend.plugfinder.controllers.dto;
 
 import backend.plugfinder.helpers.Zones;
+import backend.plugfinder.repositories.entity.UserEntity;
 
 import java.util.List;
 
@@ -22,8 +23,7 @@ public class UserDto {
     double co2;
     private boolean deleted;
     private boolean admin;
-    private List<ChargerDto> favorite_chargers;
-
+    private List<UserEntity> last_chats;
     private Zones zone;
 
 
@@ -184,12 +184,12 @@ public class UserDto {
         this.premium_drop_date = premium_drop_date;
     }
 
-    public List<ChargerDto> getFavorite_chargers() {
-        return favorite_chargers;
+    public List<UserEntity> getLast_chats() {
+        return last_chats;
     }
 
-    public void setFavorite_chargers(List<ChargerDto> favorite_chargers) {
-        this.favorite_chargers = favorite_chargers;
+    public void setLast_chats(List<UserEntity> last_chats) {
+        this.last_chats = last_chats;
     }
 
     public Zones getZone() {
