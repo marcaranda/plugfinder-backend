@@ -8,9 +8,12 @@ import backend.plugfinder.services.UserService;
 import backend.plugfinder.services.models.UserModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -38,7 +41,7 @@ public class UserController {
             return ResponseEntity.ok(newUser);
         }
         else {
-            throw new OurException("Error al intentar crear el usuario: ");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al intentar crear el usuario: ");
         }
     }
     //endregion
@@ -132,7 +135,7 @@ public class UserController {
     public UserDto view_profile(@PathVariable("user_id") Long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
         UserDto user = model_mapper.map(user_service.view_profile(user_id), UserDto.class);
-        if(user == null) throw new OurException("El usuario no exsite");
+        if(user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"El usuario no exsite");
         return user;
     }
 
