@@ -64,6 +64,16 @@ public class UserController {
     }
 
     /**
+     * This method sets the premium to a User
+     * @param user_id: userId of the user that is getting the premium version with points
+     */
+    @PutMapping("/{user_id}/premium_with_points")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public void set_premium_points(@PathVariable("user_id") Long user_id) throws OurException {
+        user_service.set_premium_with_points(user_id);
+    }
+
+    /**
      * This method unsubscribes a user of the premium version t
      * @param user_id: userId of the user that is being unsubscribed of the premium version
      */

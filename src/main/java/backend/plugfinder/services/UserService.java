@@ -279,22 +279,42 @@ public class UserService {
     public void get_premium(Long user_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
             UserModel user = find_user_by_id(user_id);
-            if(!user.isPremium()) {
-                ModelMapper model_mapper = new ModelMapper();
-
-                user.setPremium(true);
-                user.setPremium_registration_date(LocalDate.now().toString());
-                user.setPremium_drop_date(null);
-                user_repo.save(model_mapper.map(user, UserEntity.class));
-            }
-            else {
-                throw new OurException("El usuario ya es premium");
-            }
+            set_user_to_premium(user);
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");
         }
     }
+    public void set_premium_with_points(Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            UserModel user = find_user_by_id(user_id);
+            if (user.getPoints()<1000){
+                throw new OurException("No tienes suficientes puntos para ser premium");
+            }else{
+                user.setPoints(user.getPoints()-1000);
+                set_user_to_premium(user);
+            }
+        }else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void set_user_to_premium(UserModel user) throws OurException {
+        if(!user.isPremium()) {
+
+            ModelMapper model_mapper = new ModelMapper();
+
+            user.setPremium(true);
+            user.setPremium_registration_date(LocalDate.now().toString());
+            user.setPremium_drop_date(null);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
+        }
+        else {
+            throw new OurException("El usuario ya es premium");
+        }
+
+    }
+
 
     /**
      * This method unsubscribe a user of the premium version
