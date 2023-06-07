@@ -188,7 +188,7 @@ public class UserService {
                 }
 
                 //Si la contrasenya és diferent l'actualtizem
-                if(!BCrypt.checkpw(user.getPassword(), user_to_be_updated.getPassword())) {
+                if(!user_to_be_updated.getPassword().equals(user.getPassword())) {
                     //Encriptem la contraseña
                     user.setPassword(encryptPassowrd(user.getPassword()));
                 }
