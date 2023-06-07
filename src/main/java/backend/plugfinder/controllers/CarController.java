@@ -70,7 +70,7 @@ public class CarController {
 
     @PutMapping(path = "/license/{license}/user_id/{user_id}/default")
     @PreAuthorize("@securityService.not_userAPI()")
-    public CarDto default_car(@PathVariable("license") String license, @PathVariable("user_id") long user_id) throws OurException {
+    public CarDto set_default_car(@PathVariable("license") String license, @PathVariable("user_id") long user_id) throws OurException {
         ModelMapper model_mapper = new ModelMapper();
 
         return model_mapper.map(car_service.default_car(license, user_id), CarDto.class);
