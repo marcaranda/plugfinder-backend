@@ -57,7 +57,7 @@ public class ChatService {
             }
 
             apiUrl = "https://api-xat-pes.onrender.com/api/messages";
-            requestBody.add("time", message.getTime());
+            requestBody.add("time", String.valueOf(LocalDateTime.now()));
             requestEntity = new HttpEntity<>(requestBody, headers);
             response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
 
