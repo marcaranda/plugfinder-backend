@@ -23,7 +23,15 @@ public class ChargerController {
 
     //region Get Methods
     @GetMapping
-    public ArrayList<ChargerDto> get_chargers(@RequestParam(required = false, value = "public") Boolean is_public, @RequestParam(required = false, value = "latitude") Double latitude, @RequestParam(required = false, value = "longitude") Double longitude , @RequestParam("types") Integer[] types,  @RequestParam (required = false, value = "speed_lower") Long speed_lower, @RequestParam (required = false, value = "speed_upper") Long speed_upper, @RequestParam (required = false, value = "price") Long price, @RequestParam (required = false, value = "radius") Long radius){
+    public ArrayList<ChargerDto> get_chargers(@RequestParam(required = false, value = "public") Boolean is_public,
+                                              @RequestParam(required = false, value = "latitude") Double latitude,
+                                              @RequestParam(required = false, value = "longitude") Double longitude ,
+                                              @RequestParam(required = false, value="types") Integer[] types,
+                                              @RequestParam (required = false, value = "speed_lower") Long speed_lower,
+                                              @RequestParam (required = false, value = "speed_upper") Long speed_upper,
+                                              @RequestParam (required = false, value = "price") Long price,
+                                              @RequestParam (required = false, value = "radius") Long radius){
+
         ModelMapper model_mapper = new ModelMapper();
         ArrayList<ChargerDto> chargers = (ArrayList<ChargerDto>) charger_service.buscar_cargadores(is_public, latitude, longitude, types, speed_lower, speed_upper , radius).stream()
                 .map(elementB -> model_mapper.map(elementB, ChargerDto.class))

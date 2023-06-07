@@ -64,6 +64,16 @@ public class UserController {
     }
 
     /**
+     * This method sets the premium to a User
+     * @param user_id: userId of the user that is getting the premium version with points
+     */
+    @PutMapping("/{user_id}/premium_with_points")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public void set_premium_points(@PathVariable("user_id") Long user_id) throws OurException {
+        user_service.set_premium_with_points(user_id);
+    }
+
+    /**
      * This method unsubscribes a user of the premium version t
      * @param user_id: userId of the user that is being unsubscribed of the premium version
      */
@@ -95,6 +105,19 @@ public class UserController {
     @PreAuthorize("@securityService.not_userAPI()")
     public void delete_favorite(@PathVariable("user_id") Long user_id, @PathVariable("charger_id") Long charger_id) throws OurException {
         user_service.delete_favorite(user_id, charger_id);
+    }
+    //endregion
+
+    //region Last Chats
+    @GetMapping("/{user_id}/chats")
+    @PreAuthorize("@securityService.not_userAPI()")
+    public ArrayList<UserDto> get_last_chats(@PathVariable("user_id") Long user_id) throws OurException {
+        ModelMapper model_mapper = new ModelMapper();
+        ArrayList<UserDto> chargers = (ArrayList<UserDto>) user_service.get_last_chats(user_id).stream()
+                .map(elementB -> model_mapper.map(elementB, UserDto.class))
+                .collect(Collectors.toList());
+
+        return chargers;
     }
     //endregion
 

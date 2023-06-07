@@ -54,7 +54,7 @@ public class LectorBD {
             user.setPassword("admin");
             user.setBirth_date("07/01/2002");
             user.setAdmin(true);
-            user.setFavorite_chargers(new ArrayList<>());
+            user.setZone(Zones.BARCELONA);
             user = user_service.user_register(user);
         }
 

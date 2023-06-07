@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -221,6 +222,40 @@ public class UserService {
     }
     //endregion
 
+    //region Last Chats
+    public ArrayList<UserModel> get_last_chats(Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            UserModel user = find_user_by_id(user_id);
+
+            if (!(user == null)) {
+                return (ArrayList<UserModel>) user.getLast_chats();
+            }
+            else {
+                throw new OurException("El usuario no existe");
+            }
+        }
+        else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void save_last_chats(UserModel source_user, UserModel target_user) {
+        ModelMapper model_mapper = new ModelMapper();
+        List<UserModel> chats_1 = source_user.getLast_chats();
+        if (!chats_1.contains(target_user)){
+            chats_1.add(target_user);
+            source_user.setLast_chats(chats_1);
+            user_repo.save(model_mapper.map(source_user, UserEntity.class));
+        }
+        List<UserModel> chats_2 = target_user.getLast_chats();
+        if (!chats_2.contains(source_user)) {
+            chats_2.add(source_user);
+            target_user.setLast_chats(chats_2);
+            user_repo.save(model_mapper.map(target_user, UserEntity.class));
+        }
+    }
+    //endregion
+
     /**
      * This method finds a user by its ID.
      * @param id - ID of the user.
@@ -244,22 +279,42 @@ public class UserService {
     public void get_premium(Long user_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
             UserModel user = find_user_by_id(user_id);
-            if(!user.isPremium()) {
-                ModelMapper model_mapper = new ModelMapper();
-
-                user.setPremium(true);
-                user.setPremium_registration_date(LocalDate.now().toString());
-                user.setPremium_drop_date(null);
-                user_repo.save(model_mapper.map(user, UserEntity.class));
-            }
-            else {
-                throw new OurException("El usuario ya es premium");
-            }
+            set_user_to_premium(user);
         }
         else {
             throw new OurException("El user_id enviado es diferente al especificado en el token");
         }
     }
+    public void set_premium_with_points(Long user_id) throws OurException {
+        if(new TokenValidator().validate_id_with_token(user_id)) {
+            UserModel user = find_user_by_id(user_id);
+            if (user.getPoints()<1000){
+                throw new OurException("No tienes suficientes puntos para ser premium");
+            }else{
+                user.setPoints(user.getPoints()-1000);
+                set_user_to_premium(user);
+            }
+        }else {
+            throw new OurException("El user_id enviado es diferente al especificado en el token");
+        }
+    }
+
+    public void set_user_to_premium(UserModel user) throws OurException {
+        if(!user.isPremium()) {
+
+            ModelMapper model_mapper = new ModelMapper();
+
+            user.setPremium(true);
+            user.setPremium_registration_date(LocalDate.now().toString());
+            user.setPremium_drop_date(null);
+            user_repo.save(model_mapper.map(user, UserEntity.class));
+        }
+        else {
+            throw new OurException("El usuario ya es premium");
+        }
+
+    }
+
 
     /**
      * This method unsubscribe a user of the premium version
@@ -286,7 +341,6 @@ public class UserService {
 
     public ArrayList<ChargerModel> get_chargers_favorites(long user_id) throws OurException {
         if(new TokenValidator().validate_id_with_token(user_id)) {
-            ModelMapper model_mapper = new ModelMapper();
             UserModel user = find_user_by_id(user_id);
 
             return (ArrayList<ChargerModel>) user.getFavorite_chargers();
