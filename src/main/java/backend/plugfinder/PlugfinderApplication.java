@@ -40,10 +40,8 @@ public class PlugfinderApplication {
 		UserModel user_model = user_service.find_user_by_id(1L);
 		if (user_model == null) {
 			lector_bd.read_models();
-			lector_api.read_data_chargers();
-		}
-		if(user_service.find_user_by_id(2L) == null) {
 			lector_plugfinder_api.create_user_api();
+			lector_api.read_data_chargers();
 		}
 	}
 }
