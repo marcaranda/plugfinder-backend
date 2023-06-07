@@ -3,6 +3,7 @@ package backend.plugfinder;
 import backend.plugfinder.controllers.BrandController;
 import backend.plugfinder.controllers.dto.BrandDto;
 import backend.plugfinder.services.models.BrandModel;
+import backend.plugfinder.services.models.UserModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -56,6 +59,21 @@ public class BrandControllerTest extends AbstractBaseControllerTest {
             return brandModel.getName().equals("test") &&
                     brandModel.isKnown() == true;
         }));
+    }
+
+    @Test
+    public void should_return_brand_list() throws Exception {
+        ArrayList<BrandModel> expected_brands = new ArrayList<>();
+        BrandModel brand_model = new BrandModel();
+        brand_model.setName("test");
+        brand_model.setKnown(true);
+        expected_brands.add(brand_model);
+
+        when(brand_service.get_brands("true")).thenReturn(expected_brands);
+        mockMvc.perform(MockMvcRequestBuilders.get("/brands?known=true"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].name").value("test"));
     }
 }
 
