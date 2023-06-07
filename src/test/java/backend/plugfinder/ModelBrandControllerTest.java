@@ -18,6 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -54,6 +56,12 @@ public class ModelBrandControllerTest extends AbstractBaseControllerTest {
                 .andExpect(jsonPath("$.id.name").value("test"))
                 .andExpect(jsonPath("$.id.brand_name").value("test"))
                 .andExpect(jsonPath("$.known").value(true));
+
+        verify(model_brand_service).save_model(argThat(modelBrandModel -> {
+            return modelBrandModel.getId().getName().equals("test") &&
+                    modelBrandModel.getId().getBrand_name().equals("test") &&
+                    modelBrandModel.isKnown() == true;
+        }));
     }
 
     @Test
