@@ -22,7 +22,7 @@ scp plugfinder.tar ec2-user@34.251.236.67:/home/ec2-user/plugfinder.tar
 ssh ec2-user@34.251.236.67 << EOF
 
 # Carregar la nova imatge docker a la instancia EC2
-docker load -i /home/ec2-user/plugfinder.tar
+sudo docker load -i /home/ec2-user/plugfinder.tar
 
 # Reiniciar contenidor docker
 sudo systemctl restart docker.plugfinder.service
