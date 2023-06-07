@@ -93,7 +93,7 @@ public class ChargerTypeControllerTest extends AbstractBaseControllerTest {
 
     @Test
     public void should_return_charger_type_not_found() throws Exception {
-        when(charger_type_service.get_charger_type_by_id(1)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe"));
+        when(charger_type_service.get_charger_type_by_id(1)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "El charger type no existe"));
         mockMvc.perform(get("/chargertype/id/1", 1))
                 .andExpect(status().isNotFound());
     }

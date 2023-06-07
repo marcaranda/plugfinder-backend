@@ -98,7 +98,7 @@ public class ModelBrandControllerTest extends AbstractBaseControllerTest {
 
     @Test
     public void should_return_model_brand_not_found() throws Exception {
-        when(model_brand_service.get_model_by_id("test", "test", "0")).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe"));
+        when(model_brand_service.get_model_by_id("test", "test", "0")).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "El modelo no existe"));
         mockMvc.perform(get("/models/brand/test/model/test/autonomy/0", "test", "test", "0"))
                 .andExpect(status().isNotFound());
     }
