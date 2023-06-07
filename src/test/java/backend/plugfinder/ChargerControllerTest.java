@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -51,7 +52,7 @@ public class ChargerControllerTest extends AbstractBaseControllerTest {
         charger2.setIs_public(false);
         expected_chargers.add(charger2);
 
-        when(charger_service.buscar_cargadores(null, null, null, null, null, null)).thenReturn(expected_chargers);
+        when(charger_service.buscar_cargadores(null, null, null, null, null, null, null)).thenReturn(expected_chargers);
 
         //Fem la crida al endpoint
         mockMvc.perform(get("/chargers"))
@@ -67,7 +68,7 @@ public class ChargerControllerTest extends AbstractBaseControllerTest {
                 .andExpect(jsonPath("$[1].longitude").value(2.0))
                 .andExpect(jsonPath("$[1].is_public").value(false));
 
-        when(charger_service.buscar_cargadores(null, null, null, null, null, null)).thenReturn(new ArrayList<>());
+        when(charger_service.buscar_cargadores(null, null, null, null, null, null, null)).thenReturn(new ArrayList<>());
         mockMvc.perform(get("/chargers"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -170,8 +171,11 @@ public class ChargerControllerTest extends AbstractBaseControllerTest {
     //endregion
 
     //region Put Methods
+
     @Test
     public void should_update_charger() throws Exception {
+        Long charger_id = 1L;
+
         ChargerDto charger = new ChargerDto();
         charger.setId_charger(1L);
         charger.setLatitude(1.0);
@@ -187,20 +191,20 @@ public class ChargerControllerTest extends AbstractBaseControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String chargerJson = objectMapper.writeValueAsString(charger);
 
-        when(charger_service.update_charger(any(ChargerModel.class))).thenReturn(expected_charger);
+        when(charger_service.update_charger(
+                any(Long.class), isNull(), isNull(), isNull(), isNull(), isNull()
+        )).thenReturn(expected_charger);
 
-        mockMvc.perform(put("/chargers/update")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(chargerJson))
+        mockMvc.perform(put("/chargers/{charger_id}/edit", charger_id))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id_charger").value(1L))
                 .andExpect(jsonPath("$.latitude").value(1.0))
                 .andExpect(jsonPath("$.longitude").value(1.0))
                 .andExpect(jsonPath("$.is_public").value(false));
-
     }
-
     @Test
     public void should_active_charger() throws Exception {
         Long charger_id = 1L;
