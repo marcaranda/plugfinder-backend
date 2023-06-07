@@ -7,6 +7,7 @@ import backend.plugfinder.repositories.UserRepo;
 import backend.plugfinder.services.BrandService;
 import backend.plugfinder.services.ModelBrandService;
 import backend.plugfinder.services.UserService;
+import backend.plugfinder.services.models.ModelBrandModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

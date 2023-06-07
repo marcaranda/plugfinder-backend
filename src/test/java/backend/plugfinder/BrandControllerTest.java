@@ -73,7 +73,8 @@ public class BrandControllerTest extends AbstractBaseControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/brands?known=true"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name").value("test"));
+                .andExpect(jsonPath("$[0].name").value("test"))
+                .andExpect(jsonPath("$[0].known").value(true));;
     }
 }
 
